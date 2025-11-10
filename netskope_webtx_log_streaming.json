@@ -1,0 +1,2309 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "minLength": 1,
+            "type": "String",
+            "metadata": {
+                "description": "Not used, but needed to pass arm-ttk test `Location-Should-Not-Be-Hardcoded`.  We instead use the `workspace-location` which is derived from the LA workspace"
+            }
+        },
+        "workspace-location": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "[concat('Region to deploy solution resources -- separate from location selection',parameters('location'))]"
+            }
+        },
+        "subscription": {
+            "defaultValue": "[last(split(subscription().id, '/'))]",
+            "type": "String",
+            "metadata": {
+                "description": "subscription id where Microsoft Sentinel is setup"
+            }
+        },
+        "resourceGroupName": {
+            "defaultValue": "[resourceGroup().name]",
+            "type": "String",
+            "metadata": {
+                "description": "resource group name where Microsoft Sentinel is setup"
+            }
+        },
+        "workspace": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Workspace name for Log Analytics where Microsoft Sentinel is setup"
+            }
+        }
+    },
+    "variables": {
+        "workspaceResourceId": "[resourceId('microsoft.OperationalInsights/Workspaces', parameters('workspace'))]",
+        "_solutionName": "Netskope WebTx Connector",
+        "_solutionVersion": "1.0.0",
+        "_solutionAuthor": "Microsoft",
+        "_packageIcon": "icon icon icon icon",
+        "_solutionId": "azuresentinel.azure-sentinel-solution-azuresentinel.azure-sentinel-netskopewebtx",
+        "dataConnectorVersionConnectorDefinition": "1.0.0",
+        "dataConnectorVersionConnections": "1.0.0",
+        "_solutionTier": "Community",
+        "_dataConnectorContentIdConnectorDefinition": "teastdelayBlobTemplateConnectorDefinition",
+        "dataConnectorTemplateNameConnectorDefinition": "[concat(parameters('workspace'),'-dc-',uniquestring(variables('_dataConnectorContentIdConnectorDefinition')))]",
+        "_dataConnectorContentIdConnections": "BlobTemplateConnections",
+        "dataConnectorTemplateNameConnections": "[concat(parameters('workspace'),'-dc-',uniquestring(variables('_dataConnectorContentIdConnections')))]",
+        "_logAnalyticsTableId1": "NetskopeWebTransactions_CL"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/contentTemplates",
+            "apiVersion": "2023-04-01-preview",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/', variables('dataConnectorTemplateNameConnectorDefinition'), variables('dataConnectorVersionConnectorDefinition'))]",
+            "location": "[parameters('workspace-location')]",
+            "dependsOn": [
+                "[extensionResourceId(resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace')), 'Microsoft.SecurityInsights/contentPackages', variables('_solutionId'))]"
+            ],
+            "properties": {
+                "contentId": "[variables('_dataConnectorContentIdConnectorDefinition')]",
+                "displayName": "[concat(variables('_solutionName'), variables('dataConnectorTemplateNameConnectorDefinition'))]",
+                "contentKind": "DataConnector",
+                "mainTemplate": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "[variables('dataConnectorVersionConnectorDefinition')]",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/',concat('DataConnector-', variables('_dataConnectorContentIdConnectorDefinition')))]",
+                            "apiVersion": "2022-01-01-preview",
+                            "type": "Microsoft.OperationalInsights/workspaces/providers/metadata",
+                            "properties": {
+                                "parentId": "[extensionResourceId(resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace')), 'Microsoft.SecurityInsights/dataConnectorDefinitions', variables('_dataConnectorContentIdConnectorDefinition'))]",
+                                "contentId": "[variables('_dataConnectorContentIdConnectorDefinition')]",
+                                "kind": "DataConnector",
+                                "version": "[variables('dataConnectorVersionConnectorDefinition')]",
+                                "source": {
+                                    "sourceId": "[variables('_solutionId')]",
+                                    "name": "[variables('_solutionName')]",
+                                    "kind": "Solution"
+                                },
+                                "author": {
+                                    "name": "[variables('_solutionAuthor')]"
+                                },
+                                "support": {
+                                    "name": "[variables('_solutionAuthor')]",
+                                    "tier": "[variables('_solutionTier')]"
+                                },
+                                "dependencies": {
+                                    "criteria": [
+                                        {
+                                            "version": "[variables('dataConnectorVersionConnections')]",
+                                            "contentId": "[variables('_dataConnectorContentIdConnections')]",
+                                            "kind": "ResourcesDataConnector"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/',variables('_dataConnectorContentIdConnectorDefinition'))]",
+                            "apiVersion": "2022-09-01-preview",
+                            "type": "Microsoft.OperationalInsights/workspaces/providers/dataConnectorDefinitions",
+                            "location": "[parameters('workspace-location')]",
+                            "kind": "Customizable",
+                            "properties": {
+                                "connectorUiConfig": {
+                                    "id": "NetskopeWebTxConnector",
+                                    "title": "NetskopeWebTxConnector",
+                                    "publisher": "Netskope",
+                                    "descriptionMarkdown": "NetskopeWebTx",
+                                    "graphQueries": [
+                                        {
+                                            "metricName": "Total logs received",
+                                            "legend": "Netskope WebTx Logs",
+                                            "baseQuery": "[variables('_logAnalyticsTableId1')]"
+                                        }
+                                    ],
+                                    "sampleQueries": [
+                                        {
+                                            "description": "Get Sample of Netskope WebTx Logs",
+                                            "query": "[concat(variables('_logAnalyticsTableId1'),'| take 10')]"
+                                        }
+                                    ],
+                                    "dataTypes": [
+                                        {
+                                            "name": "[variables('_logAnalyticsTableId1')]",
+                                            "lastDataReceivedQuery": "[concat(variables('_logAnalyticsTableId1'),'\n       | where TimeGenerated > ago(12h)                | summarize Time = max(TimeGenerated)\n            ')]"
+                                        }
+                                    ],
+                                    "connectivityCriteria": [
+                                        {
+                                            "type": "HasDataConnectors",
+                                            "value": null
+                                        }
+                                    ],
+                                    "availability": {
+                                        "status": 1,
+                                        "isPreview": false
+                                    },
+                                    "permissions": {
+                                        "tenant": null,
+                                        "licenses": null,
+                                        "resourceProvider": [
+                                            {
+                                                "provider": "Microsoft.OperationalInsights/workspaces",
+                                                "permissionsDisplayText": "Read and Write permissions are required.",
+                                                "providerDisplayName": "Workspace",
+                                                "scope": "Workspace",
+                                                "requiredPermissions": {
+                                                    "read": true,
+                                                    "write": true,
+                                                    "delete": true,
+                                                    "action": false
+                                                }
+                                            },
+                                            {
+                                                "provider": "Microsoft.OperationalInsights/workspaces/sharedKeys",
+                                                "permissionsDisplayText": "Read permissions to shared keys for the workspace are required. [See the documentation to learn more about workspace keys](https://docs.microsoft.com/azure/azure-monitor/platform/agent-windows#obtain-workspace-id-and-key)",
+                                                "providerDisplayName": "Keys",
+                                                "scope": "Workspace",
+                                                "requiredPermissions": {
+                                                    "read": false,
+                                                    "write": false,
+                                                    "delete": false,
+                                                    "action": true
+                                                }
+                                            }
+                                        ],
+                                        "customs": [
+                                            {
+                                                "name": "Subscription permissions",
+                                                "description": "You need permissions to create the data flow resources: \n- storage queues (notification queue and dead-letter queue) \n- event grid topic and subscription (to send 'blob created event' notifications to the notification queue) \n- role assignments (to grant access for sentinel app to the blob container and the storage queues.)"
+                                            },
+                                            {
+                                                "name": "Collecting data from __ to your blob container",
+                                                "description": "Follow the steps in the [documentation](https://some-guide.net) for collecting data from __ to your blob container."
+                                            }
+                                        ]
+                                    },
+                                    "instructionSteps": [
+                                        {
+                                            "title": "Connect Netskope WebTx Logs to Microsoft Sentinel",
+                                            "description": "To enable the Netskope WebTx Logs for Microsoft Sentinel, provide the required information below and click on Connect.\n>",
+                                            "instructions": [
+                                                {
+                                                    "parameters": {
+                                                        "tenantId": "[subscription().tenantId]",
+                                                        "name": "principalId",
+                                                        "appId": "4f05ce56-95b6-4612-9d98-a45c8cc33f9f"
+                                                    },
+                                                    "type": "ServicePrincipalIDTextBox"
+                                                },
+                                                {
+                                                    "parameters": {
+                                                        "label": "The blob container URL you want to collect data from",
+                                                        "type": "text",
+                                                        "name": "blobContainerUri"
+                                                    },
+                                                    "type": "Textbox"
+                                                },
+                                                {
+                                                    "parameters": {
+                                                        "label": "The blobs folder name in the container. Optional.",
+                                                        "type": "text",
+                                                        "name": "blobFolderName"
+                                                    },
+                                                    "type": "Textbox"
+                                                },
+                                                {
+                                                    "parameters": {
+                                                        "label": "The blob container's storage account location",
+                                                        "type": "text",
+                                                        "name": "StorageAccountlocation"
+                                                    },
+                                                    "type": "Textbox"
+                                                },
+                                                {
+                                                    "parameters": {
+                                                        "label": "The blob container's storage account resource group name",
+                                                        "type": "text",
+                                                        "name": "StorageAccountResourceGroupName"
+                                                    },
+                                                    "type": "Textbox"
+                                                },
+                                                {
+                                                    "parameters": {
+                                                        "label": "The blob container's storage account subscription id",
+                                                        "type": "text",
+                                                        "name": "StorageAccountSubscription"
+                                                    },
+                                                    "type": "Textbox"
+                                                },
+                                                {
+                                                    "parameters": {
+                                                        "label": "The event grid topic name of the blob container's storage account if exist. else keep empty.",
+                                                        "description": "The data flow using event grid to send 'blob-created event' notifications. There could be only one event grid topic for each storage account.\nGo to your blob container's storage account and look in the 'Events' section. If you already have a topic, please provide it's name. Else, keep the text box empty.",
+                                                        "placeholder": "",
+                                                        "type": "text",
+                                                        "name": "EGSystemTopicName"
+                                                    },
+                                                    "type": "Textbox"
+                                                },
+                                                {
+                                                    "parameters": {
+                                                        "label": "toggle",
+                                                        "name": "toggle"
+                                                    },
+                                                    "type": "ConnectionToggleButton"
+                                                }
+                                            ],
+                                            "innerSteps": null
+                                        }
+                                    ],
+                                    "isConnectivityCriteriasMatchSome": false
+                                }
+                            },
+                            "dependsOn": null
+                        },
+                        {
+                            "name": "NetskopeWebTx",
+                            "apiVersion": "2021-09-01-preview",
+                            "type": "Microsoft.Insights/dataCollectionRules",
+                            "location": "[parameters('workspace-location')]",
+                            "kind": null,
+                            "properties": {
+                                "streamDeclarations": {
+                                    "Custom-NetskopeWebTx": {
+                                        "columns": [
+                                            {
+                                                "name": "date",
+                                                "type": "string",
+                                                "description": "date."
+                                            },
+                                            {
+                                                "name": "time",
+                                                "type": "string",
+                                                "description": "time."
+                                            },
+                                            {
+                                                "name": "time-taken",
+                                                "type": "string",
+                                                "description": "time-taken."
+                                            },
+                                            {
+                                                "name": "cs-bytes",
+                                                "type": "string",
+                                                "description": "cs-bytes."
+                                            },
+                                            {
+                                                "name": "sc-bytes",
+                                                "type": "string",
+                                                "description": "sc-bytes."
+                                            },
+                                            {
+                                                "name": "bytes",
+                                                "type": "string",
+                                                "description": "bytes."
+                                            },
+                                            {
+                                                "name": "c-ip",
+                                                "type": "string",
+                                                "description": "c-ip."
+                                            },
+                                            {
+                                                "name": "s-ip",
+                                                "type": "string",
+                                                "description": "s-ip."
+                                            },
+                                            {
+                                                "name": "cs-username",
+                                                "type": "string",
+                                                "description": "cs-username."
+                                            },
+                                            {
+                                                "name": "cs-method",
+                                                "type": "string",
+                                                "description": "cs-method."
+                                            },
+                                            {
+                                                "name": "cs-uri-scheme",
+                                                "type": "string",
+                                                "description": "cs-uri-scheme."
+                                            },
+                                            {
+                                                "name": "cs-uri-query",
+                                                "type": "string",
+                                                "description": "cs-uri-query."
+                                            },
+                                            {
+                                                "name": "cs-user-agent",
+                                                "type": "string",
+                                                "description": "cs-user-agent."
+                                            },
+                                            {
+                                                "name": "cs-content-type",
+                                                "type": "string",
+                                                "description": "cs-content-type."
+                                            },
+                                            {
+                                                "name": "sc-status",
+                                                "type": "string",
+                                                "description": "sc-status."
+                                            },
+                                            {
+                                                "name": "sc-content-type",
+                                                "type": "string",
+                                                "description": "sc-content-type."
+                                            },
+                                            {
+                                                "name": "cs-dns",
+                                                "type": "string",
+                                                "description": "cs-dns."
+                                            },
+                                            {
+                                                "name": "cs-host",
+                                                "type": "string",
+                                                "description": "cs-host."
+                                            },
+                                            {
+                                                "name": "cs-uri",
+                                                "type": "string",
+                                                "description": "cs-uri."
+                                            },
+                                            {
+                                                "name": "cs-uri-port",
+                                                "type": "string",
+                                                "description": "cs-uri-port."
+                                            },
+                                            {
+                                                "name": "cs-referer",
+                                                "type": "string",
+                                                "description": "cs-referer."
+                                            },
+                                            {
+                                                "name": "x-cs-session-id",
+                                                "type": "string",
+                                                "description": "x-cs-session-id."
+                                            },
+                                            {
+                                                "name": "x-cs-access-method",
+                                                "type": "string",
+                                                "description": "x-cs-access-method."
+                                            },
+                                            {
+                                                "name": "x-cs-app",
+                                                "type": "string",
+                                                "description": "x-cs-app."
+                                            },
+                                            {
+                                                "name": "x-s-country",
+                                                "type": "string",
+                                                "description": "x-s-country."
+                                            },
+                                            {
+                                                "name": "x-s-latitude",
+                                                "type": "string",
+                                                "description": "x-s-latitude."
+                                            },
+                                            {
+                                                "name": "x-s-longitude",
+                                                "type": "string",
+                                                "description": "x-s-longitude."
+                                            },
+                                            {
+                                                "name": "x-s-location",
+                                                "type": "string",
+                                                "description": "x-s-location."
+                                            },
+                                            {
+                                                "name": "x-s-region",
+                                                "type": "string",
+                                                "description": "x-s-region."
+                                            },
+                                            {
+                                                "name": "x-s-zipcode",
+                                                "type": "string",
+                                                "description": "x-s-zipcode."
+                                            },
+                                            {
+                                                "name": "x-c-country",
+                                                "type": "string",
+                                                "description": "x-c-country."
+                                            },
+                                            {
+                                                "name": "x-c-latitude",
+                                                "type": "string",
+                                                "description": "x-c-latitude."
+                                            },
+                                            {
+                                                "name": "x-c-longitude",
+                                                "type": "string",
+                                                "description": "x-c-longitude."
+                                            },
+                                            {
+                                                "name": "x-c-location",
+                                                "type": "string",
+                                                "description": "x-c-location."
+                                            },
+                                            {
+                                                "name": "x-c-region",
+                                                "type": "string",
+                                                "description": "x-c-region."
+                                            },
+                                            {
+                                                "name": "x-c-zipcode",
+                                                "type": "string",
+                                                "description": "x-c-zipcode."
+                                            },
+                                            {
+                                                "name": "x-c-os",
+                                                "type": "string",
+                                                "description": "x-c-os."
+                                            },
+                                            {
+                                                "name": "x-c-browser",
+                                                "type": "string",
+                                                "description": "x-c-browser."
+                                            },
+                                            {
+                                                "name": "x-c-browser-version",
+                                                "type": "string",
+                                                "description": "x-c-browser-version."
+                                            },
+                                            {
+                                                "name": "x-c-device",
+                                                "type": "string",
+                                                "description": "x-c-device."
+                                            },
+                                            {
+                                                "name": "x-cs-site",
+                                                "type": "string",
+                                                "description": "x-cs-site."
+                                            },
+                                            {
+                                                "name": "x-cs-timestamp",
+                                                "type": "string",
+                                                "description": "x-cs-timestamp."
+                                            },
+                                            {
+                                                "name": "x-cs-page-id",
+                                                "type": "string",
+                                                "description": "x-cs-page-id."
+                                            },
+                                            {
+                                                "name": "x-cs-userip",
+                                                "type": "string",
+                                                "description": "x-cs-userip."
+                                            },
+                                            {
+                                                "name": "x-cs-traffic-type",
+                                                "type": "string",
+                                                "description": "x-cs-traffic-type."
+                                            },
+                                            {
+                                                "name": "x-cs-tunnel-id",
+                                                "type": "string",
+                                                "description": "x-cs-tunnel-id."
+                                            },
+                                            {
+                                                "name": "x-category",
+                                                "type": "string",
+                                                "description": "x-category."
+                                            },
+                                            {
+                                                "name": "x-other-category",
+                                                "type": "string",
+                                                "description": "x-other-category."
+                                            },
+                                            {
+                                                "name": "x-type",
+                                                "type": "string",
+                                                "description": "x-type."
+                                            },
+                                            {
+                                                "name": "x-server-ssl-err",
+                                                "type": "string",
+                                                "description": "x-server-ssl-err."
+                                            },
+                                            {
+                                                "name": "x-client-ssl-err",
+                                                "type": "string",
+                                                "description": "x-client-ssl-err."
+                                            },
+                                            {
+                                                "name": "x-transaction-id",
+                                                "type": "string",
+                                                "description": "x-transaction-id."
+                                            },
+                                            {
+                                                "name": "x-request-id",
+                                                "type": "string",
+                                                "description": "x-request-id."
+                                            },
+                                            {
+                                                "name": "x-cs-sni",
+                                                "type": "string",
+                                                "description": "x-cs-sni."
+                                            },
+                                            {
+                                                "name": "x-cs-domain-fronted-sni",
+                                                "type": "string",
+                                                "description": "x-cs-domain-fronted-sni."
+                                            },
+                                            {
+                                                "name": "x-category-id",
+                                                "type": "string",
+                                                "description": "x-category-id."
+                                            },
+                                            {
+                                                "name": "x-other-category-id",
+                                                "type": "string",
+                                                "description": "x-other-category-id."
+                                            },
+                                            {
+                                                "name": "x-sr-headers-name",
+                                                "type": "string",
+                                                "description": "x-sr-headers-name."
+                                            },
+                                            {
+                                                "name": "x-sr-headers-value",
+                                                "type": "string",
+                                                "description": "x-sr-headers-value."
+                                            },
+                                            {
+                                                "name": "x-cs-ssl-ja3",
+                                                "type": "string",
+                                                "description": "x-cs-ssl-ja3."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-ja3s",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-ja3s."
+                                            },
+                                            {
+                                                "name": "x-ssl-bypass",
+                                                "type": "string",
+                                                "description": "x-ssl-bypass."
+                                            },
+                                            {
+                                                "name": "x-ssl-bypass-reason",
+                                                "type": "string",
+                                                "description": "x-ssl-bypass-reason."
+                                            },
+                                            {
+                                                "name": "x-r-cert-subject-cn",
+                                                "type": "string",
+                                                "description": "x-r-cert-subject-cn."
+                                            },
+                                            {
+                                                "name": "x-r-cert-issuer-cn",
+                                                "type": "string",
+                                                "description": "x-r-cert-issuer-cn."
+                                            },
+                                            {
+                                                "name": "x-r-cert-startdate",
+                                                "type": "string",
+                                                "description": "x-r-cert-startdate."
+                                            },
+                                            {
+                                                "name": "x-r-cert-enddate",
+                                                "type": "string",
+                                                "description": "x-r-cert-enddate."
+                                            },
+                                            {
+                                                "name": "x-r-cert-valid",
+                                                "type": "string",
+                                                "description": "x-r-cert-valid."
+                                            },
+                                            {
+                                                "name": "x-r-cert-expired",
+                                                "type": "string",
+                                                "description": "x-r-cert-expired."
+                                            },
+                                            {
+                                                "name": "x-r-cert-untrusted-root",
+                                                "type": "string",
+                                                "description": "x-r-cert-untrusted-root."
+                                            },
+                                            {
+                                                "name": "x-r-cert-incomplete-chain",
+                                                "type": "string",
+                                                "description": "x-r-cert-incomplete-chain."
+                                            },
+                                            {
+                                                "name": "x-r-cert-self-signed",
+                                                "type": "string",
+                                                "description": "x-r-cert-self-signed."
+                                            },
+                                            {
+                                                "name": "x-r-cert-revoked",
+                                                "type": "string",
+                                                "description": "x-r-cert-revoked."
+                                            },
+                                            {
+                                                "name": "x-r-cert-revocation-check",
+                                                "type": "string",
+                                                "description": "x-r-cert-revocation-check."
+                                            },
+                                            {
+                                                "name": "x-r-cert-mismatch",
+                                                "type": "string",
+                                                "description": "x-r-cert-mismatch."
+                                            },
+                                            {
+                                                "name": "x-cs-ssl-fronting-error",
+                                                "type": "string",
+                                                "description": "x-cs-ssl-fronting-error."
+                                            },
+                                            {
+                                                "name": "x-cs-ssl-handshake-error",
+                                                "type": "string",
+                                                "description": "x-cs-ssl-handshake-error."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-handshake-error",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-handshake-error."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-client-certificate-error",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-client-certificate-error."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-malformed-ssl",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-malformed-ssl."
+                                            },
+                                            {
+                                                "name": "x-s-custom-signing-ca-error",
+                                                "type": "string",
+                                                "description": "x-s-custom-signing-ca-error."
+                                            },
+                                            {
+                                                "name": "x-cs-ssl-engine-action",
+                                                "type": "string",
+                                                "description": "x-cs-ssl-engine-action."
+                                            },
+                                            {
+                                                "name": "x-cs-ssl-engine-action-reason",
+                                                "type": "string",
+                                                "description": "x-cs-ssl-engine-action-reason."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-engine-action",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-engine-action."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-engine-action-reason",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-engine-action-reason."
+                                            },
+                                            {
+                                                "name": "x-ssl-policy-src-ip",
+                                                "type": "string",
+                                                "description": "x-ssl-policy-src-ip."
+                                            },
+                                            {
+                                                "name": "x-ssl-policy-dst-ip",
+                                                "type": "string",
+                                                "description": "x-ssl-policy-dst-ip."
+                                            },
+                                            {
+                                                "name": "x-ssl-policy-dst-host",
+                                                "type": "string",
+                                                "description": "x-ssl-policy-dst-host."
+                                            },
+                                            {
+                                                "name": "x-ssl-policy-dst-host-source",
+                                                "type": "string",
+                                                "description": "x-ssl-policy-dst-host-source."
+                                            },
+                                            {
+                                                "name": "x-ssl-policy-categories",
+                                                "type": "string",
+                                                "description": "x-ssl-policy-categories."
+                                            },
+                                            {
+                                                "name": "x-ssl-policy-action",
+                                                "type": "string",
+                                                "description": "x-ssl-policy-action."
+                                            },
+                                            {
+                                                "name": "x-ssl-policy-name",
+                                                "type": "string",
+                                                "description": "x-ssl-policy-name."
+                                            },
+                                            {
+                                                "name": "x-cs-ssl-version",
+                                                "type": "string",
+                                                "description": "x-cs-ssl-version."
+                                            },
+                                            {
+                                                "name": "x-cs-ssl-cipher",
+                                                "type": "string",
+                                                "description": "x-cs-ssl-cipher."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-version",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-version."
+                                            },
+                                            {
+                                                "name": "x-sr-ssl-cipher",
+                                                "type": "string",
+                                                "description": "x-sr-ssl-cipher."
+                                            },
+                                            {
+                                                "name": "x-cs-src-ip-egress",
+                                                "type": "string",
+                                                "description": "x-cs-src-ip-egress."
+                                            },
+                                            {
+                                                "name": "x-s-dp-name",
+                                                "type": "string",
+                                                "description": "x-s-dp-name."
+                                            },
+                                            {
+                                                "name": "x-cs-src-ip",
+                                                "type": "string",
+                                                "description": "x-cs-src-ip."
+                                            },
+                                            {
+                                                "name": "x-cs-src-port",
+                                                "type": "string",
+                                                "description": "x-cs-src-port."
+                                            },
+                                            {
+                                                "name": "x-cs-dst-ip",
+                                                "type": "string",
+                                                "description": "x-cs-dst-ip."
+                                            },
+                                            {
+                                                "name": "x-cs-dst-port",
+                                                "type": "string",
+                                                "description": "x-cs-dst-port."
+                                            },
+                                            {
+                                                "name": "x-sr-src-ip",
+                                                "type": "string",
+                                                "description": "x-sr-src-ip."
+                                            },
+                                            {
+                                                "name": "x-sr-src-port",
+                                                "type": "string",
+                                                "description": "x-sr-src-port."
+                                            },
+                                            {
+                                                "name": "x-sr-dst-ip",
+                                                "type": "string",
+                                                "description": "x-sr-dst-ip."
+                                            },
+                                            {
+                                                "name": "x-sr-dst-port",
+                                                "type": "string",
+                                                "description": "x-sr-dst-port."
+                                            },
+                                            {
+                                                "name": "x-cs-ip-connect-xff",
+                                                "type": "string",
+                                                "description": "x-cs-ip-connect-xff."
+                                            },
+                                            {
+                                                "name": "x-cs-ip-xff",
+                                                "type": "string",
+                                                "description": "x-cs-ip-xff."
+                                            },
+                                            {
+                                                "name": "x-cs-connect-host",
+                                                "type": "string",
+                                                "description": "x-cs-connect-host."
+                                            },
+                                            {
+                                                "name": "x-cs-connect-port",
+                                                "type": "string",
+                                                "description": "x-cs-connect-port."
+                                            },
+                                            {
+                                                "name": "x-cs-connect-user-agent",
+                                                "type": "string",
+                                                "description": "x-cs-connect-user-agent."
+                                            },
+                                            {
+                                                "name": "x-cs-url",
+                                                "type": "string",
+                                                "description": "x-cs-url."
+                                            },
+                                            {
+                                                "name": "x-cs-uri-path",
+                                                "type": "string",
+                                                "description": "x-cs-uri-path."
+                                            },
+                                            {
+                                                "name": "x-cs-http-version",
+                                                "type": "string",
+                                                "description": "x-cs-http-version."
+                                            },
+                                            {
+                                                "name": "rs-status",
+                                                "type": "string",
+                                                "description": "rs-status."
+                                            },
+                                            {
+                                                "name": "x-cs-app-category",
+                                                "type": "string",
+                                                "description": "x-cs-app-category."
+                                            },
+                                            {
+                                                "name": "x-cs-app-cci",
+                                                "type": "string",
+                                                "description": "x-cs-app-cci."
+                                            },
+                                            {
+                                                "name": "x-cs-app-ccl",
+                                                "type": "string",
+                                                "description": "x-cs-app-ccl."
+                                            },
+                                            {
+                                                "name": "x-cs-app-tags",
+                                                "type": "string",
+                                                "description": "x-cs-app-tags."
+                                            },
+                                            {
+                                                "name": "x-cs-app-suite",
+                                                "type": "string",
+                                                "description": "x-cs-app-suite."
+                                            },
+                                            {
+                                                "name": "x-cs-app-instance-id",
+                                                "type": "string",
+                                                "description": "x-cs-app-instance-id."
+                                            },
+                                            {
+                                                "name": "x-cs-app-instance-name",
+                                                "type": "string",
+                                                "description": "x-cs-app-instance-name."
+                                            },
+                                            {
+                                                "name": "x-cs-app-instance-tag",
+                                                "type": "string",
+                                                "description": "x-cs-app-instance-tag."
+                                            },
+                                            {
+                                                "name": "x-cs-app-activity",
+                                                "type": "string",
+                                                "description": "x-cs-app-activity."
+                                            },
+                                            {
+                                                "name": "x-cs-app-from-user",
+                                                "type": "string",
+                                                "description": "x-cs-app-from-user."
+                                            },
+                                            {
+                                                "name": "x-cs-app-to-user",
+                                                "type": "string",
+                                                "description": "x-cs-app-to-user."
+                                            },
+                                            {
+                                                "name": "x-cs-app-object-type",
+                                                "type": "string",
+                                                "description": "x-cs-app-object-type."
+                                            },
+                                            {
+                                                "name": "x-cs-app-object-name",
+                                                "type": "string",
+                                                "description": "x-cs-app-object-name."
+                                            },
+                                            {
+                                                "name": "x-cs-app-object-id",
+                                                "type": "string",
+                                                "description": "x-cs-app-object-id."
+                                            },
+                                            {
+                                                "name": "x-rs-file-type",
+                                                "type": "string",
+                                                "description": "x-rs-file-type."
+                                            },
+                                            {
+                                                "name": "x-rs-file-category",
+                                                "type": "string",
+                                                "description": "x-rs-file-category."
+                                            },
+                                            {
+                                                "name": "x-rs-file-language",
+                                                "type": "string",
+                                                "description": "x-rs-file-language."
+                                            },
+                                            {
+                                                "name": "x-rs-file-size",
+                                                "type": "string",
+                                                "description": "x-rs-file-size."
+                                            },
+                                            {
+                                                "name": "x-rs-file-md5",
+                                                "type": "string",
+                                                "description": "x-rs-file-md5."
+                                            },
+                                            {
+                                                "name": "x-rs-file-sha256",
+                                                "type": "string",
+                                                "description": "x-rs-file-sha256."
+                                            },
+                                            {
+                                                "name": "x-error",
+                                                "type": "string",
+                                                "description": "x-error."
+                                            },
+                                            {
+                                                "name": "x-c-local-time",
+                                                "type": "string",
+                                                "description": "x-c-local-time."
+                                            },
+                                            {
+                                                "name": "x-policy-action",
+                                                "type": "string",
+                                                "description": "x-policy-action."
+                                            },
+                                            {
+                                                "name": "x-policy-name",
+                                                "type": "string",
+                                                "description": "x-policy-name."
+                                            },
+                                            {
+                                                "name": "x-policy-src-ip",
+                                                "type": "string",
+                                                "description": "x-policy-src-ip."
+                                            },
+                                            {
+                                                "name": "x-policy-dst-ip",
+                                                "type": "string",
+                                                "description": "x-policy-dst-ip."
+                                            },
+                                            {
+                                                "name": "x-policy-dst-host",
+                                                "type": "string",
+                                                "description": "x-policy-dst-host."
+                                            },
+                                            {
+                                                "name": "x-policy-dst-host-source",
+                                                "type": "string",
+                                                "description": "x-policy-dst-host-source."
+                                            },
+                                            {
+                                                "name": "x-policy-justification-type",
+                                                "type": "string",
+                                                "description": "x-policy-justification-type."
+                                            },
+                                            {
+                                                "name": "x-policy-justification-reason",
+                                                "type": "string",
+                                                "description": "x-policy-justification-reason."
+                                            },
+                                            {
+                                                "name": "x-sc-notification-name",
+                                                "type": "string",
+                                                "description": "x-sc-notification-name."
+                                            }
+                                        ]
+                                    }
+                                },
+                                "destinations": {
+                                    "logAnalytics": [
+                                        {
+                                            "workspaceResourceId": "[variables('workspaceResourceId')]",
+                                            "name": "clv2ws1"
+                                        }
+                                    ]
+                                },
+                                "dataFlows": [
+                                    {
+                                        "streams": [
+                                            "Custom-NetskopeWebTx"
+                                        ],
+                                        "destinations": [
+                                            "clv2ws1"
+                                        ],
+                                        "transformKql": "source | project TimeGenerated = datetime(1970-01-01) + totimespan(tolong(['x-cs-timestamp']) * 1sec), Date = ['date'], Time = ['time'], XCsTimestamp = tolong(['x-cs-timestamp']), TimeTaken = toint(['time-taken']), CsBytes = toint(['cs-bytes']), ScBytes = toint(['sc-bytes']), Bytes = toint(['bytes']), CIp = ['c-ip'], SIp = ['s-ip'], CsUsername = ['cs-username'], CsMethod = ['cs-method'], CsUriScheme = ['cs-uri-scheme'], CsUriQuery = ['cs-uri-query'], CsUserAgent = ['cs-user-agent'], CsContentType = ['cs-content-type'], ScStatus = toint(['sc-status']), ScContentType = ['sc-content-type'], CsDns = ['cs-dns'], CsHost = ['cs-host'], CsUri = ['cs-uri'], CsUriPort = toint(['cs-uri-port']), CsReferer = ['cs-referer'], XCsSessionId = ['x-cs-session-id'], XCsAccessMethod = ['x-cs-access-method'], XCsApp = ['x-cs-app'], XSCountry = ['x-s-country'], XSLatitude = toreal(['x-s-latitude']), XSLongitude = toreal(['x-s-longitude']), XSLocation = ['x-s-location'], XSRegion = ['x-s-region'], XSZipcode = toint(['x-s-zipcode']), XCCountry = ['x-c-country'], XCLatitude = toreal(['x-c-latitude']), XCLongitude = toreal(['x-c-longitude']), XCLocation = ['x-c-location'], XCRegion = ['x-c-region'], XCZipcode = toint(['x-c-zipcode']), XCOs = ['x-c-os'], XCBrowser = ['x-c-browser'], XCBrowserVersion = toint(['x-c-browser-version']), XCDevice = ['x-c-device'], XCsSite = ['x-cs-site'], XCsPageId = ['x-cs-page-id'], XCsUserIp = ['x-cs-userip'], XCsTrafficType = ['x-cs-traffic-type'], XCsTunnelId = ['x-cs-tunnel-id'], XCategory = ['x-category'], XOtherCategory = ['x-other-category'], XType = ['x-type'], XServerSslErr = ['x-server-ssl-err'], XClientSslErr = ['x-client-ssl-err'], XTransactionId = ['x-transaction-id'], XRequestId = ['x-request-id'], XCsSni = ['x-cs-sni'], XCsDomainFrontedSni = ['x-cs-domain-fronted-sni'], XCategoryId = toint(['x-category-id']), XOtherCategoryId = ['x-other-category-id'], XSrHeadersName = ['x-sr-headers-name'], XSrHeadersValue = ['x-sr-headers-value'], XCsSslJa3 = ['x-cs-ssl-ja3'], XSrSslJa3S = ['x-sr-ssl-ja3s'], XSslBypass = ['x-ssl-bypass'], XSslBypassReason = ['x-ssl-bypass-reason'], XRCertSubjectCn = ['x-r-cert-subject-cn'], XRCertIssuerCn = ['x-r-cert-issuer-cn'], XRCertStartdate = ['x-r-cert-startdate'], XRCertEnddate = ['x-r-cert-enddate'], XRCertValid = ['x-r-cert-valid'], XRCertExpired = ['x-r-cert-expired'], XRCertUntrustedRoot = ['x-r-cert-untrusted-root'], XRCertIncompleteChain = ['x-r-cert-incomplete-chain'], XRCertSelfSigned = ['x-r-cert-self-signed'], XRCertRevoked = ['x-r-cert-revoked'], XRCertRevocationCheck = ['x-r-cert-revocation-check'], XRCertMismatch = ['x-r-cert-mismatch'], XCsSslFrontingError = ['x-cs-ssl-fronting-error'], XCsSslHandshakeError = ['x-cs-ssl-handshake-error'], XSrSslHandshakeError = ['x-sr-ssl-handshake-error'], XSrSslClientCertificateError = ['x-sr-ssl-client-certificate-error'], XSrSslMalformedSsl = ['x-sr-ssl-malformed-ssl'], XSCustomSigningCaError = ['x-s-custom-signing-ca-error'], XCsSslEngineAction = ['x-cs-ssl-engine-action'], XCsSslEngineActionReason = ['x-cs-ssl-engine-action-reason'], XSrSslEngineAction = ['x-sr-ssl-engine-action'], XSrSslEngineActionReason = ['x-sr-ssl-engine-action-reason'], XSslPolicySrcIp = ['x-ssl-policy-src-ip'], XSslPolicyDstIp = ['x-ssl-policy-dst-ip'], XSslPolicyDstHost = ['x-ssl-policy-dst-host'], XSslPolicyDstHostSource = ['x-ssl-policy-dst-host-source'], XSslPolicyCategories = ['x-ssl-policy-categories'], XSslPolicyAction = ['x-ssl-policy-action'], XSslPolicyName = ['x-ssl-policy-name'], XCsSslVersion = ['x-cs-ssl-version'], XCsSslCipher = ['x-cs-ssl-cipher'], XSrSslVersion = ['x-sr-ssl-version'], XSrSslCipher = ['x-sr-ssl-cipher'], XCsSrcIpEgress = ['x-cs-src-ip-egress'], XSDpName = ['x-s-dp-name'], XCsSrcIp = ['x-cs-src-ip'], XCsSrcPort = toint(['x-cs-src-port']), XCsDstIp = ['x-cs-dst-ip'], XCsDstPort = toint(['x-cs-dst-port']), XSrSrcIp = ['x-sr-src-ip'], XSrSrcPort = ['x-sr-src-port'], XSrDstIp = ['x-sr-dst-ip'], XSrDstPort = toint(['x-sr-dst-port']), XCsIpConnectXff = ['x-cs-ip-connect-xff'], XCsIpXff = ['x-cs-ip-xff'], XCsConnectHost = ['x-cs-connect-host'], XCsConnectPort = ['x-cs-connect-port'], XCsConnectUserAgent = ['x-cs-connect-user-agent'], XCsUrl = ['x-cs-url'], XCsUriPath = ['x-cs-uri-path'], XCsHttpVersion = ['x-cs-http-version'], RsStatus = toint(['rs-status']), XCsAppCategory = ['x-cs-app-category'], XCsAppCci = toint(['x-cs-app-cci']), XCsAppCcl = ['x-cs-app-ccl'], XCsAppTags = ['x-cs-app-tags'], XCsAppSuite = ['x-cs-app-suite'], XCsAppInstanceId = ['x-cs-app-instance-id'], XCsAppInstanceName = ['x-cs-app-instance-name'], XCsAppInstanceTag = ['x-cs-app-instance-tag'], XCsAppActivity = ['x-cs-app-activity'], XCsAppFromUser = ['x-cs-app-from-user'], XCsAppToUser = ['x-cs-app-to-user'], XCsAppObjectType = ['x-cs-app-object-type'], XCsAppObjectName = ['x-cs-app-object-name'], XCsAppObjectId = ['x-cs-app-object-id'], XRsFileType = ['x-rs-file-type'], XRsFileCategory = ['x-rs-file-category'], XRsFileLanguage = ['x-rs-file-language'], XRsFileSize = toint(['x-rs-file-size']), XRsFileMd5 = ['x-rs-file-md5'], XRsFileSha256 = ['x-rs-file-sha256'], XError = ['x-error'], XCLocalTime = ['x-c-local-time'], XPolicyAction = ['x-policy-action'], XPolicyName = ['x-policy-name'], XPolicySrcIp = ['x-policy-src-ip'], XPolicyDstIp = ['x-policy-dst-ip'], XPolicyDstHost = ['x-policy-dst-host'], XPolicyDstHostSource = ['x-policy-dst-host-source'], XPolicyJustificationType = ['x-policy-justification-type'], XPolicyJustificationReason = ['x-policy-justification-reason'], XScNotificationName = ['x-sc-notification-name']",
+                                        "outputStream": "[concat('Custom-',variables('_logAnalyticsTableId1'))]"
+                                    }
+                                ],
+                                "dataCollectionEndpointId": "[concat('/subscriptions/',parameters('subscription'),'/resourceGroups/',parameters('resourceGroupName'),'/providers/Microsoft.Insights/dataCollectionEndpoints/',parameters('workspace'))]"
+                            },
+                            "dependsOn": null
+                        },
+                        {
+                            "name": "[variables('_logAnalyticsTableId1')]",
+                            "apiVersion": "2021-03-01-privatepreview",
+                            "type": "Microsoft.OperationalInsights/workspaces/tables",
+                            "location": "[parameters('workspace-location')]",
+                            "kind": null,
+                            "properties": {
+                                "schema": {
+                                    "name": "[variables('_logAnalyticsTableId1')]",
+                                    "columns": [
+                                        {
+                                            "name": "TimeGenerated",
+                                            "type": "datetime",
+                                            "isDefaultDisplay": true,
+                                            "description": "The timestamp (UTC) reflecting the time in which the event was generated."
+                                        },
+                                        {
+                                            "name": "Date",
+                                            "type": "string",
+                                            "description": "date."
+                                        },
+                                        {
+                                            "name": "Time",
+                                            "type": "string",
+                                            "description": "time."
+                                        },
+                                        {
+                                            "name": "TimeTaken",
+                                            "type": "int",
+                                            "description": "time-taken."
+                                        },
+                                        {
+                                            "name": "CsBytes",
+                                            "type": "int",
+                                            "description": "cs-bytes."
+                                        },
+                                        {
+                                            "name": "ScBytes",
+                                            "type": "int",
+                                            "description": "sc-bytes."
+                                        },
+                                        {
+                                            "name": "Bytes",
+                                            "type": "int",
+                                            "description": "bytes."
+                                        },
+                                        {
+                                            "name": "CIp",
+                                            "type": "string",
+                                            "description": "c-ip."
+                                        },
+                                        {
+                                            "name": "SIp",
+                                            "type": "string",
+                                            "description": "s-ip."
+                                        },
+                                        {
+                                            "name": "CsUsername",
+                                            "type": "string",
+                                            "description": "cs-username."
+                                        },
+                                        {
+                                            "name": "CsMethod",
+                                            "type": "string",
+                                            "description": "cs-method."
+                                        },
+                                        {
+                                            "name": "CsUriScheme",
+                                            "type": "string",
+                                            "description": "cs-uri-scheme."
+                                        },
+                                        {
+                                            "name": "CsUriQuery",
+                                            "type": "string",
+                                            "description": "cs-uri-query."
+                                        },
+                                        {
+                                            "name": "CsUserAgent",
+                                            "type": "string",
+                                            "description": "cs-user-agent."
+                                        },
+                                        {
+                                            "name": "CsContentType",
+                                            "type": "string",
+                                            "description": "cs-content-type."
+                                        },
+                                        {
+                                            "name": "ScStatus",
+                                            "type": "int",
+                                            "description": "sc-status."
+                                        },
+                                        {
+                                            "name": "ScContentType",
+                                            "type": "string",
+                                            "description": "sc-content-type."
+                                        },
+                                        {
+                                            "name": "CsDns",
+                                            "type": "string",
+                                            "description": "cs-dns."
+                                        },
+                                        {
+                                            "name": "CsHost",
+                                            "type": "string",
+                                            "description": "cs-host."
+                                        },
+                                        {
+                                            "name": "CsUri",
+                                            "type": "string",
+                                            "description": "cs-uri."
+                                        },
+                                        {
+                                            "name": "CsUriPort",
+                                            "type": "int",
+                                            "description": "cs-uri-port."
+                                        },
+                                        {
+                                            "name": "CsReferer",
+                                            "type": "string",
+                                            "description": "cs-referer."
+                                        },
+                                        {
+                                            "name": "XCsSessionId",
+                                            "type": "string",
+                                            "description": "x-cs-session-id."
+                                        },
+                                        {
+                                            "name": "XCsAccessMethod",
+                                            "type": "string",
+                                            "description": "x-cs-access-method."
+                                        },
+                                        {
+                                            "name": "XCsApp",
+                                            "type": "string",
+                                            "description": "x-cs-app."
+                                        },
+                                        {
+                                            "name": "XSCountry",
+                                            "type": "string",
+                                            "description": "x-s-country."
+                                        },
+                                        {
+                                            "name": "XSLatitude",
+                                            "type": "real",
+                                            "description": "x-s-latitude."
+                                        },
+                                        {
+                                            "name": "XSLongitude",
+                                            "type": "real",
+                                            "description": "x-s-longitude."
+                                        },
+                                        {
+                                            "name": "XSLocation",
+                                            "type": "string",
+                                            "description": "x-s-location."
+                                        },
+                                        {
+                                            "name": "XSRegion",
+                                            "type": "string",
+                                            "description": "x-s-region."
+                                        },
+                                        {
+                                            "name": "XSZipcode",
+                                            "type": "int",
+                                            "description": "x-s-zipcode."
+                                        },
+                                        {
+                                            "name": "XCCountry",
+                                            "type": "string",
+                                            "description": "x-c-country."
+                                        },
+                                        {
+                                            "name": "XCLatitude",
+                                            "type": "real",
+                                            "description": "x-c-latitude."
+                                        },
+                                        {
+                                            "name": "XCLongitude",
+                                            "type": "real",
+                                            "description": "x-c-longitude."
+                                        },
+                                        {
+                                            "name": "XCLocation",
+                                            "type": "string",
+                                            "description": "x-c-location."
+                                        },
+                                        {
+                                            "name": "XCRegion",
+                                            "type": "string",
+                                            "description": "x-c-region."
+                                        },
+                                        {
+                                            "name": "XCZipcode",
+                                            "type": "int",
+                                            "description": "x-c-zipcode."
+                                        },
+                                        {
+                                            "name": "XCOs",
+                                            "type": "string",
+                                            "description": "x-c-os."
+                                        },
+                                        {
+                                            "name": "XCBrowser",
+                                            "type": "string",
+                                            "description": "x-c-browser."
+                                        },
+                                        {
+                                            "name": "XCBrowserVersion",
+                                            "type": "int",
+                                            "description": "x-c-browser-version."
+                                        },
+                                        {
+                                            "name": "XCDevice",
+                                            "type": "string",
+                                            "description": "x-c-device."
+                                        },
+                                        {
+                                            "name": "XCsSite",
+                                            "type": "string",
+                                            "description": "x-cs-site."
+                                        },
+                                        {
+                                            "name": "XCsTimestamp",
+                                            "type": "long",
+                                            "description": "x-cs-timestamp."
+                                        },
+                                        {
+                                            "name": "XCsPageId",
+                                            "type": "string",
+                                            "description": "x-cs-page-id."
+                                        },
+                                        {
+                                            "name": "XCsUserIp",
+                                            "type": "string",
+                                            "description": "x-cs-userip."
+                                        },
+                                        {
+                                            "name": "XCsTrafficType",
+                                            "type": "string",
+                                            "description": "x-cs-traffic-type."
+                                        },
+                                        {
+                                            "name": "XCsTunnelId",
+                                            "type": "string",
+                                            "description": "x-cs-tunnel-id."
+                                        },
+                                        {
+                                            "name": "XCategory",
+                                            "type": "string",
+                                            "description": "x-category."
+                                        },
+                                        {
+                                            "name": "XOtherCategory",
+                                            "type": "string",
+                                            "description": "x-other-category."
+                                        },
+                                        {
+                                            "name": "XType",
+                                            "type": "string",
+                                            "description": "x-type."
+                                        },
+                                        {
+                                            "name": "XServerSslErr",
+                                            "type": "string",
+                                            "description": "x-server-ssl-err."
+                                        },
+                                        {
+                                            "name": "XClientSslErr",
+                                            "type": "string",
+                                            "description": "x-client-ssl-err."
+                                        },
+                                        {
+                                            "name": "XTransactionId",
+                                            "type": "string",
+                                            "description": "x-transaction-id."
+                                        },
+                                        {
+                                            "name": "XRequestId",
+                                            "type": "string",
+                                            "description": "x-request-id."
+                                        },
+                                        {
+                                            "name": "XCsSni",
+                                            "type": "string",
+                                            "description": "x-cs-sni."
+                                        },
+                                        {
+                                            "name": "XCsDomainFrontedSni",
+                                            "type": "string",
+                                            "description": "x-cs-domain-fronted-sni."
+                                        },
+                                        {
+                                            "name": "XCategoryId",
+                                            "type": "int",
+                                            "description": "x-category-id."
+                                        },
+                                        {
+                                            "name": "XOtherCategoryId",
+                                            "type": "string",
+                                            "description": "x-other-category-id."
+                                        },
+                                        {
+                                            "name": "XSrHeadersName",
+                                            "type": "string",
+                                            "description": "x-sr-headers-name."
+                                        },
+                                        {
+                                            "name": "XSrHeadersValue",
+                                            "type": "string",
+                                            "description": "x-sr-headers-value."
+                                        },
+                                        {
+                                            "name": "XCsSslJa3",
+                                            "type": "string",
+                                            "description": "x-cs-ssl-ja3."
+                                        },
+                                        {
+                                            "name": "XSrSslJa3S",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-ja3s."
+                                        },
+                                        {
+                                            "name": "XSslBypass",
+                                            "type": "string",
+                                            "description": "x-ssl-bypass."
+                                        },
+                                        {
+                                            "name": "XSslBypassReason",
+                                            "type": "string",
+                                            "description": "x-ssl-bypass-reason."
+                                        },
+                                        {
+                                            "name": "XRCertSubjectCn",
+                                            "type": "string",
+                                            "description": "x-r-cert-subject-cn."
+                                        },
+                                        {
+                                            "name": "XRCertIssuerCn",
+                                            "type": "string",
+                                            "description": "x-r-cert-issuer-cn."
+                                        },
+                                        {
+                                            "name": "XRCertStartDate",
+                                            "type": "string",
+                                            "description": "x-r-cert-startdate."
+                                        },
+                                        {
+                                            "name": "XRCertEndDate",
+                                            "type": "string",
+                                            "description": "x-r-cert-enddate."
+                                        },
+                                        {
+                                            "name": "XRCertValid",
+                                            "type": "string",
+                                            "description": "x-r-cert-valid."
+                                        },
+                                        {
+                                            "name": "XRCertExpired",
+                                            "type": "string",
+                                            "description": "x-r-cert-expired."
+                                        },
+                                        {
+                                            "name": "XRCertUntrustedRoot",
+                                            "type": "string",
+                                            "description": "x-r-cert-untrusted-root."
+                                        },
+                                        {
+                                            "name": "XRCertIncompleteChain",
+                                            "type": "string",
+                                            "description": "x-r-cert-incomplete-chain."
+                                        },
+                                        {
+                                            "name": "XRCertSelfSigned",
+                                            "type": "string",
+                                            "description": "x-r-cert-self-signed."
+                                        },
+                                        {
+                                            "name": "XRCertRevoked",
+                                            "type": "string",
+                                            "description": "x-r-cert-revoked."
+                                        },
+                                        {
+                                            "name": "XRCertRevocationCheck",
+                                            "type": "string",
+                                            "description": "x-r-cert-revocation-check."
+                                        },
+                                        {
+                                            "name": "XRCertMismatch",
+                                            "type": "string",
+                                            "description": "x-r-cert-mismatch."
+                                        },
+                                        {
+                                            "name": "XCsSslFrontingError",
+                                            "type": "string",
+                                            "description": "x-cs-ssl-fronting-error."
+                                        },
+                                        {
+                                            "name": "XCsSslHandshakeError",
+                                            "type": "string",
+                                            "description": "x-cs-ssl-handshake-error."
+                                        },
+                                        {
+                                            "name": "XSrSslHandshakeError",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-handshake-error."
+                                        },
+                                        {
+                                            "name": "XSrSslClientCertificateError",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-client-certificate-error."
+                                        },
+                                        {
+                                            "name": "XSrSslMalformedSsl",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-malformed-ssl."
+                                        },
+                                        {
+                                            "name": "XSCustomSigningCaError",
+                                            "type": "string",
+                                            "description": "x-s-custom-signing-ca-error."
+                                        },
+                                        {
+                                            "name": "XCsSslEngineAction",
+                                            "type": "string",
+                                            "description": "x-cs-ssl-engine-action."
+                                        },
+                                        {
+                                            "name": "XCsSslEngineActionReason",
+                                            "type": "string",
+                                            "description": "x-cs-ssl-engine-action-reason."
+                                        },
+                                        {
+                                            "name": "XSrSslEngineAction",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-engine-action."
+                                        },
+                                        {
+                                            "name": "XSrSslEngineActionReason",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-engine-action-reason."
+                                        },
+                                        {
+                                            "name": "XSslPolicySrcIp",
+                                            "type": "string",
+                                            "description": "x-ssl-policy-src-ip."
+                                        },
+                                        {
+                                            "name": "XSslPolicyDstIp",
+                                            "type": "string",
+                                            "description": "x-ssl-policy-dst-ip."
+                                        },
+                                        {
+                                            "name": "XSslPolicyDstHost",
+                                            "type": "string",
+                                            "description": "x-ssl-policy-dst-host."
+                                        },
+                                        {
+                                            "name": "XSslPolicyDstHostSource",
+                                            "type": "string",
+                                            "description": "x-ssl-policy-dst-host-source."
+                                        },
+                                        {
+                                            "name": "XSslPolicyCategories",
+                                            "type": "string",
+                                            "description": "x-ssl-policy-categories."
+                                        },
+                                        {
+                                            "name": "XSslPolicyAction",
+                                            "type": "string",
+                                            "description": "x-ssl-policy-action."
+                                        },
+                                        {
+                                            "name": "XSslPolicyName",
+                                            "type": "string",
+                                            "description": "x-ssl-policy-name."
+                                        },
+                                        {
+                                            "name": "XCsSslVersion",
+                                            "type": "string",
+                                            "description": "x-cs-ssl-version."
+                                        },
+                                        {
+                                            "name": "XCsSslCipher",
+                                            "type": "string",
+                                            "description": "x-cs-ssl-cipher."
+                                        },
+                                        {
+                                            "name": "XSrSslVersion",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-version."
+                                        },
+                                        {
+                                            "name": "XSrSslCipher",
+                                            "type": "string",
+                                            "description": "x-sr-ssl-cipher."
+                                        },
+                                        {
+                                            "name": "XCsSrcIpEgress",
+                                            "type": "string",
+                                            "description": "x-cs-src-ip-egress."
+                                        },
+                                        {
+                                            "name": "XSDpName",
+                                            "type": "string",
+                                            "description": "x-s-dp-name."
+                                        },
+                                        {
+                                            "name": "XCsSrcIp",
+                                            "type": "string",
+                                            "description": "x-cs-src-ip."
+                                        },
+                                        {
+                                            "name": "XCsSrcPort",
+                                            "type": "int",
+                                            "description": "x-cs-src-port."
+                                        },
+                                        {
+                                            "name": "XCsDstIp",
+                                            "type": "string",
+                                            "description": "x-cs-dst-ip."
+                                        },
+                                        {
+                                            "name": "XCsDstPort",
+                                            "type": "int",
+                                            "description": "x-cs-dst-port."
+                                        },
+                                        {
+                                            "name": "XSrSrcIp",
+                                            "type": "string",
+                                            "description": "x-sr-src-ip."
+                                        },
+                                        {
+                                            "name": "XSrSrcPort",
+                                            "type": "string",
+                                            "description": "x-sr-src-port."
+                                        },
+                                        {
+                                            "name": "XSrDstIp",
+                                            "type": "string",
+                                            "description": "x-sr-dst-ip."
+                                        },
+                                        {
+                                            "name": "XSrDstPort",
+                                            "type": "int",
+                                            "description": "x-sr-dst-port."
+                                        },
+                                        {
+                                            "name": "XCsIpConnectXff",
+                                            "type": "string",
+                                            "description": "x-cs-ip-connect-xff."
+                                        },
+                                        {
+                                            "name": "XCsIpXff",
+                                            "type": "string",
+                                            "description": "x-cs-ip-xff."
+                                        },
+                                        {
+                                            "name": "XCsConnectHost",
+                                            "type": "string",
+                                            "description": "x-cs-connect-host."
+                                        },
+                                        {
+                                            "name": "XCsConnectPort",
+                                            "type": "string",
+                                            "description": "x-cs-connect-port."
+                                        },
+                                        {
+                                            "name": "XCsConnectUserAgent",
+                                            "type": "string",
+                                            "description": "x-cs-connect-user-agent."
+                                        },
+                                        {
+                                            "name": "XCsUrl",
+                                            "type": "string",
+                                            "description": "x-cs-url."
+                                        },
+                                        {
+                                            "name": "XCsUriPath",
+                                            "type": "string",
+                                            "description": "x-cs-uri-path."
+                                        },
+                                        {
+                                            "name": "XCsHttpVersion",
+                                            "type": "string",
+                                            "description": "x-cs-http-version."
+                                        },
+                                        {
+                                            "name": "RsStatus",
+                                            "type": "int",
+                                            "description": "rs-status."
+                                        },
+                                        {
+                                            "name": "XCsAppCategory",
+                                            "type": "string",
+                                            "description": "x-cs-app-category."
+                                        },
+                                        {
+                                            "name": "XCsAppCci",
+                                            "type": "int",
+                                            "description": "x-cs-app-cci."
+                                        },
+                                        {
+                                            "name": "XCsAppCcl",
+                                            "type": "string",
+                                            "description": "x-cs-app-ccl."
+                                        },
+                                        {
+                                            "name": "XCsAppTags",
+                                            "type": "string",
+                                            "description": "x-cs-app-tags."
+                                        },
+                                        {
+                                            "name": "XCsAppSuite",
+                                            "type": "string",
+                                            "description": "x-cs-app-suite."
+                                        },
+                                        {
+                                            "name": "XCsAppInstanceId",
+                                            "type": "string",
+                                            "description": "x-cs-app-instance-id."
+                                        },
+                                        {
+                                            "name": "XCsAppInstanceName",
+                                            "type": "string",
+                                            "description": "x-cs-app-instance-name."
+                                        },
+                                        {
+                                            "name": "XCsAppInstanceTag",
+                                            "type": "string",
+                                            "description": "x-cs-app-instance-tag."
+                                        },
+                                        {
+                                            "name": "XCsAppActivity",
+                                            "type": "string",
+                                            "description": "x-cs-app-activity."
+                                        },
+                                        {
+                                            "name": "XCsAppFromUser",
+                                            "type": "string",
+                                            "description": "x-cs-app-from-user."
+                                        },
+                                        {
+                                            "name": "XCsAppToUser",
+                                            "type": "string",
+                                            "description": "x-cs-app-to-user."
+                                        },
+                                        {
+                                            "name": "XCsAppObjectType",
+                                            "type": "string",
+                                            "description": "x-cs-app-object-type."
+                                        },
+                                        {
+                                            "name": "XCsAppObjectName",
+                                            "type": "string",
+                                            "description": "x-cs-app-object-name."
+                                        },
+                                        {
+                                            "name": "XCsAppObjectId",
+                                            "type": "string",
+                                            "description": "x-cs-app-object-id."
+                                        },
+                                        {
+                                            "name": "XRsFileType",
+                                            "type": "string",
+                                            "description": "x-rs-file-type."
+                                        },
+                                        {
+                                            "name": "XRsFileCategory",
+                                            "type": "string",
+                                            "description": "x-rs-file-category."
+                                        },
+                                        {
+                                            "name": "XRsFileLanguage",
+                                            "type": "string",
+                                            "description": "x-rs-file-language."
+                                        },
+                                        {
+                                            "name": "XRsFileSize",
+                                            "type": "int",
+                                            "description": "x-rs-file-size."
+                                        },
+                                        {
+                                            "name": "XRsFileMd5",
+                                            "type": "string",
+                                            "description": "x-rs-file-md5."
+                                        },
+                                        {
+                                            "name": "XRsFileSha256",
+                                            "type": "string",
+                                            "description": "x-rs-file-sha256."
+                                        },
+                                        {
+                                            "name": "XError",
+                                            "type": "string",
+                                            "description": "x-error."
+                                        },
+                                        {
+                                            "name": "XCLocalTime",
+                                            "type": "string",
+                                            "description": "x-c-local-time."
+                                        },
+                                        {
+                                            "name": "XPolicyAction",
+                                            "type": "string",
+                                            "description": "x-policy-action."
+                                        },
+                                        {
+                                            "name": "XPolicyName",
+                                            "type": "string",
+                                            "description": "x-policy-name."
+                                        },
+                                        {
+                                            "name": "XPolicySrcIp",
+                                            "type": "string",
+                                            "description": "x-policy-src-ip."
+                                        },
+                                        {
+                                            "name": "XPolicyDstIp",
+                                            "type": "string",
+                                            "description": "x-policy-dst-ip."
+                                        },
+                                        {
+                                            "name": "XPolicyDstHost",
+                                            "type": "string",
+                                            "description": "x-policy-dst-host."
+                                        },
+                                        {
+                                            "name": "XPolicyDstHostSource",
+                                            "type": "string",
+                                            "description": "x-policy-dst-host-source."
+                                        },
+                                        {
+                                            "name": "XPolicyJustificationType",
+                                            "type": "string",
+                                            "description": "x-policy-justification-type."
+                                        },
+                                        {
+                                            "name": "XPolicyJustificationReason",
+                                            "type": "string",
+                                            "description": "x-policy-justification-reason."
+                                        },
+                                        {
+                                            "name": "XScNotificationName",
+                                            "type": "string",
+                                            "description": "x-sc-notification-name."
+                                        }
+                                    ]
+                                }
+                            },
+                            "dependsOn": null
+                        }
+                    ]
+                },
+                "packageKind": "Solution",
+                "packageVersion": "[variables('_solutionVersion')]",
+                "packageName": "[variables('_solutionName')]",
+                "contentProductId": "[concat(substring(variables('_solutionId'), 0, 50),'-','dc','-', uniqueString(concat(variables('_solutionId'),'-','DataConnector','-',variables('_dataConnectorContentIdConnectorDefinition'),'-', variables('dataConnectorVersionConnectorDefinition'))))]",
+                "packageId": "[variables('_solutionId')]",
+                "contentSchemaVersion": "3.0.0",
+                "version": "[variables('_solutionVersion')]"
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/dataConnectorDefinitions",
+            "apiVersion": "2022-09-01-preview",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/',variables('_dataConnectorContentIdConnectorDefinition'))]",
+            "location": "[parameters('workspace-location')]",
+            "kind": "Customizable",
+            "properties": {
+                "connectorUiConfig": {
+                    "id": "NetskopeWebTxConnector",
+                    "title": "NetskopeWebTxConnector",
+                    "publisher": "Microsoft",
+                    "descriptionMarkdown": "NetskopeWebTx",
+                    "graphQueries": [
+                        {
+                            "metricName": "Total logs received",
+                            "legend": "Netskope WebTx Logs",
+                            "baseQuery": "[variables('_logAnalyticsTableId1')]"
+                        }
+                    ],
+                    "sampleQueries": [
+                        {
+                            "description": "Get Sample of Netskope WebTx Logs",
+                            "query": "[concat(variables('_logAnalyticsTableId1'),'| take 10')]"
+                        }
+                    ],
+                    "dataTypes": [
+                        {
+                            "name": "[variables('_logAnalyticsTableId1')]",
+                            "lastDataReceivedQuery": "[concat(variables('_logAnalyticsTableId1'),'\n       | where TimeGenerated > ago(12h)                | summarize Time = max(TimeGenerated)\n            ')]"
+                        }
+                    ],
+                    "connectivityCriteria": [
+                        {
+                            "type": "HasDataConnectors",
+                            "value": null
+                        }
+                    ],
+                    "availability": {
+                        "status": 1,
+                        "isPreview": false
+                    },
+                    "permissions": {
+                        "tenant": null,
+                        "licenses": null,
+                        "resourceProvider": [
+                            {
+                                "provider": "Microsoft.OperationalInsights/workspaces",
+                                "permissionsDisplayText": "Read and Write permissions are required.",
+                                "providerDisplayName": "Workspace",
+                                "scope": "Workspace",
+                                "requiredPermissions": {
+                                    "read": true,
+                                    "write": true,
+                                    "delete": true,
+                                    "action": false
+                                }
+                            },
+                            {
+                                "provider": "Microsoft.OperationalInsights/workspaces/sharedKeys",
+                                "permissionsDisplayText": "Read permissions to shared keys for the workspace are required. [See the documentation to learn more about workspace keys](https://docs.microsoft.com/azure/azure-monitor/platform/agent-windows#obtain-workspace-id-and-key)",
+                                "providerDisplayName": "Keys",
+                                "scope": "Workspace",
+                                "requiredPermissions": {
+                                    "read": false,
+                                    "write": false,
+                                    "delete": false,
+                                    "action": true
+                                }
+                            }
+                        ],
+                        "customs": [
+                            {
+                                "name": "Subscription permissions",
+                                "description": "You need permissions to create the data flow resources: \n- storage queues (notification queue and dead-letter queue) \n- event grid topic and subscription (to send 'blob created event' notifications to the notification queue) \n- role assignments (to grant access for sentinel app to the blob container and the storage queues.)"
+                            },
+                            {
+                                "name": "Collecting data from __ to your blob container",
+                                "description": "Follow the steps in the [documentation](https://some-guide.net) for collecting data from __ to your blob container."
+                            }
+                        ]
+                    },
+                    "instructionSteps": [
+                        {
+                            "title": "Connect Netskope WebTx Logs to Microsoft Sentinel",
+                            "description": "To enable the Netskope WebTx Logs for Microsoft Sentinel, provide the required information below and click on Connect.\n>",
+                            "instructions": [
+                                {
+                                    "parameters": {
+                                        "tenantId": "[subscription().tenantId]",
+                                        "name": "principalId",
+                                        "appId": "4f05ce56-95b6-4612-9d98-a45c8cc33f9f"
+                                    },
+                                    "type": "ServicePrincipalIDTextBox"
+                                },
+                                {
+                                    "parameters": {
+                                        "label": "The blob container URL you want to collect data from",
+                                        "type": "text",
+                                        "name": "blobContainerUri"
+                                    },
+                                    "type": "Textbox"
+                                },
+                                {
+                                    "parameters": {
+                                        "label": "The blobs folder name in the container. Optional",
+                                        "type": "text",
+                                        "name": "blobFolderName"
+                                    },
+                                    "type": "Textbox"
+                                },
+                                {
+                                    "parameters": {
+                                        "label": "The blob container's storage account location",
+                                        "type": "text",
+                                        "name": "StorageAccountlocation"
+                                    },
+                                    "type": "Textbox"
+                                },
+                                {
+                                    "parameters": {
+                                        "label": "The blob container's storage account resource group name",
+                                        "type": "text",
+                                        "name": "StorageAccountResourceGroupName"
+                                    },
+                                    "type": "Textbox"
+                                },
+                                {
+                                    "parameters": {
+                                        "label": "The blob container's storage account subscription id",
+                                        "type": "text",
+                                        "name": "StorageAccountSubscription"
+                                    },
+                                    "type": "Textbox"
+                                },
+                                {
+                                    "parameters": {
+                                        "label": "The event grid topic name of the blob container's storage account if exist. else keep empty.",
+                                        "description": "The data flow using event grid to send 'blob-created event' notifications. There could be only one event grid topic for each storage account.\nGo to your blob container's storage account and look in the 'Events' section. If you already have a topic, please provide it's name. Else, keep the text box empty.",
+                                        "placeholder": "",
+                                        "type": "text",
+                                        "name": "EGSystemTopicName"
+                                    },
+                                    "type": "Textbox"
+                                },
+                                {
+                                    "parameters": {
+                                        "label": "toggle",
+                                        "name": "toggle"
+                                    },
+                                    "type": "ConnectionToggleButton"
+                                }
+                            ],
+                            "innerSteps": null
+                        }
+                    ],
+                    "isConnectivityCriteriasMatchSome": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/metadata",
+            "apiVersion": "2022-01-01-preview",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/',concat('DataConnector-', variables('_dataConnectorContentIdConnectorDefinition')))]",
+            "properties": {
+                "parentId": "[extensionResourceId(resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace')), 'Microsoft.SecurityInsights/dataConnectorDefinitions', variables('_dataConnectorContentIdConnectorDefinition'))]",
+                "contentId": "[variables('_dataConnectorContentIdConnectorDefinition')]",
+                "kind": "DataConnector",
+                "version": "[variables('dataConnectorVersionConnectorDefinition')]",
+                "source": {
+                    "sourceId": "[variables('_solutionId')]",
+                    "name": "[variables('_solutionName')]",
+                    "kind": "Solution"
+                },
+                "author": {
+                    "name": "[variables('_solutionAuthor')]"
+                },
+                "support": {
+                    "name": "[variables('_solutionAuthor')]",
+                    "tier": "[variables('_solutionTier')]"
+                },
+                "dependencies": {
+                    "criteria": [
+                        {
+                            "version": "[variables('dataConnectorVersionConnections')]",
+                            "contentId": "[variables('_dataConnectorContentIdConnections')]",
+                            "kind": "ResourcesDataConnector"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/contentTemplates",
+            "apiVersion": "2023-04-01-preview",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/', variables('dataConnectorTemplateNameConnections'), variables('dataConnectorVersionConnections'))]",
+            "location": "[parameters('workspace-location')]",
+            "dependsOn": [
+                "[extensionResourceId(resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace')), 'Microsoft.SecurityInsights/contentPackages', variables('_solutionId'))]"
+            ],
+            "properties": {
+                "contentId": "[variables('_dataConnectorContentIdConnections')]",
+                "displayName": "[concat(variables('_solutionName'), variables('dataConnectorTemplateNameConnections'))]",
+                "contentKind": "ResourcesDataConnector",
+                "mainTemplate": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "[variables('dataConnectorVersionConnections')]",
+                    "parameters": {
+                        "connectorDefinitionName": {
+                            "defaultValue": "connectorDefinitionName",
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "workspaceName": {
+                            "defaultValue": "[parameters('workspace')]",
+                            "type": "string"
+                        },
+                        "dcrConfig": {
+                            "defaultValue": {
+                                "dataCollectionEndpoint": "data collection Endpoint",
+                                "dataCollectionRuleImmutableId": "data collection rule immutableId"
+                            },
+                            "type": "object"
+                        },
+                        "principalId": {
+                            "defaultValue": "principalId",
+                            "type": "string"
+                        },
+                        "blobContainerUri": {
+                            "defaultValue": "blobContainerUri",
+                            "type": "string"
+                        },
+                        "blobFolderName": {
+                            "defaultValue": "",
+                            "type": "string"
+                        },
+                        "StorageAccountlocation": {
+                            "defaultValue": "StorageAccountlocation",
+                            "type": "string"
+                        },
+                        "StorageAccountResourceGroupName": {
+                            "defaultValue": "StorageAccountResourceGroupName",
+                            "type": "string"
+                        },
+                        "StorageAccountSubscription": {
+                            "defaultValue": "StorageAccountSubscription",
+                            "type": "string"
+                        },
+                        "EGSystemTopicName": {
+                            "defaultValue": "",
+                            "type": "string"
+                        }
+                    },
+                    "variables": {
+                        "_dataConnectorContentIdConnections": "[variables('_dataConnectorContentIdConnections')]",
+                        "connectorName": "netskopewebtx",
+                        "storageAccountName": "[[split(split(parameters('blobContainerUri'), 'https://')[1], '.blob.core.windows.net')[0]]",
+                        "blobContainerName": "[[split(split(parameters('blobContainerUri'), '.blob.core.windows.net/')[1], '/')[0]]",
+                        "queueName": "[[concat(variables('connectorName'), '-notification')]",
+                        "dlqName": "[[concat(variables('connectorName'), '-dlq')]",
+                        "ResourcesIdPrefix": "[[format('/subscriptions/{0}/resourceGroups/{1}/providers', parameters('StorageAccountSubscription'), parameters('StorageAccountResourceGroupName'))]",
+                        "storageAccountId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}', variables('ResourcesIdPrefix'), variables('storageAccountName'))]",
+                        "notificationQueueResourceId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}/queueServices//default/queues/{2}', variables('ResourcesIdPrefix'), variables('storageAccountName'), variables('queueName'))]",
+                        "dlqResourceId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}/queueServices//default/queues/{2}', variables('ResourcesIdPrefix'), variables('storageAccountName'), variables('dlqName'))]",
+                        "EGSystemTopicDefaultName": "[[format('eg-system-topic-{0}-{1}', variables('connectorName'), parameters('workspaceName'))]",
+                        "EGSystemTopicName": "[[if(empty(parameters('EGSystemTopicName')), variables('EGSystemTopicDefaultName'), parameters('EGSystemTopicName'))]",
+                        "EGTopicResourceId": "[[format('{0}/Microsoft.EventGrid/systemTopics/{1}', variables('ResourcesIdPrefix'), variables('EGSystemTopicName'))]",
+                        "EgSubscriptionName": "[[format('{0}-{1}', variables('connectorName'), 'blobcreatedevents')]",
+                        "EgSubscriptionResourceId": "[[format('{0}/Microsoft.EventGrid/systemTopics/{1}/eventSubscriptions/{2}', variables('ResourcesIdPrefix'), variables('EGSystemTopicName'), variables('EgSubscriptionName'))]",
+                        "storageBlobContributorRoleId": "[[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe', parameters('StorageAccountSubscription'))]",
+                        "storageQueueContributorRoleId": "[[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/974c5e8b-45b9-4653-ba55-5f855dd0fb88', parameters('StorageAccountSubscription'))]",
+                        "blobRaGuid": "[[guid(variables('storageAccountName'), variables('blobContainerName'))]",
+                        "notificationQueueRaGuid": "[[guid(variables('storageAccountName'), variables('queueName'))]",
+                        "dlqRaGuid": "[[guid(variables('storageAccountName'), variables('dlqName'))]",
+                        "blobRoleAssignmentResourceId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}/blobServices/default/containers/{2}/providers/Microsoft.Authorization/roleAssignments/{3}', variables('ResourcesIdPrefix'), variables('storageAccountName'), variables('blobContainerName'),variables('blobRaGuid'))]",
+                        "notificationQueueRoleAssignmentResourceId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}/queueServices/default/queues/{2}/providers/Microsoft.Authorization/roleAssignments/{3}', variables('ResourcesIdPrefix'), variables('storageAccountName'), variables('queueName'),variables('notificationQueueRaGuid'))]",
+                        "dlqRoleAssignmentResourceId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}/queueServices/default/queues/{2}/providers/Microsoft.Authorization/roleAssignments/{3}', variables('ResourcesIdPrefix'), variables('storageAccountName'), variables('dlqName'),variables('dlqRaGuid'))]",
+                        "nestedDeploymentName": "CreateDataFlowResources",
+                        "nestedDeploymentId": "[[format('{0}/Microsoft.Resources/deployments/{1}', variables('ResourcesIdPrefix'), variables('nestedDeploymentName'))]",
+                        "delayStepName": "delayStep",
+                        "delayStepId": "[[format('{0}/Microsoft.Resources/deploymentScripts/{1}', variables('ResourcesIdPrefix'), variables('delayStepName'))]"
+                    },
+                    "resources": [
+                        {
+                            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/',concat('DataConnector-', variables('_dataConnectorContentIdConnections')))]",
+                            "apiVersion": "2022-01-01-preview",
+                            "type": "Microsoft.OperationalInsights/workspaces/providers/metadata",
+                            "properties": {
+                                "parentId": "[extensionResourceId(resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace')), 'Microsoft.SecurityInsights/dataConnectors', variables('_dataConnectorContentIdConnections'))]",
+                                "contentId": "[variables('_dataConnectorContentIdConnections')]",
+                                "kind": "ResourcesDataConnector",
+                                "version": "[variables('dataConnectorVersionConnections')]",
+                                "source": {
+                                    "sourceId": "[variables('_solutionId')]",
+                                    "name": "[variables('_solutionName')]",
+                                    "kind": "Solution"
+                                },
+                                "author": {
+                                    "name": "[variables('_solutionAuthor')]"
+                                },
+                                "support": {
+                                    "name": "[variables('_solutionAuthor')]",
+                                    "tier": "[variables('_solutionTier')]"
+                                }
+                            }
+                        },
+                        {
+                            "type": "Microsoft.Resources/deployments",
+                            "apiVersion": "2021-04-01",
+                            "name": "[[variables('nestedDeploymentName')]",
+                            "properties": {
+                                "mode": "Incremental",
+                                "template": {
+                                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                    "contentVersion": "1.0.0.0",
+                                    "resources": [
+                                        {
+                                            "type": "Microsoft.Storage/storageAccounts/queueServices/queues",
+                                            "apiVersion": "2021-04-01",
+                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('queueName'))]",
+                                            "dependsOn": [],
+                                            "properties": {}
+                                        },
+                                        {
+                                            "type": "Microsoft.Storage/storageAccounts/queueServices/queues",
+                                            "apiVersion": "2021-04-01",
+                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('dlqName'))]",
+                                            "dependsOn": [],
+                                            "properties": {}
+                                        },
+                                        {
+                                            "type": "Microsoft.EventGrid/systemTopics",
+                                            "apiVersion": "2022-06-15",
+                                            "name": "[[variables('EGSystemTopicName')]",
+                                            "location": "[[parameters('StorageAccountLocation')]",
+                                            "properties": {
+                                                "provisioningState": "Succeeded",
+                                                "source": "[[variables('storageAccountId')]",
+                                                "topicType": "microsoft.storage.storageaccounts",
+                                                "metricResourceId": "0cefe8d9-3269-4f68-a44e-46a4fc26e4a9"
+                                            },
+                                            "condition": "[[empty(parameters('EGSystemTopicName'))]"
+                                        },
+                                        {
+                                            "type": "Microsoft.EventGrid/systemTopics/eventSubscriptions",
+                                            "apiVersion": "2023-12-15-preview",
+                                            "name": "[[format('{0}/{1}', variables('EGSystemTopicName'), variables('EgSubscriptionName'))]",
+                                            "dependsOn": [
+                                                "[[variables('EGTopicResourceId')]",
+                                                "[[variables('notificationQueueResourceId')]"
+                                            ],
+                                            "properties": {
+                                                "destination": {
+                                                    "endpointType": "StorageQueue",
+                                                    "properties": {
+                                                        "queueName": "[[variables('queueName')]",
+                                                        "resourceId": "[[variables('storageAccountId')]"
+                                                    }
+                                                },
+                                                "filter": {
+                                                    "includedEventTypes": [
+                                                        "Microsoft.Storage.BlobCreated"
+                                                    ],
+                                                    "subjectBeginsWith": "[[format('{0}/{1}/blobs/{2}', '/blobServices/default/containers', variables('blobContainerName'), if(empty(parameters('blobFolderName')), '', concat(parameters('blobFolderName'),'/')))]"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
+                                            "apiVersion": "2018-01-01-preview",
+                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('blobContainerName'), '/Microsoft.Authorization/', variables('blobRaGuid'))]",
+                                            "properties": {
+                                                "roleDefinitionId": "[[variables('storageBlobContributorRoleId')]",
+                                                "principalId": "[[parameters('principalId')]"
+                                            }
+                                        },
+                                        {
+                                            "type": "Microsoft.Storage/storageAccounts/queueServices/queues/providers/roleAssignments",
+                                            "apiVersion": "2018-01-01-preview",
+                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('queueName'), '/Microsoft.Authorization/',  variables('notificationQueueRaGuid'))]",
+                                            "dependsOn": [
+                                                "[[variables('notificationQueueResourceId')]"
+                                            ],
+                                            "properties": {
+                                                "roleDefinitionId": "[[variables('storageQueueContributorRoleId')]",
+                                                "principalId": "[[parameters('principalId')]"
+                                            }
+                                        },
+                                        {
+                                            "type": "Microsoft.Storage/storageAccounts/queueServices/queues/providers/roleAssignments",
+                                            "apiVersion": "2018-01-01-preview",
+                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('dlqName'), '/Microsoft.Authorization/', variables('dlqRaGuid'))]",
+                                            "dependsOn": [
+                                                "[[variables('dlqResourceId')]"
+                                            ],
+                                            "properties": {
+                                                "roleDefinitionId": "[[variables('storageQueueContributorRoleId')]",
+                                                "principalId": "[[parameters('principalId')]"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "subscriptionId": "[[parameters('StorageAccountSubscription')]",
+                            "resourceGroup": "[[parameters('StorageAccountResourceGroupName')]"
+                        },
+                        {
+                            "type": "Microsoft.Resources/deploymentScripts",
+                            "apiVersion": "2020-10-01",
+                            "name": "[[variables('delayStepName')]",
+                            "location": "[resourceGroup().location]",
+                            "dependsOn": [
+                                "[[variables('nestedDeploymentId')]"
+                            ],
+                            "kind": "AzureCLI",
+                            "properties": {
+                              "azCliVersion": "2.20.0",
+                              "timeout": "PT5M",
+                              "retentionInterval": "P1D",
+                              "scriptContent": "echo 'Waiting 1 minute for the role assignments to seep through...'; sleep 60",
+                              "cleanupPreference": "Always",
+                              "forceUpdateTag": "v1"
+                            }
+                        },
+                        {
+                            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/', 'NetskopeWebTransactions')]",
+                            "apiVersion": "2022-12-01-preview",
+                            "type": "Microsoft.OperationalInsights/workspaces/providers/dataConnectors",
+                            "location": "[parameters('workspace-location')]",
+                            "kind": "StorageAccountBlobContainer",
+                            "properties": {
+                                "connectorDefinitionName": "[[parameters('connectorDefinitionName')]",
+                                "dcrConfig": {
+                                    "streamName": "Custom-NetskopeWebTx",
+                                    "dataCollectionEndpoint": "[[parameters('dcrConfig').dataCollectionEndpoint]",
+                                    "dataCollectionRuleImmutableId": "[[parameters('dcrConfig').dataCollectionRuleImmutableId]"
+                                },
+                                "auth": {
+                                    "type": "ServicePrincipal"
+                                },
+                                "request": {
+                                    "QueueUri": "[[concat('https://', variables('storageAccountName'), '.queue.core.windows.net/', variables('queueName'))]",
+                                    "DlqUri": "[[concat('https://', variables('storageAccountName'), '.queue.core.windows.net/', variables('dlqName'))]"
+                                },
+                                "response": {
+                                    "eventsJsonPaths": [
+                                        "$"
+                                    ],
+                                    "format": "csv",
+                                    "isGzipCompressed": true
+                                }
+                            },
+                            "dependsOn": [
+                                "[[variables('delayStepId')]"
+                            ]
+                        }
+                    ]
+                },
+                "packageKind": "Solution",
+                "packageVersion": "[variables('_solutionVersion')]",
+                "packageName": "[variables('_solutionName')]",
+                "contentProductId": "[concat(substring(variables('_solutionId'), 0, 50),'-','rdc','-', uniqueString(concat(variables('_solutionId'),'-','ResourcesDataConnector','-',variables('_dataConnectorContentIdConnections'),'-', variables('dataConnectorVersionConnections'))))]",
+                "packageId": "[variables('_solutionId')]",
+                "contentSchemaVersion": "3.0.0",
+                "version": "[variables('_solutionVersion')]"
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/contentPackages",
+            "apiVersion": "2023-04-01-preview",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/', variables('_solutionId'))]",
+            "location": "[parameters('workspace-location')]",
+            "properties": {
+                "version": "[variables('_solutionVersion')]",
+                "kind": "Solution",
+                "contentSchemaVersion": "3.0.0",
+                "contentId": "[variables('_solutionId')]",
+                "source": {
+                    "kind": "Solution",
+                    "name": "[variables('_solutionName')]",
+                    "sourceId": "[variables('_solutionId')]"
+                },
+                "author": {
+                    "name": "[variables('_solutionAuthor')]"
+                },
+                "support": {
+                    "name": "[variables('_solutionAuthor')]"
+                },
+                "dependencies": {
+                    "operator": "AND",
+                    "criteria": [
+                        {
+                            "kind": "DataConnector",
+                            "contentId": "[variables('dataConnectorVersionConnectorDefinition')]",
+                            "version": "[variables('_dataConnectorContentIdConnectorDefinition')]"
+                        }
+                    ]
+                },
+                "firstPublishDate": "2022-06-24",
+                "providers": [
+                    "[variables('_solutionAuthor')]"
+                ],
+                "contentKind": "Solution",
+                "packageId": "[variables('_solutionId')]",
+                "contentProductId": "[concat(substring(variables('_solutionId'), 0, 50),'-','sl','-', uniqueString(concat(variables('_solutionId'),'-','Solution','-',variables('_solutionId'),'-', variables('_solutionVersion'))))]",
+                "displayName": "[variables('_solutionName')]",
+                "publisherDisplayName": "[variables('_solutionId')]",
+                "descriptionHtml": "NetskopeWebTx",
+                "icon": "[variables('_packageIcon')]"
+            }
+        }
+    ]
+}
