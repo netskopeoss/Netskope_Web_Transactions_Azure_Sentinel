@@ -1,0 +1,1 @@
+# Netskope_Web_Transactions_Azure_Sentinel
