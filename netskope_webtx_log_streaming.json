@@ -1887,7 +1887,7 @@
                                         "name": "principalId",
                                         "appId": "4f05ce56-95b6-4612-9d98-a45c8cc33f9f"
                                     },
-                                    "type": "ServicePrincipalIDTextBox"
+                                    "type": "ServicePrincipalIDTextBox_test"
                                 },
                                 {
                                     "parameters": {
@@ -2072,9 +2072,7 @@
                         "notificationQueueRoleAssignmentResourceId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}/queueServices/default/queues/{2}/providers/Microsoft.Authorization/roleAssignments/{3}', variables('ResourcesIdPrefix'), variables('storageAccountName'), variables('queueName'),variables('notificationQueueRaGuid'))]",
                         "dlqRoleAssignmentResourceId": "[[format('{0}/Microsoft.Storage/storageAccounts/{1}/queueServices/default/queues/{2}/providers/Microsoft.Authorization/roleAssignments/{3}', variables('ResourcesIdPrefix'), variables('storageAccountName'), variables('dlqName'),variables('dlqRaGuid'))]",
                         "nestedDeploymentName": "CreateDataFlowResources",
-                        "nestedDeploymentId": "[[format('{0}/Microsoft.Resources/deployments/{1}', variables('ResourcesIdPrefix'), variables('nestedDeploymentName'))]",
-                        "delayStepName": "delayStep",
-                        "delayStepId": "[[format('{0}/Microsoft.Resources/deploymentScripts/{1}', variables('ResourcesIdPrefix'), variables('delayStepName'))]"
+                        "nestedDeploymentId": "[[format('{0}/Microsoft.Resources/deployments/{1}', variables('ResourcesIdPrefix'), variables('nestedDeploymentName'))]"
                     },
                     "resources": [
                         {
@@ -2160,63 +2158,12 @@
                                                     "subjectBeginsWith": "[[format('{0}/{1}/blobs/{2}', '/blobServices/default/containers', variables('blobContainerName'), if(empty(parameters('blobFolderName')), '', concat(parameters('blobFolderName'),'/')))]"
                                                 }
                                             }
-                                        },
-                                        {
-                                            "type": "Microsoft.Storage/storageAccounts/blobServices/containers/providers/roleAssignments",
-                                            "apiVersion": "2018-01-01-preview",
-                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('blobContainerName'), '/Microsoft.Authorization/', variables('blobRaGuid'))]",
-                                            "properties": {
-                                                "roleDefinitionId": "[[variables('storageBlobContributorRoleId')]",
-                                                "principalId": "[[parameters('principalId')]"
-                                            }
-                                        },
-                                        {
-                                            "type": "Microsoft.Storage/storageAccounts/queueServices/queues/providers/roleAssignments",
-                                            "apiVersion": "2018-01-01-preview",
-                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('queueName'), '/Microsoft.Authorization/',  variables('notificationQueueRaGuid'))]",
-                                            "dependsOn": [
-                                                "[[variables('notificationQueueResourceId')]"
-                                            ],
-                                            "properties": {
-                                                "roleDefinitionId": "[[variables('storageQueueContributorRoleId')]",
-                                                "principalId": "[[parameters('principalId')]"
-                                            }
-                                        },
-                                        {
-                                            "type": "Microsoft.Storage/storageAccounts/queueServices/queues/providers/roleAssignments",
-                                            "apiVersion": "2018-01-01-preview",
-                                            "name": "[[concat(variables('storageAccountName'), '/default/', variables('dlqName'), '/Microsoft.Authorization/', variables('dlqRaGuid'))]",
-                                            "dependsOn": [
-                                                "[[variables('dlqResourceId')]"
-                                            ],
-                                            "properties": {
-                                                "roleDefinitionId": "[[variables('storageQueueContributorRoleId')]",
-                                                "principalId": "[[parameters('principalId')]"
-                                            }
                                         }
                                     ]
                                 }
                             },
                             "subscriptionId": "[[parameters('StorageAccountSubscription')]",
                             "resourceGroup": "[[parameters('StorageAccountResourceGroupName')]"
-                        },
-                        {
-                            "type": "Microsoft.Resources/deploymentScripts",
-                            "apiVersion": "2020-10-01",
-                            "name": "[[variables('delayStepName')]",
-                            "location": "[resourceGroup().location]",
-                            "dependsOn": [
-                                "[[variables('nestedDeploymentId')]"
-                            ],
-                            "kind": "AzureCLI",
-                            "properties": {
-                              "azCliVersion": "2.20.0",
-                              "timeout": "PT5M",
-                              "retentionInterval": "P1D",
-                              "scriptContent": "echo 'Waiting 1 minute for the role assignments to seep through...'; sleep 60",
-                              "cleanupPreference": "Always",
-                              "forceUpdateTag": "v1"
-                            }
                         },
                         {
                             "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/', 'NetskopeWebTransactions')]",
@@ -2246,9 +2193,7 @@
                                     "isGzipCompressed": true
                                 }
                             },
-                            "dependsOn": [
-                                "[[variables('delayStepId')]"
-                            ]
+                            "dependsOn": []
                         }
                     ]
                 },
