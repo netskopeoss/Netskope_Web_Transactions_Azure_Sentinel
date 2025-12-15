@@ -1887,7 +1887,7 @@
                                         "name": "principalId",
                                         "appId": "4f05ce56-95b6-4612-9d98-a45c8cc33f9f"
                                     },
-                                    "type": "ServicePrincipalIDTextBox_test"
+                                    "type": "ServicePrincipalIDTextBox"
                                 },
                                 {
                                     "parameters": {
@@ -2252,3 +2252,4 @@
         }
     ]
 }
+
