@@ -360,12 +360,3 @@ Contributions are welcome! Please:
 | File Format | Expects CSV, space-delimited, gzip compressed |
 
 
----
-
-
----
-
-<p align="center">
-  <b>Built for security teams by security teams</b><br>
-  <sub>Netskope + Microsoft Sentinel Integration</sub>
-</p>
