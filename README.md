@@ -37,7 +37,7 @@ This solution provides a native integration between Netskope and Microsoft Senti
 - **Detect threats** using 10 pre-configured analytics rules
 - **Investigate incidents** with full context from Netskope data
 
-The integration leverages Azure's Codeless Connector Platform (CCP), eliminating the need for custom code or additional infrastructure.
+The integration leverages Azure's Codeless Connector Framework (CCF), eliminating the need for custom code or additional infrastructure.
 
 ---
 
@@ -68,7 +68,7 @@ The integration leverages Azure's Codeless Connector Platform (CCP), eliminating
 1. Netskope pushes Web Transaction logs to your Azure Blob Container
 2. Blob creation triggers an Event Grid notification
 3. Event Grid sends the blob URI to a Storage Queue
-4. Microsoft Sentinel's CCP connector (Scuba workers) polls the queue
+4. Microsoft Sentinel's CCF connector (Scuba workers) polls the queue
 5. Data is ingested via Data Collection Rules into Log Analytics
 6. Logs appear in the `NetskopeWebTransactions_CL` table
 
@@ -101,7 +101,7 @@ Ensure your Netskope tenant is configured for Log Streaming to Azure Blob Storag
 ```
 ├── README.md                                    # This file
 ├── netskope_webtx_log_streaming.json           # Data Connector ARM Template
-├── NetskopeWebTx_Workbook_Updated.json         # Sentinel Workbook
+├── NetskopeWebTx_Workbook.json         # Sentinel Workbook
 ├── Netskope_Analytics_Rules_Template_v4.json   # Analytics Rules (10 rules)
 └── CustomRole.json                              # Minimum required Azure role
 ```
@@ -109,7 +109,7 @@ Ensure your Netskope tenant is configured for Log Streaming to Azure Blob Storag
 | File | Purpose |
 |------|---------|
 | `netskope_webtx_log_streaming.json` | Deploys the CCP-based data connector |
-| `NetskopeWebTx_Workbook_Updated.json` | Visualization workbook for web traffic analysis |
+| `NetskopeWebTx_Workbook.json` | Visualization workbook for web traffic analysis |
 | `Netskope_Analytics_Rules_Template_v4.json` | Pre-built detection rules for security monitoring |
 
 ---
