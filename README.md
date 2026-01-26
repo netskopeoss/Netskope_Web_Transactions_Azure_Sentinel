@@ -85,7 +85,7 @@ Before deploying this solution, ensure you have:
 | **Netskope Tenant** | Active Netskope tenant with Log Streaming configured |
 | **Azure Storage Account** | Blob container receiving Netskope logs |
 | **Service Principal** | Enterprise Application with Storage permissions |
-| **Azure Role** | Minimum: Contributor on Resource Group (see [Custom Role](#minimum-required-permissions)) |
+| **Azure Role** | Minimum: Contributor Role and Application Administrator role assigned at the Tenant Level
 
 ### Netskope Configuration
 
@@ -167,7 +167,7 @@ Ensure your Netskope tenant is configured for Log Streaming to Azure Blob Storag
 
 3. Click **Edit** → **Advanced Editor** (</> icon)
 
-4. Replace the content with `NetskopeWebTx_Workbook_Updated.json`
+4. Replace the content with `NetskopeWebTx_Workbook.json`
 
 5. Click **Apply** → **Done Editing** → **Save**
 
@@ -179,7 +179,7 @@ Ensure your Netskope tenant is configured for Log Streaming to Azure Blob Storag
 
 2. Select **Build your own template in the editor**
 
-3. Paste the contents of `Netskope_Analytics_Rules_Template_v4.json`
+3. Paste the contents of `Netskope_Analytics_Rules_WebTx.json`
 
 4. Fill in the parameters:
 
@@ -311,32 +311,11 @@ The **Netskope Web Transactions Dashboard** provides:
 
 ---
 
-## Minimum Required Permissions
-
-Use the custom role definition in `CustomRole.json` for least-privilege deployment:
-
-```json
-{
-  "Name": "Netskope Sentinel Connector Deployer",
-  "Description": "Minimum permissions for Netskope Sentinel connector deployment",
-  "Actions": [
-    "Microsoft.OperationalInsights/workspaces/read",
-    "Microsoft.OperationalInsights/workspaces/write",
-    "Microsoft.SecurityInsights/*/read",
-    "Microsoft.SecurityInsights/*/write",
-    "Microsoft.Storage/storageAccounts/read",
-    "Microsoft.Storage/storageAccounts/queueServices/queues/*",
-    "Microsoft.EventGrid/systemTopics/*",
-    "Microsoft.EventGrid/eventSubscriptions/*"
-  ],
-  "AssignableScopes": ["/subscriptions/{subscription-id}"]
-}
-```
-
 ### Service Principal Requirements
 
 The Service Principal (Enterprise Application) needs:
 - **Storage Queue Data Contributor** on the Storage Account queues
+- **Storage Blob Data Contributor** on the Storage Account
 
 ---
 
