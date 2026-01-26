@@ -42,7 +42,7 @@ The integration leverages Azure's Codeless Connector Platform (CCP), eliminating
 ---
 
 ## Architecture
-
+![Architecture Diagram](https://uploads-us-west-2.insided.com/netskope-us/attachment/40522b1a-f458-47b0-9df0-b7d68c0a9864.png)
 ```
 ┌─────────────────┐     ┌──────────────────────┐     ┌─────────────────┐
 │                 │     │    Azure Storage     │     │    Event Grid   │
@@ -357,7 +357,7 @@ Contributions are welcome! Please:
 - [Netskope Community - Integration Guide](https://community.netskope.com/discussions-37/integration-web-transactions-from-netskope-log-streaming-to-microsoft-sentinel-7646)
 - [Microsoft Sentinel Documentation](https://docs.microsoft.com/azure/sentinel/)
 - [Netskope Log Streaming Documentation](https://docs.netskope.com/)
-- [Azure Codeless Connector Platform](https://docs.microsoft.com/azure/sentinel/create-codeless-connector)
+- [Azure Codeless Connector Framework](https://docs.microsoft.com/azure/sentinel/create-codeless-connector)
 
 ---
 
@@ -371,9 +371,6 @@ Contributions are welcome! Please:
 
 ---
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
