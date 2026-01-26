@@ -1,0 +1,699 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Log Analytics workspace"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-impossible-travel')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Impossible Travel Detection (Two Countries in Less Than 1 Hour)",
+                "description": "Detects when a user accesses resources from two distinct countries within less than 1 hour, indicating potential credential compromise or VPN abuse.",
+                "severity": "High",
+                "enabled": true,
+                "query": "let timeWindow = 1h;\nNetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername) and isnotempty(XCCountry)\n| summarize \n    Countries = make_set(XCCountry),\n    Locations = make_set(XCLocation),\n    IPs = make_set(CIp),\n    MinTime = min(TimeGenerated),\n    MaxTime = max(TimeGenerated),\n    EventCount = count()\n    by CsUsername, bin(TimeGenerated, timeWindow)\n| where array_length(Countries) > 1\n| extend TimeDiffMinutes = datetime_diff('minute', MaxTime, MinTime)\n| where TimeDiffMinutes < 60\n| project \n    TimeGenerated,\n    User = CsUsername,\n    DistinctCountries = Countries,\n    Locations,\n    SourceIPs = IPs,\n    TimeDifferenceMinutes = TimeDiffMinutes,\n    EventCount,\n    AlertDetails = strcat('User ', CsUsername, ' accessed from ', array_length(Countries), ' countries within ', TimeDiffMinutes, ' minutes')",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT2H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "InitialAccess",
+                    "CredentialAccess"
+                ],
+                "techniques": [
+                    "T1078"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "alertDetailsOverride": {
+                    "alertDisplayNameFormat": "Impossible Travel - {{User}} accessed from multiple countries",
+                    "alertDescriptionFormat": "{{AlertDetails}}"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "Countries": "DistinctCountries",
+                    "SourceIPs": "SourceIPs"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-excessive-downloads')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Excessive Downloads Detection (Spike vs Baseline)",
+                "description": "Detects users with excessive download activity compared to their 7-day baseline. Triggers when current download volume exceeds 3x the average.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "let lookbackPeriod = 7d;\nlet currentPeriod = 1h;\nlet threshold = 3;\nlet baseline = NetskopeWebTransactions_CL\n    | where TimeGenerated between (ago(lookbackPeriod) .. ago(currentPeriod))\n    | where isnotempty(CsUsername)\n    | where XCsAppActivity =~ 'Download' or ScBytes > 0\n    | summarize \n        BaselineAvgBytes = avg(ScBytes),\n        BaselineTotalBytes = sum(ScBytes),\n        BaselineCount = count()\n        by CsUsername\n    | extend BaselineDailyAvg = BaselineTotalBytes / 7;\nlet current = NetskopeWebTransactions_CL\n    | where TimeGenerated > ago(currentPeriod)\n    | where isnotempty(CsUsername)\n    | where XCsAppActivity =~ 'Download' or ScBytes > 0\n    | summarize \n        CurrentTotalBytes = sum(ScBytes),\n        CurrentCount = count(),\n        Apps = make_set(XCsApp),\n        Files = make_set(XCsAppObjectName)\n        by CsUsername;\ncurrent\n| join kind=inner baseline on CsUsername\n| where CurrentTotalBytes > (BaselineDailyAvg * threshold)\n| extend \n    SpikeMultiplier = round(CurrentTotalBytes / BaselineDailyAvg, 2),\n    CurrentTotalMB = round(CurrentTotalBytes / 1048576.0, 2),\n    BaselineDailyMB = round(BaselineDailyAvg / 1048576.0, 2)\n| project \n    TimeGenerated = now(),\n    User = CsUsername,\n    CurrentDownloadMB = CurrentTotalMB,\n    BaselineDailyAvgMB = BaselineDailyMB,\n    SpikeMultiplier,\n    DownloadCount = CurrentCount,\n    ApplicationsUsed = Apps,\n    FilesDownloaded = Files",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "P7D",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "Exfiltration",
+                    "Collection"
+                ],
+                "techniques": [
+                    "T1530",
+                    "T1074"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "DownloadVolumeMB": "CurrentDownloadMB",
+                    "SpikeRatio": "SpikeMultiplier"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-unsanctioned-risky-apps')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Unsanctioned/Risky Cloud App Access (Shadow IT)",
+                "description": "Alerts when users access unsanctioned or risky cloud applications based on Cloud Confidence Level (CCL) and app tags. Detects Shadow IT usage.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "NetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername) and isnotempty(XCsApp)\n| where XCsAppTags contains 'Unsanctioned' \n    or XCsAppCcl =~ 'poor'\n    or XCsAppCcl =~ 'low'\n    or XCsAppCci < 50\n| summarize \n    EventCount = count(),\n    TotalBytesMB = round(sum(Bytes) / 1048576.0, 2),\n    Activities = make_set(XCsAppActivity),\n    FirstSeen = min(TimeGenerated),\n    LastSeen = max(TimeGenerated)\n    by \n    CsUsername,\n    XCsApp,\n    XCsAppCategory,\n    XCsAppCcl,\n    XCsAppCci,\n    XCsAppTags,\n    XCCountry,\n    XCDevice\n| extend RiskLevel = case(\n    XCsAppCci < 30, 'Critical',\n    XCsAppCci < 50, 'High',\n    XCsAppCci < 70, 'Medium',\n    'Low')\n| project \n    TimeGenerated = LastSeen,\n    User = CsUsername,\n    RiskyApplication = XCsApp,\n    AppCategory = XCsAppCategory,\n    CloudConfidenceLevel = XCsAppCcl,\n    CloudConfidenceIndex = XCsAppCci,\n    AppTags = XCsAppTags,\n    RiskLevel,\n    Country = XCCountry,\n    Device = XCDevice,\n    Activities,\n    EventCount,\n    DataTransferMB = TotalBytesMB",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "InitialAccess",
+                    "Exfiltration"
+                ],
+                "techniques": [
+                    "T1199",
+                    "T1567"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": [
+                            "RiskyApplication"
+                        ]
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "AlertPerResult"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "RiskyApplication": "RiskyApplication",
+                    "RiskLevel": "RiskLevel",
+                    "CCIScore": "CloudConfidenceIndex"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "CloudApplication",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "RiskyApplication"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-new-risky-app-baseline')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - New Risky App Access vs 7-Day Baseline",
+                "description": "Compares today's accessed applications against a 7-day baseline and triggers alerts when users access new risky applications not seen before.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "let lookbackPeriod = 7d;\nlet currentPeriod = 1d;\nlet baseline = NetskopeWebTransactions_CL\n    | where TimeGenerated between (ago(lookbackPeriod) .. ago(currentPeriod))\n    | where isnotempty(CsUsername) and isnotempty(XCsApp)\n    | summarize BaselineApps = make_set(XCsApp) by CsUsername;\nlet current = NetskopeWebTransactions_CL\n    | where TimeGenerated > ago(currentPeriod)\n    | where isnotempty(CsUsername) and isnotempty(XCsApp)\n    | where XCsAppCcl =~ 'poor' or XCsAppCcl =~ 'low' or XCsAppCcl =~ 'medium' or XCsAppCci < 70\n    | summarize \n        CurrentApps = make_set(XCsApp),\n        arg_max(TimeGenerated, XCsAppCcl, XCsAppCci, XCsAppCategory)\n        by CsUsername, XCsApp;\ncurrent\n| join kind=leftouter baseline on CsUsername\n| extend BaselineApps = coalesce(BaselineApps, dynamic([]))\n| where not(set_has_element(BaselineApps, XCsApp))\n| where isnotempty(XCsApp)\n| where XCsAppCci < 70 or XCsAppCcl =~ 'poor' or XCsAppCcl =~ 'low'\n| project \n    TimeGenerated,\n    User = CsUsername,\n    NewRiskyApp = XCsApp,\n    AppCCL = XCsAppCcl,\n    AppCCI = XCsAppCci,\n    AppCategory = XCsAppCategory,\n    BaselineAppCount = array_length(BaselineApps)",
+                "queryFrequency": "P1D",
+                "queryPeriod": "P8D",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "P1D",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "InitialAccess",
+                    "Discovery"
+                ],
+                "techniques": [
+                    "T1199",
+                    "T1526"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "P1D",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "AlertPerResult"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "NewApp": "NewRiskyApp",
+                    "CCIScore": "AppCCI"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "CloudApplication",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "NewRiskyApp"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-large-data-upload')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Large Outbound Data Transfer / Sensitive Upload (DLP)",
+                "description": "Detects large outbound data transfers and sensitive file uploads. Monitors for potential data exfiltration via cloud applications.",
+                "severity": "High",
+                "enabled": true,
+                "query": "let uploadThresholdMB = 100;\nNetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername)\n| where XCsAppActivity =~ 'Upload' or XCsAppActivity =~ 'Post' or XCsAppActivity =~ 'Share' \n    or CsMethod =~ 'POST' or CsMethod =~ 'PUT'\n| where CsBytes > 0 or XRsFileSize > 0\n| extend UploadBytes = coalesce(CsBytes, XRsFileSize, 0)\n| summarize \n    TotalUploadBytes = sum(UploadBytes),\n    FileCount = dcount(XCsAppObjectName),\n    Files = make_set(XCsAppObjectName, 10),\n    FileTypes = make_set(XRsFileType),\n    Apps = make_set(XCsApp),\n    Destinations = make_set(XCsAppInstanceName),\n    Countries = make_set(XSCountry)\n    by CsUsername, XCDevice, XCCountry, bin(TimeGenerated, 1h)\n| extend TotalUploadMB = round(TotalUploadBytes / 1048576.0, 2)\n| where TotalUploadMB > uploadThresholdMB\n| extend AlertSeverity = case(\n    TotalUploadMB > 1000, 'Critical',\n    TotalUploadMB > 500, 'High',\n    TotalUploadMB > 100, 'Medium',\n    'Low')\n| project \n    TimeGenerated,\n    User = CsUsername,\n    UploadVolumeMB = TotalUploadMB,\n    FileCount,\n    Files,\n    FileTypes,\n    Applications = Apps,\n    DestinationInstances = Destinations,\n    SourceCountry = XCCountry,\n    DestinationCountries = Countries,\n    Device = XCDevice,\n    AlertSeverity",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "Exfiltration"
+                ],
+                "techniques": [
+                    "T1567",
+                    "T1048"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "UploadSizeMB": "UploadVolumeMB",
+                    "FileCount": "FileCount",
+                    "Severity": "AlertSeverity"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-policy-violations')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Repeated or Critical Policy Violations",
+                "description": "Detects users with repeated policy violations or critical policy blocks. Monitors policy enforcement effectiveness and compliance.",
+                "severity": "High",
+                "enabled": true,
+                "query": "let violationThreshold = 5;\nNetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername)\n| where isnotempty(XPolicyAction) and isnotempty(XPolicyName)\n| where XPolicyAction =~ 'block' or XPolicyAction =~ 'alert'\n| summarize \n    ViolationCount = count(),\n    Policies = make_set(XPolicyName),\n    PolicyActions = make_set(XPolicyAction),\n    Apps = make_set(XCsApp),\n    Hosts = make_set(CsHost),\n    Activities = make_set(XCsAppActivity),\n    BlockCount = countif(XPolicyAction =~ 'block'),\n    AlertCount = countif(XPolicyAction =~ 'alert'),\n    FirstViolation = min(TimeGenerated),\n    LastViolation = max(TimeGenerated)\n    by CsUsername, XCCountry, XCDevice\n| where ViolationCount >= violationThreshold or BlockCount > 0\n| extend ViolationSeverity = case(\n    BlockCount > 10, 'Critical',\n    BlockCount > 5, 'High',\n    ViolationCount > 20, 'High',\n    ViolationCount > 10, 'Medium',\n    'Low')\n| project \n    TimeGenerated = LastViolation,\n    User = CsUsername,\n    TotalViolations = ViolationCount,\n    BlockedAttempts = BlockCount,\n    AlertedActions = AlertCount,\n    ViolatedPolicies = Policies,\n    PolicyActions,\n    ApplicationsInvolved = Apps,\n    TargetHosts = Hosts,\n    Activities,\n    Country = XCCountry,\n    Device = XCDevice,\n    ViolationSeverity,\n    FirstOccurrence = FirstViolation,\n    LastOccurrence = LastViolation",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "DefenseEvasion",
+                    "Exfiltration"
+                ],
+                "techniques": [
+                    "T1562",
+                    "T1048"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "ViolationCount": "TotalViolations",
+                    "BlockedCount": "BlockedAttempts",
+                    "Policies": "ViolatedPolicies"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-user-behavior-summary')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Anomalous User Behavior (High Volume from Unmanaged Device)",
+                "description": "Detects anomalous user behavior including high data volume transfers from unmanaged devices, unusual access patterns, and suspicious application usage.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "let highVolumeThresholdGB = 1;\nNetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername)\n| summarize \n    TotalBytes = sum(Bytes),\n    UploadBytes = sum(CsBytes),\n    DownloadBytes = sum(ScBytes),\n    UniqueApps = dcount(XCsApp),\n    Apps = make_set(XCsApp, 20),\n    UniqueHosts = dcount(CsHost),\n    Activities = make_set(XCsAppActivity),\n    Countries = make_set(XCCountry),\n    Devices = make_set(XCDevice),\n    AccessMethods = make_set(XCsAccessMethod),\n    EventCount = count()\n    by CsUsername, XCDevice, XCsAccessMethod\n| extend \n    TotalGB = round(TotalBytes / 1073741824.0, 3),\n    UploadGB = round(UploadBytes / 1073741824.0, 3),\n    DownloadGB = round(DownloadBytes / 1073741824.0, 3)\n| where TotalGB > highVolumeThresholdGB\n| extend IsUnmanagedDevice = XCDevice =~ 'unmanaged' or XCDevice =~ 'BYOD' or XCDevice =~ 'Personal' or XCDevice =~ 'Unknown' or XCsAccessMethod != 'Client'\n| where IsUnmanagedDevice or TotalGB > 5 or UniqueApps > 20\n| extend RiskIndicators = strcat_array(array_concat(\n    iff(IsUnmanagedDevice, dynamic(['Unmanaged Device']), dynamic([])),\n    iff(TotalGB > 5, dynamic(['High Data Volume']), dynamic([])),\n    iff(UniqueApps > 20, dynamic(['Many Apps Accessed']), dynamic([])),\n    iff(array_length(Countries) > 1, dynamic(['Multiple Countries']), dynamic([]))\n), ', ')\n| project \n    TimeGenerated = now(),\n    User = CsUsername,\n    Device = XCDevice,\n    AccessMethod = XCsAccessMethod,\n    TotalDataGB = TotalGB,\n    UploadGB,\n    DownloadGB,\n    UniqueApplications = UniqueApps,\n    Applications = Apps,\n    UniqueHosts,\n    Activities,\n    Countries,\n    EventCount,\n    IsUnmanagedDevice,\n    RiskIndicators",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "Exfiltration",
+                    "Collection"
+                ],
+                "techniques": [
+                    "T1567",
+                    "T1074"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "DataVolumeGB": "TotalDataGB",
+                    "DeviceType": "Device",
+                    "RiskFlags": "RiskIndicators"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "Host",
+                        "fieldMappings": [
+                            {
+                                "identifier": "HostName",
+                                "columnName": "Device"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-application-usage-summary')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Heavy Personal Cloud Storage Usage (Shadow IT)",
+                "description": "Detects heavy usage of personal cloud storage applications like personal Dropbox, Google Drive, OneDrive personal, etc. Indicates potential Shadow IT or data leakage risk.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "let heavyUsageThresholdMB = 500;\nNetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername) and isnotempty(XCsApp)\n| where XCsApp has_any ('Dropbox', 'Google Drive', 'OneDrive', 'Box', 'iCloud', 'pCloud', 'MEGA', 'MediaFire', 'WeTransfer')\n| where XCsAppInstanceTag contains 'Personal' \n    or XCsAppInstanceName contains 'Personal'\n    or XCsAppTags contains 'Unsanctioned'\n    or not(XCsAppTags contains 'Enterprise')\n| summarize \n    TotalBytes = sum(Bytes),\n    UploadBytes = sum(CsBytes),\n    DownloadBytes = sum(ScBytes),\n    FileCount = dcount(XCsAppObjectName),\n    Files = make_set(XCsAppObjectName, 10),\n    Activities = make_set(XCsAppActivity),\n    EventCount = count()\n    by CsUsername, XCsApp, XCsAppCategory, XCsAppInstanceName, XCsAppTags, XCDevice, XCCountry\n| extend \n    TotalMB = round(TotalBytes / 1048576.0, 2),\n    UploadMB = round(UploadBytes / 1048576.0, 2),\n    DownloadMB = round(DownloadBytes / 1048576.0, 2)\n| where TotalMB > heavyUsageThresholdMB or FileCount > 50\n| project \n    TimeGenerated = now(),\n    User = CsUsername,\n    CloudApplication = XCsApp,\n    AppCategory = XCsAppCategory,\n    AppInstance = XCsAppInstanceName,\n    AppTags = XCsAppTags,\n    TotalDataMB = TotalMB,\n    UploadMB,\n    DownloadMB,\n    FileCount,\n    Files,\n    Activities,\n    Device = XCDevice,\n    Country = XCCountry,\n    EventCount",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "Exfiltration",
+                    "Collection"
+                ],
+                "techniques": [
+                    "T1567",
+                    "T1530"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": [
+                            "CloudApplication"
+                        ]
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "AlertPerResult"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "CloudApplication": "CloudApplication",
+                    "DataVolumeMB": "TotalDataMB",
+                    "FileCount": "FileCount"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "CloudApplication",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "CloudApplication"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-network-context-anomaly')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Suspicious Network Context (Unusual IPs/Geo/Ports)",
+                "description": "Detects suspicious network activity based on unusual source/destination IPs, geographic anomalies, uncommon ports, and high traffic volumes.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "NetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername)\n| extend \n    DstPort = coalesce(XCsDstPort, XSrDstPort, CsUriPort),\n    SrcIP = coalesce(XCsSrcIp, CIp),\n    DstIP = coalesce(XCsDstIp, XSrDstIp, SIp)\n| summarize \n    EventCount = count(),\n    TotalBytes = sum(Bytes),\n    UniqueDstIPs = dcount(DstIP),\n    DstIPs = make_set(DstIP, 20),\n    UniqueDstPorts = dcount(DstPort),\n    DstPorts = make_set(DstPort, 20),\n    UniqueHosts = dcount(CsHost),\n    Hosts = make_set(CsHost, 20),\n    Countries = make_set(XSCountry),\n    SuspiciousPortHits = countif(DstPort in (20, 21, 22, 23, 25, 445, 1433, 1434, 3306, 3389, 5432, 5900, 5901)),\n    HighRiskCountryHits = countif(XSCountry in ('RU', 'CN', 'KP', 'IR', 'SY'))\n    by CsUsername, XCsSrcIp, XCCountry, XCLocation, bin(TimeGenerated, 1h)\n| where SuspiciousPortHits > 0 or HighRiskCountryHits > 0 or UniqueDstIPs > 50 or TotalBytes > 1073741824\n| extend \n    TotalMB = round(TotalBytes / 1048576.0, 2),\n    RiskFactors = strcat_array(array_concat(\n        iff(SuspiciousPortHits > 0, dynamic(['Suspicious Ports']), dynamic([])),\n        iff(HighRiskCountryHits > 0, dynamic(['High Risk Country']), dynamic([])),\n        iff(UniqueDstIPs > 50, dynamic(['Many Destinations']), dynamic([])),\n        iff(TotalBytes > 1073741824, dynamic(['High Volume']), dynamic([]))\n    ), ', ')\n| project \n    TimeGenerated,\n    User = CsUsername,\n    SourceIP = XCsSrcIp,\n    SourceCountry = XCCountry,\n    SourceLocation = XCLocation,\n    DestinationIPs = DstIPs,\n    UniqueDstIPCount = UniqueDstIPs,\n    DestinationPorts = DstPorts,\n    TargetHosts = Hosts,\n    DestinationCountries = Countries,\n    SuspiciousPortAccessCount = SuspiciousPortHits,\n    HighRiskCountryAccessCount = HighRiskCountryHits,\n    TotalDataMB = TotalMB,\n    EventCount,\n    RiskFactors",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "CommandAndControl",
+                    "Exfiltration",
+                    "Discovery"
+                ],
+                "techniques": [
+                    "T1071",
+                    "T1048",
+                    "T1046"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account",
+                            "IP"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "SourceIP": "SourceIP",
+                    "RiskFactors": "RiskFactors"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "IP",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Address",
+                                "columnName": "SourceIP"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "name": "[concat(parameters('workspaceName'), '/Microsoft.SecurityInsights/', 'netskope-data-movement-tracking')]",
+            "apiVersion": "2022-11-01",
+            "kind": "Scheduled",
+            "properties": {
+                "displayName": "Netskope - Data Movement Tracking (Upload/Download Monitoring)",
+                "description": "Tracks file uploads and downloads, monitoring data movement direction, size, and destination. Provides visibility into data flow patterns.",
+                "severity": "Informational",
+                "enabled": true,
+                "query": "let significantSizeMB = 50;\nNetskopeWebTransactions_CL\n| where TimeGenerated > ago(1h)\n| where isnotempty(CsUsername)\n| where CsBytes > 0 or ScBytes > 0 or XRsFileSize > 0\n| extend \n    Direction = case(\n        CsBytes > ScBytes, 'Upload',\n        ScBytes > CsBytes, 'Download',\n        'Unknown'),\n    TransferSize = max_of(CsBytes, ScBytes, XRsFileSize)\n| summarize \n    TotalUploadBytes = sumif(CsBytes, Direction == 'Upload'),\n    TotalDownloadBytes = sumif(ScBytes, Direction == 'Download'),\n    UploadCount = countif(Direction == 'Upload'),\n    DownloadCount = countif(Direction == 'Download'),\n    UniqueFiles = dcount(XCsAppObjectName),\n    Files = make_set(XCsAppObjectName, 20),\n    FileTypes = make_set(XRsFileType),\n    Apps = make_set(XCsApp),\n    Destinations = make_set(CsHost, 20)\n    by CsUsername, XCDevice, XCCountry, bin(TimeGenerated, 1h)\n| extend \n    TotalUploadMB = round(TotalUploadBytes / 1048576.0, 2),\n    TotalDownloadMB = round(TotalDownloadBytes / 1048576.0, 2),\n    TotalTransferMB = round((TotalUploadBytes + TotalDownloadBytes) / 1048576.0, 2)\n| where TotalTransferMB > significantSizeMB\n| extend DataFlowSummary = strcat('Upload: ', TotalUploadMB, ' MB (', UploadCount, ' ops), Download: ', TotalDownloadMB, ' MB (', DownloadCount, ' ops)')\n| project \n    TimeGenerated,\n    User = CsUsername,\n    Device = XCDevice,\n    Country = XCCountry,\n    TotalUploadMB,\n    TotalDownloadMB,\n    TotalTransferMB,\n    UploadOperations = UploadCount,\n    DownloadOperations = DownloadCount,\n    UniqueFiles,\n    FilesSample = Files,\n    FileTypes,\n    Applications = Apps,\n    Destinations,\n    DataFlowSummary",
+                "queryFrequency": "PT1H",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "tactics": [
+                    "Exfiltration",
+                    "Collection"
+                ],
+                "techniques": [
+                    "T1567",
+                    "T1074"
+                ],
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": true,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [
+                            "Account"
+                        ],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "customDetails": {
+                    "AffectedUser": "User",
+                    "UploadMB": "TotalUploadMB",
+                    "DownloadMB": "TotalDownloadMB",
+                    "TotalMB": "TotalTransferMB"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "User"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {
+        "deployedRules": {
+            "type": "array",
+            "value": [
+                "netskope-impossible-travel",
+                "netskope-excessive-downloads",
+                "netskope-unsanctioned-risky-apps",
+                "netskope-new-risky-app-baseline",
+                "netskope-large-data-upload",
+                "netskope-policy-violations",
+                "netskope-user-behavior-summary",
+                "netskope-application-usage-summary",
+                "netskope-network-context-anomaly",
+                "netskope-data-movement-tracking"
+            ]
+        }
+    }
+}
