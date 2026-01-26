@@ -2,7 +2,6 @@
 
 [![Azure](https://img.shields.io/badge/Azure-Sentinel-0078D4?logo=microsoftazure)](https://azure.microsoft.com/services/microsoft-sentinel/)
 [![Netskope](https://img.shields.io/badge/Netskope-Web%20Transactions-00A4EF)](https://www.netskope.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Stream Netskope Web Transaction logs into Microsoft Sentinel using the Codeless Connector Framework (CCF) for comprehensive cloud security visibility, threat detection, and incident response.
 
