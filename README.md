@@ -4,6 +4,8 @@
 [![Netskope](https://img.shields.io/badge/Netskope-Web%20Transactions-00A4EF)](https://www.netskope.com/)
 
 Stream Netskope Web Transaction logs into Microsoft Sentinel using the Codeless Connector Framework (CCF) for comprehensive cloud security visibility, threat detection, and incident response.
+### Blob Storage Network Restrictions
+> ⚠️ **Important:** You can't restrict network access to your Azure Blob Storage account as per the official guidance from Microsoft
 
 ---
 
@@ -347,6 +349,16 @@ Contributions are welcome! Please:
 | **Netskope Community** | [community.netskope.com](https://community.netskope.com) |
 | **Microsoft Sentinel** | [Azure Support](https://azure.microsoft.com/support/) |
 | **Issues** | [GitHub Issues](../../issues) |
+
+## Limitations & Security Considerations
+
+### Known Limitations
+| Limitation | Description |
+|------------|-------------|
+| Single Connector per Workspace | Deploy only ONE connector per workspace |
+| Baseline Rules | Some rules require 7 days of historical data |
+| File Format | Expects CSV, space-delimited, gzip compressed |
+
 
 ---
 
