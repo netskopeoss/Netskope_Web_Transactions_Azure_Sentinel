@@ -102,7 +102,7 @@ Ensure your Netskope tenant is configured for Log Streaming to Azure Blob Storag
 ├── README.md                                    # This file
 ├── netskope_webtx_log_streaming.json           # Data Connector ARM Template
 ├── NetskopeWebTx_Workbook.json         # Sentinel Workbook
-├── Netskope_Analytics_Rules_Template_v4.json   # Analytics Rules (10 rules)
+├── Netskope_Analytics_Rules_WebTx.json   # Analytics Rules (10 rules)
 └── CustomRole.json                              # Minimum required Azure role
 ```
 
@@ -110,7 +110,7 @@ Ensure your Netskope tenant is configured for Log Streaming to Azure Blob Storag
 |------|---------|
 | `netskope_webtx_log_streaming.json` | Deploys the CCP-based data connector |
 | `NetskopeWebTx_Workbook.json` | Visualization workbook for web traffic analysis |
-| `Netskope_Analytics_Rules_Template_v4.json` | Pre-built detection rules for security monitoring |
+| `Netskope_Analytics_Rules_WebTx.json` | Pre-built detection rules for security monitoring |
 
 ---
 
