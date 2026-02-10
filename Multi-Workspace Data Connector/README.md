@@ -10,7 +10,7 @@ Deploys the Netskope WebTx data connector to one or more Microsoft Sentinel work
 |------|-------------|
 | `netskope_webtx_single_workspace.json` | ARM template — deploys the Sentinel solution, content templates, data connector definition, DCR, and custom table to a single workspace. |
 | `deploy_multi_workspace.ps1` | PowerShell script — deploys the ARM template to multiple workspaces sequentially with a configurable delay between each. |
-| `Netskope_WebTx_Deployment_Guide.docx` | Full documentation — prerequisites, RBAC roles, deployment steps, connection configuration, and troubleshooting. |
+| `Please Refer the community article for normal connector deployement` | Full documentation — prerequisites, RBAC roles, deployment steps, connection configuration, and troubleshooting. |
 
 ---
 
@@ -177,4 +177,3 @@ Three changes were made to the original Netskope-provided ARM template for multi
 2. **connectorName**: `netskopewebtx` → `concat('netskopewebtx-', parameters('workspaceName'))` — ensures unique queues, DLQ, and EventGrid subscriptions per workspace.
 3. **nestedDeploymentName**: `CreateDataFlowResources` → `concat('CreateDataFlowResources-', parameters('workspaceName'))` — prevents deployment name collision on shared storage.
 
-Additionally, a **bug fix** was applied: the `contentPackages` resource had `contentId` and `version` values swapped in `dependencies.criteria`, causing `content template not found` errors during deployment.
