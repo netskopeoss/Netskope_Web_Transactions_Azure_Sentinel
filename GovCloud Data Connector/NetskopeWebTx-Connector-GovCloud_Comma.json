@@ -196,7 +196,7 @@
                                                     "parameters": {
                                                         "tenantId": "[subscription().tenantId]",
                                                         "name": "principalId",
-                                                        "appId": "7d0820ba-0cff-4e11-98d0-952dcbed1fe1"
+                                                        "appId": "e648f588-ed96-40ee-8ffa-12e13d6b16fa"
                                                     },
                                                     "type": "ServicePrincipalIDTextBox"
                                                 },
