@@ -1,0 +1,1236 @@
+{
+    "version": "Notebook/1.0",
+    "items": [
+        {
+            "type": 1,
+            "content": {
+                "json": "<div style=\"background:linear-gradient(135deg,#0078D4 0%,#004578 100%);padding:22px 32px;border-radius:4px;margin-bottom:8px;\">\n<p style=\"font-size:24px;font-weight:600;color:#fff;margin:0;letter-spacing:0.4px;\">Netskope Security Operations Center</p>\n</div>"
+            },
+            "name": "hero-banner"
+        },
+        {
+            "type": 9,
+            "content": {
+                "version": "KqlParameterItem/1.0",
+                "parameters": [
+                    {
+                        "id": "p1",
+                        "version": "KqlParameterItem/1.0",
+                        "name": "TimeRange",
+                        "type": 4,
+                        "isRequired": true,
+                        "value": {
+                            "durationMs": 86400000
+                        },
+                        "typeSettings": {
+                            "selectableValues": [
+                                {
+                                    "durationMs": 900000
+                                },
+                                {
+                                    "durationMs": 3600000
+                                },
+                                {
+                                    "durationMs": 14400000
+                                },
+                                {
+                                    "durationMs": 43200000
+                                },
+                                {
+                                    "durationMs": 86400000
+                                },
+                                {
+                                    "durationMs": 172800000
+                                },
+                                {
+                                    "durationMs": 604800000
+                                },
+                                {
+                                    "durationMs": 2592000000
+                                },
+                                {
+                                    "durationMs": 5184000000
+                                },
+                                {
+                                    "durationMs": 7776000000
+                                }
+                            ]
+                        },
+                        "label": "Time Range"
+                    }
+                ],
+                "style": "pills",
+                "queryType": 0
+            },
+            "name": "parameters"
+        },
+        {
+            "type": 3,
+            "content": {
+                "version": "KqlItem/1.0",
+                "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | summarize Value = count() | extend Label = 'Total Events'",
+                "size": 4,
+                "title": "Total Events",
+                "queryType": 0,
+                "visualization": "tiles",
+                "tileSettings": {
+                    "titleContent": {
+                        "columnMatch": "Label",
+                        "formatter": 1
+                    },
+                    "leftContent": {
+                        "columnMatch": "Value",
+                        "formatter": 12,
+                        "formatOptions": {
+                            "palette": "blue"
+                        },
+                        "numberFormat": {
+                            "unit": 17,
+                            "options": {
+                                "style": "decimal",
+                                "maximumFractionDigits": 0
+                            }
+                        }
+                    },
+                    "showBorder": true
+                }
+            },
+            "customWidth": "17",
+            "name": "kpi-0"
+        },
+        {
+            "type": 3,
+            "content": {
+                "version": "KqlItem/1.0",
+                "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | summarize Value = countif(column_ifexists('Alert','') == 'yes') | extend Label = 'Alerts'",
+                "size": 4,
+                "title": "Alerts",
+                "queryType": 0,
+                "visualization": "tiles",
+                "tileSettings": {
+                    "titleContent": {
+                        "columnMatch": "Label",
+                        "formatter": 1
+                    },
+                    "leftContent": {
+                        "columnMatch": "Value",
+                        "formatter": 12,
+                        "formatOptions": {
+                            "palette": "red"
+                        },
+                        "numberFormat": {
+                            "unit": 17,
+                            "options": {
+                                "style": "decimal",
+                                "maximumFractionDigits": 0
+                            }
+                        }
+                    },
+                    "showBorder": true
+                }
+            },
+            "customWidth": "17",
+            "name": "kpi-1"
+        },
+        {
+            "type": 3,
+            "content": {
+                "version": "KqlItem/1.0",
+                "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | summarize Value = dcount(column_ifexists('User','')) | extend Label = 'Users'",
+                "size": 4,
+                "title": "Users",
+                "queryType": 0,
+                "visualization": "tiles",
+                "tileSettings": {
+                    "titleContent": {
+                        "columnMatch": "Label",
+                        "formatter": 1
+                    },
+                    "leftContent": {
+                        "columnMatch": "Value",
+                        "formatter": 12,
+                        "formatOptions": {
+                            "palette": "green"
+                        },
+                        "numberFormat": {
+                            "unit": 17,
+                            "options": {
+                                "style": "decimal",
+                                "maximumFractionDigits": 0
+                            }
+                        }
+                    },
+                    "showBorder": true
+                }
+            },
+            "customWidth": "17",
+            "name": "kpi-2"
+        },
+        {
+            "type": 3,
+            "content": {
+                "version": "KqlItem/1.0",
+                "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | summarize Value = dcount(column_ifexists('App','')) | extend Label = 'Applications'",
+                "size": 4,
+                "title": "Applications",
+                "queryType": 0,
+                "visualization": "tiles",
+                "tileSettings": {
+                    "titleContent": {
+                        "columnMatch": "Label",
+                        "formatter": 1
+                    },
+                    "leftContent": {
+                        "columnMatch": "Value",
+                        "formatter": 12,
+                        "formatOptions": {
+                            "palette": "purple"
+                        },
+                        "numberFormat": {
+                            "unit": 17,
+                            "options": {
+                                "style": "decimal",
+                                "maximumFractionDigits": 0
+                            }
+                        }
+                    },
+                    "showBorder": true
+                }
+            },
+            "customWidth": "16",
+            "name": "kpi-3"
+        },
+        {
+            "type": 3,
+            "content": {
+                "version": "KqlItem/1.0",
+                "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | summarize Value = countif(column_ifexists('Severity','') in ('high','critical')) | extend Label = 'Critical & High'",
+                "size": 4,
+                "title": "Critical & High",
+                "queryType": 0,
+                "visualization": "tiles",
+                "tileSettings": {
+                    "titleContent": {
+                        "columnMatch": "Label",
+                        "formatter": 1
+                    },
+                    "leftContent": {
+                        "columnMatch": "Value",
+                        "formatter": 12,
+                        "formatOptions": {
+                            "palette": "orange"
+                        },
+                        "numberFormat": {
+                            "unit": 17,
+                            "options": {
+                                "style": "decimal",
+                                "maximumFractionDigits": 0
+                            }
+                        }
+                    },
+                    "showBorder": true
+                }
+            },
+            "customWidth": "16",
+            "name": "kpi-4"
+        },
+        {
+            "type": 3,
+            "content": {
+                "version": "KqlItem/1.0",
+                "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | summarize Value = countif(column_ifexists('PolicyAction','') == 'block') | extend Label = 'Policy Blocks'",
+                "size": 4,
+                "title": "Policy Blocks",
+                "queryType": 0,
+                "visualization": "tiles",
+                "tileSettings": {
+                    "titleContent": {
+                        "columnMatch": "Label",
+                        "formatter": 1
+                    },
+                    "leftContent": {
+                        "columnMatch": "Value",
+                        "formatter": 12,
+                        "formatOptions": {
+                            "palette": "turquoise"
+                        },
+                        "numberFormat": {
+                            "unit": 17,
+                            "options": {
+                                "style": "decimal",
+                                "maximumFractionDigits": 0
+                            }
+                        }
+                    },
+                    "showBorder": true
+                }
+            },
+            "customWidth": "17",
+            "name": "kpi-5"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Executive Overview",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | summarize ['All Events'] = count(), ['Alerts Only'] = countif(column_ifexists('Alert','') == 'yes') by bin(TimeGenerated, 1h) | order by TimeGenerated asc",
+                            "size": 0,
+                            "title": "Event & Alert Volume Trend",
+                            "queryType": 0,
+                            "visualization": "timechart",
+                            "chartSettings": {
+                                "ySettings": {
+                                    "min": 0
+                                }
+                            }
+                        },
+                        "customWidth": "60",
+                        "name": "chart-volume"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where column_ifexists('Alert','') == 'yes' | where isnotempty(column_ifexists('Severity','')) and column_ifexists('Severity','') != '-' | summarize Count = count() by Severity=column_ifexists('Severity','') | order by Count desc",
+                            "size": 3,
+                            "title": "Alert Severity Distribution",
+                            "queryType": 0,
+                            "visualization": "piechart",
+                            "chartSettings": {
+                                "seriesLabelSettings": [
+                                    {
+                                        "seriesName": "critical",
+                                        "color": "red"
+                                    },
+                                    {
+                                        "seriesName": "high",
+                                        "color": "orange"
+                                    },
+                                    {
+                                        "seriesName": "medium",
+                                        "color": "yellow"
+                                    },
+                                    {
+                                        "seriesName": "low",
+                                        "color": "blue"
+                                    },
+                                    {
+                                        "seriesName": "info",
+                                        "color": "gray"
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "40",
+                        "name": "chart-severity"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where column_ifexists('Alert','') == 'yes' | where isnotempty(column_ifexists('AlertType','')) and column_ifexists('AlertType','') != '-' | summarize Count = count() by bin(TimeGenerated, 1h), AlertType=column_ifexists('AlertType','') | order by TimeGenerated asc",
+                            "size": 0,
+                            "title": "Alert Types Over Time",
+                            "queryType": 0,
+                            "visualization": "timechart"
+                        },
+                        "customWidth": "60",
+                        "name": "chart-alert-types"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('AccessMethod','')) and column_ifexists('AccessMethod','') != '-' | summarize Count = count() by Method=column_ifexists('AccessMethod','') | order by Count desc",
+                            "size": 3,
+                            "title": "Access Methods",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "40",
+                        "name": "chart-access"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | extend Hour = hourofday(TimeGenerated), Day = case(dayofweek(TimeGenerated)/1d == 0, '7-Sun', dayofweek(TimeGenerated)/1d == 1, '1-Mon', dayofweek(TimeGenerated)/1d == 2, '2-Tue', dayofweek(TimeGenerated)/1d == 3, '3-Wed', dayofweek(TimeGenerated)/1d == 4, '4-Thu', dayofweek(TimeGenerated)/1d == 5, '5-Fri', '6-Sat') | summarize Events = count() by Day, Hour | order by Day asc, Hour asc",
+                            "size": 0,
+                            "title": "Activity Heatmap (Day \u00d7 Hour)",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Events",
+                                        "formatter": 8,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "blue"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "100",
+                        "name": "chart-heatmap"
+                    }
+                ]
+            },
+            "name": "group-overview"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Alert Intelligence",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where column_ifexists('Alert','') == 'yes' | where isnotempty(column_ifexists('Severity','')) and column_ifexists('Severity','') != '-' | summarize Count = count() by bin(TimeGenerated, 1h), Severity=column_ifexists('Severity','') | order by TimeGenerated asc",
+                            "size": 0,
+                            "title": "Alert Severity Trend",
+                            "queryType": 0,
+                            "visualization": "timechart"
+                        },
+                        "name": "chart-sev-trend"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where column_ifexists('Alert','') == 'yes' | where isnotempty(column_ifexists('AlertName','')) and column_ifexists('AlertName','') != '-' | summarize Count = count(), Users = dcount(column_ifexists('User','')), Apps = dcount(column_ifexists('App','')), ['First Seen'] = min(TimeGenerated), ['Last Seen'] = max(TimeGenerated) by ['Alert Name'] = column_ifexists('AlertName',''), ['Type'] = column_ifexists('AlertType',''), Severity = column_ifexists('Severity','') | extend ['Avg/Day'] = round(Count * 1.0 / datetime_diff('day', now(), ['First Seen']), 1) | order by Count desc | take 25",
+                            "size": 0,
+                            "title": "Top 25 Alerts \u2014 Frequency & Impact",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Count",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Severity",
+                                        "formatter": 18,
+                                        "formatOptions": {
+                                            "thresholdsOptions": "icons",
+                                            "thresholdsGrid": [
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "critical",
+                                                    "representation": "4",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "high",
+                                                    "representation": "2",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "medium",
+                                                    "representation": "1",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "low",
+                                                    "representation": "Sev3",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "Default",
+                                                    "representation": "unknown",
+                                                    "text": "{0}"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Users",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "blue"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "name": "table-top-alerts"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where column_ifexists('Alert','') == 'yes' | where isnotempty(column_ifexists('AlertType','')) and column_ifexists('AlertType','') != '-' | summarize Count = count() by Type=column_ifexists('AlertType','') | order by Count desc",
+                            "size": 3,
+                            "title": "Alert Distribution by Type",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "40",
+                        "name": "pie-alert-type"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where column_ifexists('Alert','') == 'yes' | where isnotempty(column_ifexists('User','')) and column_ifexists('User','') != '-' | summarize Alerts = count(), Critical = countif(column_ifexists('Severity','') == 'critical'), High = countif(column_ifexists('Severity','') == 'high'), Types = dcount(column_ifexists('AlertType','')) by User=column_ifexists('User','') | order by Alerts desc | take 15",
+                            "size": 0,
+                            "title": "Most Alerted Users",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Alerts",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Critical",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "redDark"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "High",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "orange"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "60",
+                        "name": "table-alerted-users"
+                    }
+                ]
+            },
+            "name": "group-alerts"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "User Risk Analytics",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('User','')) and column_ifexists('User','') != '-' | summarize TotalEvents = count(), Alerts = countif(column_ifexists('Alert','') == 'yes'), CritHigh = countif(column_ifexists('Severity','') in ('high','critical')), DLP = countif(isnotempty(column_ifexists('DlpIncidentId','')) and column_ifexists('DlpIncidentId','') != '-'), Blocks = countif(column_ifexists('PolicyAction','') == 'block'), UniqueApps = dcount(column_ifexists('App','')), Countries = dcount(column_ifexists('SrcCountry','')), ['Last Seen'] = max(TimeGenerated) by User = column_ifexists('User','') | extend RiskScore = Alerts * 2 + CritHigh * 5 + DLP * 3 + Blocks * 2 + iff(Countries > 2, 10, 0) | order by RiskScore desc | take 20",
+                            "size": 0,
+                            "title": "Top 20 Users by Risk Score",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "RiskScore",
+                                        "formatter": 8,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "hotCold"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "CritHigh",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Alerts",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "orange"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Blocks",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "magenta"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "DLP",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "purple"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Countries",
+                                        "formatter": 18,
+                                        "formatOptions": {
+                                            "thresholdsOptions": "colors",
+                                            "thresholdsGrid": [
+                                                {
+                                                    "operator": ">",
+                                                    "thresholdValue": "2",
+                                                    "representation": "redBright",
+                                                    "text": "\u25b2 {0}"
+                                                },
+                                                {
+                                                    "operator": "Default",
+                                                    "text": "{0}"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "name": "table-user-risk"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('User','')) and column_ifexists('User','') != '-' | summarize ['Active Users'] = dcount(column_ifexists('User','')) by bin(TimeGenerated, 1h) | order by TimeGenerated asc",
+                            "size": 0,
+                            "title": "Active Users Over Time",
+                            "queryType": 0,
+                            "visualization": "areachart",
+                            "chartSettings": {
+                                "color": "green"
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "chart-active-users"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('User','')) and column_ifexists('User','') != '-' | where isnotempty(column_ifexists('SrcCountry','')) and column_ifexists('SrcCountry','') != '-' | summarize Countries = make_set(column_ifexists('SrcCountry','')), CountryCount = dcount(column_ifexists('SrcCountry','')), Events = count() by User = column_ifexists('User','') | where CountryCount > 1 | order by CountryCount desc | take 20",
+                            "size": 0,
+                            "title": "Multi-Country Access (Possible Credential Compromise)",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "CountryCount",
+                                        "formatter": 8,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "hotCold"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "table-travel"
+                    }
+                ]
+            },
+            "name": "group-users"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Application Intelligence",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('App','')) and column_ifexists('App','') != '-' | summarize Events = count(), Users = dcount(column_ifexists('User','')), Alerts = countif(column_ifexists('Alert','') == 'yes') by App = column_ifexists('App',''), Category = column_ifexists('Appcategory',''), CCL = column_ifexists('Ccl','') | order by Events desc | take 25",
+                            "size": 0,
+                            "title": "Top 25 Applications",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Events",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "blue"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Alerts",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "CCL",
+                                        "formatter": 18,
+                                        "formatOptions": {
+                                            "thresholdsOptions": "colors",
+                                            "thresholdsGrid": [
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "excellent",
+                                                    "representation": "green",
+                                                    "text": "{0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "high",
+                                                    "representation": "green",
+                                                    "text": "{0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "medium",
+                                                    "representation": "yellow",
+                                                    "text": "{0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "low",
+                                                    "representation": "orange",
+                                                    "text": "\u25b2 {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "poor",
+                                                    "representation": "redBright",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "Default",
+                                                    "text": "{0}"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "name": "table-apps"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('Appcategory','')) and column_ifexists('Appcategory','') != '-' | summarize Count = count() by Category=column_ifexists('Appcategory','') | order by Count desc | take 12",
+                            "size": 3,
+                            "title": "App Categories",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "33",
+                        "name": "pie-app-cat"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('Ccl','')) and column_ifexists('Ccl','') != '-' | summarize Count = count() by CCL=column_ifexists('Ccl','') | order by Count desc",
+                            "size": 3,
+                            "title": "Cloud Confidence Levels",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "33",
+                        "name": "pie-ccl"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('Activity','')) and column_ifexists('Activity','') != '-' | summarize Count = count() by Activity=column_ifexists('Activity','') | order by Count desc | take 10",
+                            "size": 3,
+                            "title": "Top Activities",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "34",
+                        "name": "pie-activities"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('App','')) and column_ifexists('App','') != '-' | where column_ifexists('Ccl','') in ('low','poor') | summarize Events = count(), Users = dcount(column_ifexists('User','')), ['Last Used'] = max(TimeGenerated) by App = column_ifexists('App',''), Category = column_ifexists('Appcategory',''), CCL = column_ifexists('Ccl','') | order by Events desc | take 15",
+                            "size": 0,
+                            "title": "Shadow IT \u2014 Low/Poor Confidence Applications",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Events",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "orange"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "CCL",
+                                        "formatter": 18,
+                                        "formatOptions": {
+                                            "thresholdsOptions": "colors",
+                                            "thresholdsGrid": [
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "low",
+                                                    "representation": "orange",
+                                                    "text": "\u25b2 {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "poor",
+                                                    "representation": "redBright",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "Default",
+                                                    "text": "{0}"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "name": "table-shadow-it"
+                    }
+                ]
+            },
+            "name": "group-apps"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Data Loss Prevention",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('DlpProfileName','')) and column_ifexists('DlpProfileName','') != '-' | summarize Incidents = count(), Users = dcount(column_ifexists('User','')), Files = dcount(column_ifexists('Filename','')), ['Last Hit'] = max(TimeGenerated) by Profile = column_ifexists('DlpProfileName',''), Severity = column_ifexists('DlpRuleSeverity','') | order by Incidents desc | take 20",
+                            "size": 0,
+                            "title": "DLP Profile Hits",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Incidents",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "table-dlp-profiles"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('DlpRule','')) and column_ifexists('DlpRule','') != '-' | summarize Count = count(), Users = dcount(column_ifexists('User','')) by Rule = column_ifexists('DlpRule',''), Severity = column_ifexists('DlpRuleSeverity','') | order by Count desc | take 20",
+                            "size": 0,
+                            "title": "DLP Rule Violations",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Count",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "orange"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "50",
+                        "name": "table-dlp-rules"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('DlpProfileName','')) and column_ifexists('DlpProfileName','') != '-' | summarize Count = count() by bin(TimeGenerated, 1h) | order by TimeGenerated asc",
+                            "size": 0,
+                            "title": "DLP Incidents Over Time",
+                            "queryType": 0,
+                            "visualization": "areachart",
+                            "chartSettings": {
+                                "color": "redBright"
+                            }
+                        },
+                        "name": "chart-dlp-time"
+                    }
+                ]
+            },
+            "name": "group-dlp"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Policy Enforcement",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('PolicyAction','')) and column_ifexists('PolicyAction','') != '-' | summarize Count = count() by Action=column_ifexists('PolicyAction','') | order by Count desc",
+                            "size": 3,
+                            "title": "Policy Actions",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "35",
+                        "name": "pie-policy-action"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('PolicyName','')) and column_ifexists('PolicyName','') != '-' | summarize Hits = count(), Users = dcount(column_ifexists('User','')), Blocks = countif(column_ifexists('PolicyAction','') == 'block'), Alerts = countif(column_ifexists('PolicyAction','') == 'alert') by Policy = column_ifexists('PolicyName','') | extend ['Block Rate'] = strcat(round(Blocks * 100.0 / Hits, 1), '%') | order by Hits desc | take 20",
+                            "size": 0,
+                            "title": "Top 20 Policies with Block Rate",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Hits",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "blue"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Blocks",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "65",
+                        "name": "table-policies"
+                    }
+                ]
+            },
+            "name": "group-policy"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Malware & Threat Intelligence",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('MalwareType','')) and column_ifexists('MalwareType','') != '-' | summarize Count = count(), Users = dcount(column_ifexists('User','')), Files = dcount(column_ifexists('Filename','')), ['Last Seen'] = max(TimeGenerated) by Malware = column_ifexists('MalwareType',''), Severity = column_ifexists('MalwareSeverity','') | order by Count desc",
+                            "size": 0,
+                            "title": "Malware Detections",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Count",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "60",
+                        "name": "table-malware"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('ThreatType','')) and column_ifexists('ThreatType','') != '-' | summarize Count = count() by Type=column_ifexists('ThreatType','') | order by Count desc",
+                            "size": 3,
+                            "title": "Threat Type Distribution",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "40",
+                        "name": "pie-threats"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('SharedCredentialUser','')) and column_ifexists('SharedCredentialUser','') != '-' | summarize Count = count(), Apps = dcount(column_ifexists('App','')), ['Last Seen'] = max(TimeGenerated) by User = column_ifexists('SharedCredentialUser','') | order by Count desc | take 15",
+                            "size": 0,
+                            "title": "Shared Credential Detection",
+                            "queryType": 0,
+                            "visualization": "table"
+                        },
+                        "name": "table-shared-creds"
+                    }
+                ]
+            },
+            "name": "group-threats"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Geographic Intelligence",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('SrcCountry','')) and column_ifexists('SrcCountry','') != '-' | summarize Events = count(), Users = dcount(column_ifexists('User','')), Alerts = countif(column_ifexists('Alert','') == 'yes'), ['High/Crit'] = countif(column_ifexists('Severity','') in ('high','critical')) by Country = column_ifexists('SrcCountry','') | order by Events desc | take 20",
+                            "size": 0,
+                            "title": "Source Countries \u2014 Events, Users & Alerts",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Events",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "blue"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "Alerts",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "orange"
+                                        }
+                                    },
+                                    {
+                                        "columnMatch": "High/Crit",
+                                        "formatter": 4,
+                                        "formatOptions": {
+                                            "min": 0,
+                                            "palette": "red"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "customWidth": "55",
+                        "name": "table-src-geo"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('DstCountry','')) and column_ifexists('DstCountry','') != '-' | summarize Events = count() by Country=column_ifexists('DstCountry','') | order by Events desc | take 15",
+                            "size": 3,
+                            "title": "Top Destination Countries",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "45",
+                        "name": "pie-dst-geo"
+                    }
+                ]
+            },
+            "name": "group-geo"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "File & Object Analysis",
+                "expandable": true,
+                "expanded": false,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('FileType','')) and column_ifexists('FileType','') != '-' | summarize Count = count() by FileType=column_ifexists('FileType','') | order by Count desc | take 15",
+                            "size": 0,
+                            "title": "Top File Types",
+                            "queryType": 0,
+                            "visualization": "barchart"
+                        },
+                        "customWidth": "50",
+                        "name": "chart-filetypes"
+                    },
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where isnotempty(column_ifexists('ObjectType','')) and column_ifexists('ObjectType','') != '-' | summarize Count = count() by ObjectType=column_ifexists('ObjectType','') | order by Count desc | take 10",
+                            "size": 3,
+                            "title": "Object Types",
+                            "queryType": 0,
+                            "visualization": "piechart"
+                        },
+                        "customWidth": "50",
+                        "name": "pie-objects"
+                    }
+                ]
+            },
+            "name": "group-files"
+        },
+        {
+            "type": 12,
+            "content": {
+                "version": "NotebookGroup/1.0",
+                "groupType": 0,
+                "title": "Investigation \u2014 Recent Alerts",
+                "expandable": true,
+                "expanded": true,
+                "items": [
+                    {
+                        "type": 3,
+                        "content": {
+                            "version": "KqlItem/1.0",
+                            "query": "union isfuzzy=true NetskopeAlertEvents_CL | where TimeGenerated {TimeRange} | where column_ifexists('Alert','') == 'yes' | project TimeGenerated, User=column_ifexists('User',''), ['Alert Name']=column_ifexists('AlertName',''), Type=column_ifexists('AlertType',''), Severity=column_ifexists('Severity',''), App=column_ifexists('App',''), Activity=column_ifexists('Activity',''), Policy=column_ifexists('PolicyName',''), Action=column_ifexists('PolicyAction',''), ['Src Country']=column_ifexists('SrcCountry',''), ['Src IP']=column_ifexists('Srcip',''), Destination=column_ifexists('Dsthost',''), File=column_ifexists('Filename',''), DLP=column_ifexists('DlpProfileName','') | order by TimeGenerated desc | take 100",
+                            "size": 0,
+                            "title": "Latest 100 Alerts \u2014 Full Investigation Context",
+                            "queryType": 0,
+                            "visualization": "table",
+                            "gridSettings": {
+                                "filter": true,
+                                "sortBy": [
+                                    {
+                                        "itemKey": "TimeGenerated",
+                                        "sortOrder": 2
+                                    }
+                                ],
+                                "formatters": [
+                                    {
+                                        "columnMatch": "Severity",
+                                        "formatter": 18,
+                                        "formatOptions": {
+                                            "thresholdsOptions": "colors",
+                                            "thresholdsGrid": [
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "critical",
+                                                    "representation": "redBright",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "high",
+                                                    "representation": "orange",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "medium",
+                                                    "representation": "yellow",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "==",
+                                                    "thresholdValue": "low",
+                                                    "representation": "blue",
+                                                    "text": "\u25cf {0}"
+                                                },
+                                                {
+                                                    "operator": "Default",
+                                                    "text": "{0}"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "name": "table-investigate"
+                    }
+                ]
+            },
+            "name": "group-investigate"
+        },
+        {
+            "type": 1,
+            "content": {
+                "json": "<div style=\"text-align:center;padding:16px 0;border-top:2px solid #0078D4;margin-top:24px;\">\n<span style=\"color:#666;font-size:11px;letter-spacing:0.3px;\">Netskope Security Operations Center v2.0</span>\n</div>"
+            },
+            "name": "footer"
+        }
+    ],
+    "fallbackResourceIds": [
+        "azure monitor"
+    ],
+    "fromTemplateId": "sentinel-NetskopeAlertEventsUltimate",
+    "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
