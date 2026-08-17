@@ -1,0 +1,2623 @@
+name: netskope-sse
+fieldsToBeRemovedBeforeParsing: []
+testCases:
+- assertions:
+  - fieldsHaveValues:
+      event.category[0]: configuration
+      event.type[0]: admin
+    outputEventIndex: 0
+  event:
+    rawString: '{"audit_log_event": "Rest API V2 Call", "severity_level": 2, "supporting_data":
+      {"data_type": "scim", "data_values": ["204", "PATCH", "/api/v2/scim/Groups/60000000-0000-0000-bbbb-000000000000",
+      "trid=1750285585.bf000000000000000000115e45600169"]}, "timestamp": 1750285585,
+      "type": "admin_audit_logs", "user": "Test provisioning", "organization_unit":
+      "", "ur_normalized": "test provisioning", "count": 1, "_id": "7500000000000000000057eb",
+      "record_type": "audit", "sAMAccountName": "", "ccl": "", "userPrincipalName":
+      "johndoe", "details": []}'
+- event:
+    rawString: _id access_method account_name acked acting_user action activity act_user
+      alert alert_name severity alert_source alert_type appcategory appsuite app app_session_id
+      assignee bcc browser browser_session_id server_bytes client_bytes cc cci ccl
+      cloud_provider breach_id eeml breach_score connection_id src_country shared_credential_user
+      breach_date policy_name policy_action dst_country dst_geoip_src dsthost dstip
+      dst_location dstport dst_region dst_timezone dst_zipcode detection_engine device
+      device_classification device_sn dlp_file dlp_fingerprint_classification dlp_fingerprint_match
+      dlp_fingerprint_score dlp_match_info inline_dlp_match_info dlp_incident_id dlp_parent_id
+      dlp_profile_name dlp_profile dlp_rule_count dlp_rule dlp_rule_severity dlp_rule_score
+      dlp_unique_count dlp_is_unique_count dns_profile domain driver conn_duration
+      encryption_status conn_endtime end_time computer_name executable_hash executable_signed
+      sharedType file_category destination_file_directory file_exposure file_id file_md5
+      destination_file_name filename file_origin file_owner destination_file_path
+      file_path filepath sha256 file_size file_type email_from_user from_user app-gdpr-level
+      usergroup device_type hostname dinsid incident_id latest_incident_id instance_id
+      instance instance_name sanctioned_instance ip_protocol dst_latitude src_latitude
+      local_md5 local_sha1 local_sha256 loc location src_location dst_longitude src_longitude
+      mal_id malware_id mal_sev malware_severity mal_type malware_type managed_app
+      managementID vendor_id md5 message_id mime_type tss_mode product_id modified_date
+      src_network network_session_id ur_normalized oauth object object_id owner object_type
+      org organization_unit os os_details os_family os_user_name os_version page parent_id
+      owner_pdl policy_name_enforced policy policy_version pop_id netskope_pop port
+      web_url connection_type process_name process_cert_subject pid process_path publisher_cn
+      domain_ip redirect_url referer region_name src_region region_id iaas_remediated
+      iaas_remediation_action iaas_remediated_by iaas_remediated_on req req_cnt request_id
+      resource_category resource_group resp resp_cnt risk_level_id sa_profile_name
+      sa_rule_compliance sa_rule_name sa_rule_severity sender session_duration session_number_unique
+      serverity severity_level severity_id shared_with shared_domains tunnel_id smtp_status
+      smtp_to src_geoip_src srcip srcport conn_starttime start_time status subject
+      tags telemetry_app threat_type timestamp src_timezone to_user numbytes traffic_type
+      transaction_id tss_license two_factor_auth type unc_path nsdeviceuid url user
+      useragent user_confidence_index user_confidence_level user_id userip userkey
+      violation site src_zipcode account_id alert_id appact audit_type response_time
+      email_modified email_title subtype event_uuid file_cls_encrypted fllg file_pdl
+      local_source_time server_packets client_packets flpp risk_score suppression_count
+      spet spst thr email_user tur total_packets num_users watchlist_name custom_attr
+      record_type
+- event:
+    rawString: _id,access_method,account_name,acked,acting_user,action,activity,act_user,alert,alert_name,severity,alert_source,alert_type,appcategory,appsuite,app,app_session_id,assignee,bcc,browser,browser_session_id,server_bytes,client_bytes,cc,cci,ccl,cloud_provider,breach_id,eeml,breach_score,connection_id,src_country,shared_credential_user,breach_date,policy_name,policy_action,dst_country,dst_geoip_src,dsthost,dstip,dst_location,dstport,dst_region,dst_timezone,dst_zipcode,detection_engine,device,device_classification,device_sn,dlp_file,dlp_fingerprint_classification,dlp_fingerprint_match,dlp_fingerprint_score,dlp_match_info,inline_dlp_match_info,dlp_incident_id,dlp_parent_id,dlp_profile_name,dlp_profile,dlp_rule_count,dlp_rule,dlp_rule_severity,dlp_rule_score,dlp_unique_count,dlp_is_unique_count,dns_profile,domain,driver,conn_duration,encryption_status,conn_endtime,end_time,computer_name,executable_hash,executable_signed,sharedType,file_category,destination_file_directory,file_exposure,file_id,file_md5,destination_file_name,filename,file_origin,file_owner,destination_file_path,file_path,filepath,sha256,file_size,file_type,email_from_user,from_user,app-gdpr-level,usergroup,device_type,hostname,dinsid,incident_id,latest_incident_id,instance_id,instance,instance_name,sanctioned_instance,ip_protocol,dst_latitude,src_latitude,local_md5,local_sha1,local_sha256,loc,location,src_location,dst_longitude,src_longitude,mal_id,malware_id,mal_sev,malware_severity,mal_type,malware_type,managed_app,managementID,vendor_id,md5,message_id,mime_type,tss_mode,product_id,modified_date,src_network,network_session_id,ur_normalized,oauth,object,object_id,owner,object_type,org,organization_unit,os,os_details,os_family,os_user_name,os_version,page,parent_id,owner_pdl,policy_name_enforced,policy,policy_version,pop_id,netskope_pop,port,web_url,connection_type,process_name,process_cert_subject,pid,process_path,publisher_cn,domain_ip,redirect_url,referer,region_name,src_region,region_id,iaas_remediated,iaas_remediation_action,iaas_remediated_by,iaas_remediated_on,req,req_cnt,request_id,resource_category,resource_group,resp,resp_cnt,risk_level_id,sa_profile_name,sa_rule_compliance,sa_rule_name,sa_rule_severity,sender,session_duration,session_number_unique,serverity,severity_level,severity_id,shared_with,shared_domains,tunnel_id,smtp_status,smtp_to,src_geoip_src,srcip,srcport,conn_starttime,start_time,status,subject,tags,telemetry_app,threat_type,timestamp,src_timezone,to_user,numbytes,traffic_type,transaction_id,tss_license,two_factor_auth,type,unc_path,nsdeviceuid,url,user,useragent,user_confidence_index,user_confidence_level,user_id,userip,userkey,violation,site,src_zipcode,account_id,alert_id,appact,audit_type,response_time,email_modified,email_title,subtype,event_uuid,file_cls_encrypted,fllg,file_pdl,local_source_time,server_packets,client_packets,flpp,risk_score,suppression_count,spet,spst,thr,email_user,tur,total_packets,num_users,watchlist_name,custom_attr,record_type
+- assertions:
+  - fieldsHaveValues:
+      Vendor.traffic_type: CloudApp
+      Vendor.asset_object_id: ea4631f758215f2b3d67ab22
+      Vendor._id: e045b8e12f17dc0088976a6e
+      event.category[1]: network
+      Vendor.compliance_standards[0].id: '-7304'
+      Vendor.account_name: Test@yatest.in
+      Vendor.compliance_standards[1].control: '5'
+      Vendor.activity: Introspection Scan
+      Vendor.compliance_standards[2].id: '-80720'
+      Vendor.compliance_standards[2].section: '7'
+      Vendor.compliance_standards[2].control: '2'
+      Vendor.access_method: API Connector
+      Vendor.alert_name: 'Establish an access control system(s) : IAM Policies with
+        Effect as Allow and Action with iam:PassRole for All Roles'
+      Vendor.ur_normalized: Test@example.com
+      Vendor.appcategory: IaaS/PaaS
+      rule.name: CISCHECK
+      Vendor.object_type: Policy
+      Vendor.compliance_standards[2].description: Establish an access control system(s)
+        for systems components that restricts access based on a user’s need to know,
+        and is set to 'deny all' unless specifically allowed
+      Vendor.instance_id: Test@test.in
+      Vendor.resource_category: Identity
+      Vendor.compliance_standards[1].description: PERSONNEL SECURITY | PERSONNEL TRANSFER
+      Vendor.sa_profile_name: Test
+      event.type[0]: indicator
+      Vendor.sa_rule_severity: Critical
+      Vendor.policy: CISCHECK
+      Vendor.category: IaaS/PaaS
+      Vendor.count: '1'
+      device.model.name: Other
+      Vendor.cci: '82'
+      Vendor.os: unknown
+      Vendor.region_name: global
+      Vendor.compliance_standards[0].reference_url: https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.04162018.pdf
+      Vendor.sa_rule_id: '-1011'
+      Vendor.compliance_standards[0].standard: NIST-CSF-1.1
+      Vendor.timestamp: '1739674649'
+      Vendor.type: nspolicy
+      Vendor.object: AmazonESCognitoAccess
+      Vendor.record_type: alert
+      Vendor.compliance_standards[0].section: PR.AC
+      Vendor.compliance_standards[1].section: PS
+      '#event.kind': alert
+      '#event.outcome': success
+      Vendor.user: Test@example.com
+      Vendor.userkey: Test@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: threat
+      Vendor.compliance_standards[0].description: Access permissions and authorizations
+        are managed, incorporating the principles of least privilege and separation
+        of duties
+      Vendor.action: alert
+      Vendor.compliance_standards[1].reference_url: https://nvd.nist.gov/800-53
+      Vendor.sa_profile_id: '1'
+      event.type[1]: info
+      Vendor.account_id: '982081074975'
+      Vendor.asset_id: arn:aws:iam::aws:policy/AmazonESCognitoAccess
+      Vendor.compliance_standards[1].id: '-31305'
+      Vendor.acked: 'false'
+      Vendor.compliance_standards[0].control: '4'
+      Vendor.site: Amazon Web Services
+      Vendor.alert_type: Security Assessment
+      network.application: amazon web services console
+      Vendor.compliance_standards[1].standard: NIST-800-53-4
+      Vendor.browser: unknown
+      Vendor.policy_id: '4'
+      Vendor.compliance_standards[2].standard: PCI-DSS-3.2.1
+      Vendor.compliance_standards[2].reference_url: https://www.pcisecuritystandards.org/documents/PCI_DSS_v3-2-1.pdf
+      event.action: introspection scan
+      Vendor.device: Other
+      Vendor.iaas_remediated: 'false'
+      Vendor.sa_rule_name: 'Establish an access control system(s) : IAM Policies with
+        Effect as Allow and Action with iam:PassRole for All Roles'
+      Vendor.ccl: high
+      Vendor.app: Amazon Web Services Console
+      user.name: Test@example.com
+    outputEventIndex: 0
+  event:
+    rawString: |-
+      {
+                  "_id": "e045b8e12f17dc0088976a6e",
+                  "access_method": "API Connector",
+                  "account_id": "982081074975",
+                  "account_name": "Test@yatest.in",
+                  "acked": "false",
+                  "action": "alert",
+                  "activity": "Introspection Scan",
+                  "alert": "yes",
+                  "alert_name": "Establish an access control system(s) : IAM Policies with Effect as Allow and Action with iam:PassRole for All Roles",
+                  "alert_type": "Security Assessment",
+                  "app": "Amazon Web Services Console",
+                  "appcategory": "IaaS/PaaS",
+                  "asset_id": "arn:aws:iam::aws:policy/AmazonESCognitoAccess",
+                  "asset_object_id": "ea4631f758215f2b3d67ab22",
+                  "browser": "unknown",
+                  "category": "IaaS/PaaS",
+                  "cci": 82,
+                  "ccl": "high",
+                  "compliance_standards": [
+                      {
+                          "control": "4",
+                          "description": "Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties",
+                          "id": -7304,
+                          "reference_url": "https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.04162018.pdf",
+                          "section": "PR.AC",
+                          "standard": "NIST-CSF-1.1"
+                      },
+                      {
+                          "control": "5",
+                          "description": "PERSONNEL SECURITY | PERSONNEL TRANSFER",
+                          "id": -31305,
+                          "reference_url": "https://nvd.nist.gov/800-53",
+                          "section": "PS",
+                          "standard": "NIST-800-53-4"
+                      },
+                      {
+                          "control": "2",
+                          "description": "Establish an access control system(s) for systems components that restricts access based on a user’s need to know, and is set to 'deny all' unless specifically allowed",
+                          "id": -80720,
+                          "reference_url": "https://www.pcisecuritystandards.org/documents/PCI_DSS_v3-2-1.pdf",
+                          "section": "7",
+                          "standard": "PCI-DSS-3.2.1"
+                      }
+                  ],
+                  "count": 1,
+                  "device": "Other",
+                  "iaas_asset_tags": [],
+                  "iaas_remediated": "false",
+                  "instance_id": "Test@test.in",
+                  "object": "AmazonESCognitoAccess",
+                  "object_type": "Policy",
+                  "organization_unit": "",
+                  "os": "unknown",
+                  "policy": "CISCHECK",
+                  "policy_id": 4,
+                  "region_id": "",
+                  "region_name": "global",
+                  "resource_category": "Identity",
+                  "resource_group": null,
+                  "sa_profile_id": 1,
+                  "sa_profile_name": "Test",
+                  "sa_rule_id": "-1011",
+                  "sa_rule_name": "Establish an access control system(s) : IAM Policies with Effect as Allow and Action with iam:PassRole for All Roles",
+                  "sa_rule_severity": "Critical",
+                  "site": "Amazon Web Services",
+                  "timestamp": 1739674649,
+                  "traffic_type": "CloudApp",
+                  "type": "nspolicy",
+                  "ur_normalized": "Test@example.com",
+                  "user": "Test@example.com",
+                  "userkey": "Test@example.com",
+                  "record_type": "alert",
+                  "custom_attr": {},
+                  "sAMAccountName": ""
+              }
+- assertions:
+  - fieldsHaveValues:
+      Vendor.ur_normalized: Test.Test
+      event.type[0]: admin
+      Vendor.count: '1'
+      Vendor.severity_level: '1'
+      Vendor._id: caabb88ef0a15acb578b566c
+      event.category[0]: configuration
+      Vendor.supporting_data.data_values[1]: Test.Test
+      Vendor.audit_log_event: Login Failed
+      event.reason: 1.2.3.4,Test.Test
+      user.name: Test.Test
+      Vendor.supporting_data.data_values[0]: 1.2.3.4
+      Vendor.timestamp: '1740472575'
+      Vendor.type: admin_audit_logs
+      Vendor.record_type: audit
+      Vendor.supporting_data.data_type: user
+      '#event.kind': event
+      Vendor.user: Test.Test
+    outputEventIndex: 0
+  event:
+    rawString: |-
+      {
+                  "audit_log_event": "Login Failed",
+                  "severity_level": 1,
+                  "supporting_data": {
+                      "data_type": "user",
+                      "data_values": [
+                          "1.2.3.4",
+                          "Test.Test"
+                      ]
+                  },
+                  "timestamp": 1740472575,
+                  "type": "admin_audit_logs",
+                  "user": "Test.Test",
+                  "organization_unit": "",
+                  "ur_normalized": "Test.Test",
+                  "count": 1,
+                  "_id": "caabb88ef0a15acb578b566c",
+                  "record_type": "audit",
+                  "ccl": "",
+                  "sAMAccountName": "",
+                  "details": [],
+                  "userPrincipalName": ""
+              }
+- assertions:
+  - fieldsHaveValues:
+      threat.tactic.id[0]: TA0002
+      url.original: clients6.test.com/upload/drive/v2internal/batch
+      event.category[1]: network
+      event.category[0]: threat
+      threat.technique.subtechnique.id[0]: T1204.002
+      Vendor.status: in_progress
+      Vendor.object_id: hash_Test@test.com_307f66ef761187fc819b6f58bd3aa5bf_2abfecee637d2383e4d198ea26e90f13dce02920
+      threat.technique.id[0]: T1204
+      Vendor.activity: Upload
+      Vendor.md5: 307f66ef761187fc819b6f58bd3aa5bf
+      Vendor.assignee: None
+      Vendor.dlp_parent_id: '7825661453503973037'
+      url.path: /upload/drive/v2internal/batch
+      Vendor.access_method: Client
+      Vendor.dlp_match_info[0].dlp_forensic_id: '7825661453503973037'
+      Vendor.app_session_id: '4007787918443104192'
+      Vendor.object_type: File
+      Vendor.dlp_incident_id: '7825661453503973037'
+      Vendor.instance_id: test.com
+      Vendor.true_obj_type: Plain Text file
+      event.type[0]: indicator
+      Vendor.dlp_match_info[0].dlp_rules[0].dlp_rule_severity: Medium
+      Vendor.dlp_match_info[0].dlp_policy: DLPAlertTestServiceNow
+      Vendor.referer: https://test.test.com/
+      file.hash.md5: 307f66ef761187fc819b6f58bd3aa5bf
+      Vendor.severity: Low
+      Vendor.connection_id: '1929083207135912103'
+      Vendor._id: 5600f449bb2daf38c0655c3ef810d2eab9cbd0b3244f9f2d7f47e9cd8041261a
+      destination.geo.city_name: Mountain View
+      Vendor.timestamp: '1712057695'
+      Vendor.file_lang: Unknown
+      Vendor.object: test.pub
+      Vendor.record_type: incident
+      threat.technique.reference[0]: https://attack.mitre.org/techniques/T1204/002
+      file.size: '582'
+      '#event.kind': alert
+      Vendor.user: Test@test.com
+      url.domain: clients6.test.com
+      Vendor.dlp_match_info[0].dlp_profile_name: DLPTestServiceNow
+      Vendor.dst_location: Mountain View
+      Vendor.acting_user: Test@test.com
+      http.request.referrer: https://test.test.com/
+      Vendor.url: clients6.test.com/upload/drive/v2internal/batch
+      threat.tactic.name[0]: Execution
+      Vendor.from_user: Test@test.com
+      Vendor.true_obj_category: Text
+      event.severity: '30'
+      Vendor.src_location: Chandigarh
+      event.type[1]: info
+      Vendor.dlp_match_info[0].dlp_action: block
+      Vendor.title: test.pub
+      Vendor.site: Google Drive
+      network.application: google drive
+      threat.technique.name[0]: 'User Execution: Malicious File'
+      Vendor.dlp_match_info[0].dlp_rules[0].dlp_incident_rule_count: '1'
+      Vendor.latest_incident_id: '0'
+      Vendor.dlp_match_info[0].dlp_rules[0].dlp_match_type: FileFilter
+      event.action: upload
+      source.geo.city_name: Chandigarh
+      Vendor.file_type: text/plain
+      Vendor.dlp_match_info[0].dlp_rules[0].dlp_rule_name: CTETest
+      Vendor.app: Google Drive
+      threat.framework: MITRE ATT&CK
+      user.name: Test@test.com
+      event.category[2]: file
+      Vendor.file_size: '582'
+    outputEventIndex: 0
+  event:
+    rawString: |-
+      {
+                  "_id": "5600f449bb2daf38c0655c3ef810d2eab9cbd0b3244f9f2d7f47e9cd8041261a",
+                  "access_method": "Client",
+                  "acting_user": "Test@test.com",
+                  "activity": "Upload",
+                  "app": "Google Drive",
+                  "app_session_id": 4007787918443104192,
+                  "assignee": "None",
+                  "connection_id": 1929083207135912103,
+                  "dlp_incident_id": 7825661453503973037,
+                  "dlp_match_info": [
+                      {
+                          "dlp_action": "block",
+                          "dlp_forensic_id": 7825661453503973037,
+                          "dlp_policy": "DLPAlertTestServiceNow",
+                          "dlp_profile_name": "DLPTestServiceNow",
+                          "dlp_rules": [
+                              {
+                                  "dlp_incident_rule_count": 1,
+                                  "dlp_match_type": "FileFilter",
+                                  "dlp_rule_name": "CTETest",
+                                  "dlp_rule_severity": "Medium"
+                              }
+                          ]
+                      }
+                  ],
+                  "dlp_parent_id": 7825661453503973037,
+                  "dst_location": "Mountain View",
+                  "file_lang": "Unknown",
+                  "file_size": 582,
+                  "file_type": "text/plain",
+                  "from_user": "Test@test.com",
+                  "instance_id": "test.com",
+                  "md5": "307f66ef761187fc819b6f58bd3aa5bf",
+                  "object": "test.pub",
+                  "object_id": "hash_Test@test.com_307f66ef761187fc819b6f58bd3aa5bf_2abfecee637d2383e4d198ea26e90f13dce02920",
+                  "object_type": "File",
+                  "referer": "https://test.test.com/",
+                  "severity": "Low",
+                  "site": "Google Drive",
+                  "src_location": "Chandigarh",
+                  "status": "in_progress",
+                  "timestamp": 1712057695,
+                  "title": "test.pub",
+                  "true_obj_category": "Text",
+                  "true_obj_type": "Plain Text file",
+                  "url": "clients6.test.com/upload/drive/v2internal/batch",
+                  "user": "Test@test.com",
+                  "record_type": "incident",
+                  "owner": "",
+                  "destination_site": "",
+                  "latest_incident_id": 0,
+                  "dlp_file": "",
+                  "ext_labels": [],
+                  "instance": "",
+                  "inline_dlp_match_info": [],
+                  "to_user": "",
+                  "original_file_snapshot_id": "",
+                  "owner_pdl": "",
+                  "destination_app": "",
+                  "user_id": "",
+                  "bcc": "",
+                  "zip_file_id": "",
+                  "destination_instance_id": "",
+                  "file_path": "",
+                  "shared_with": "",
+                  "classification": "",
+                  "cc": "",
+                  "channel": "",
+                  "exposure": ""
+              }
+- assertions:
+  - fieldsHaveValues:
+      Vendor.alert_name: 'Combolist: ''Netflix.txt'' (11,680 Records)'
+      Vendor.ur_normalized: nilay.modi@crestdata.ai
+      Vendor.count: '1'
+      Vendor.cci: '88'
+      Vendor._id: 45ce99ef803351a401db40ac
+      event.category[1]: network
+      Vendor.breach_date: '1737072000'
+      Vendor.breach_id: '79498'
+      event.type[0]: indicator
+      Vendor.category: Application Suite
+      Vendor.timestamp: '1740395771'
+      Vendor.type: breach
+      Vendor.record_type: alert
+      Vendor.email_source: Client
+      '#event.kind': alert
+      Vendor.user: nilay.modi@crestdata.ai
+      Vendor.userkey: nilay.modi@crestdata.ai
+      Vendor.alert: 'yes'
+      event.category[0]: threat
+      Vendor.external_email: '1'
+      event.type[1]: info
+      Vendor.acked: 'false'
+      Vendor.breach_description: A plain text 'combolist' file titled 'Netflix.txt'
+        was acquired by ZeroFox from a publicly accessible source. Combolists traditionally
+        consist of compromised login credentials in the form of email addresses or
+        usernames, and accompanying plain-text passwords. They are often compiled
+        by threat actors from a variety of sources, including leaked databases and
+        other combolists, to be used in attacks such as credential stuffing, password
+        spraying and account takeover. These attacks can present significant risk
+        to users where they frequently use the same password across multiple accounts,
+        or who have failed to change their credentials following a potential data
+        breach of services they use. ZeroFox emphasizes that threat actors often misrepresent
+        the authenticity of published combolists, and in some cases randomly generate
+        or falsify username and password pairs. From this package, ZeroFox extracted
+        11,680 usernames. Of these, 11,680 records included a password.
+      Vendor.matched_username: jenisdonda012@example.com
+      Vendor.alert_type: Compromised Credential
+      network.application: google accounts
+      Vendor.ccl: high
+      Vendor.app: Google Accounts
+      user.name: nilay.modi@crestdata.ai
+    outputEventIndex: 0
+  event:
+    rawString: |-
+      {
+                  "_id": "45ce99ef803351a401db40ac",
+                  "acked": "false",
+                  "alert": "yes",
+                  "alert_name": "Combolist: 'Netflix.txt' (11,680 Records)",
+                  "alert_type": "Compromised Credential",
+                  "app": "Google Accounts",
+                  "breach_date": 1737072000,
+                  "breach_description": "A plain text 'combolist' file titled 'Netflix.txt' was acquired by ZeroFox from a publicly accessible source. Combolists traditionally consist of compromised login credentials in the form of email addresses or usernames, and accompanying plain-text passwords. They are often compiled by threat actors from a variety of sources, including leaked databases and other combolists, to be used in attacks such as credential stuffing, password spraying and account takeover. These attacks can present significant risk to users where they frequently use the same password across multiple accounts, or who have failed to change their credentials following a potential data breach of services they use. ZeroFox emphasizes that threat actors often misrepresent the authenticity of published combolists, and in some cases randomly generate or falsify username and password pairs. From this package, ZeroFox extracted 11,680 usernames. Of these, 11,680 records included a password.",
+                  "breach_id": "79498",
+                  "category": "Application Suite",
+                  "cci": 88,
+                  "ccl": "high",
+                  "count": 1,
+                  "email_source": "Client",
+                  "external_email": 1,
+                  "matched_username": "jenisdonda012@example.com",
+                  "organization_unit": "",
+                  "timestamp": 1740395771,
+                  "type": "breach",
+                  "ur_normalized": "nilay.modi@crestdata.ai",
+                  "user": "nilay.modi@crestdata.ai",
+                  "userkey": "nilay.modi@crestdata.ai",
+                  "record_type": "alert",
+                  "department": "",
+                  "sAMAccountType": "",
+                  "division": "",
+                  "custom_attr": {},
+                  "userPrincipalName": "",
+                  "distinguishedName": "",
+                  "breach_target_references": "",
+                  "breach_score": "",
+                  "breach_media_references": "",
+                  "employeeType": "",
+                  "sAMAccountName": "",
+                  "mail": "",
+                  "password_type": ""
+              }
+- assertions:
+  - fieldsHaveValues:
+      file.hash.md5: 0bcafac7ce40ad3ebad1664307a046f1
+      event.category[1]: file
+      Vendor.from_user: test@example.com
+      threat.technique.subtechnique.id[0]: T1204.002
+      Vendor.fllg: ENGLISH
+      Vendor.dlp_rule: US-Bank-CC
+      Vendor.object_id: '{"drive_id": "b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALI55tDhn-rSJB-vB4UWs5e",
+        "driveitem_id": "014GLSS7ZTFWR3Z4XW3ZFZ3HC4RRF55G3E", "site_collection_id":
+        "a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8"}'
+      Vendor.file_type: text/plain
+      threat.technique.id[0]: T1204
+      Vendor.traffic_type: CloudApp
+      Vendor.dlp_rule_count: '2'
+      Vendor.file_id: '{"drive_id": "b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALI55tDhn-rSJB-vB4UWs5e",
+        "driveitem_id": "014GLSS7ZTFWR3Z4XW3ZFZ3HC4RRF55G3E", "site_collection_id":
+        "a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8"}'
+      Vendor.file_path: /personal/narendra_nandaniya_cdslabs_in/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt
+      Vendor.activity: CASB API Scan
+      Vendor.md5: 0bcafac7ce40ad3ebad1664307a046f1
+      Vendor.dlp_parent_id: '3096368280753441919'
+      url.path: /personal/narendra_nandaniya_cdslabs_in/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt
+      Vendor.netskope_pop: US-SJC2
+      Vendor.access_method: CASB API
+      Vendor.dlp_file: sensitive_data_onedrive_share.txt
+      Vendor.ur_normalized: test@example.com
+      Vendor.dlp_profile: US Financial Data
+      Vendor.appcategory: Cloud Storage
+      Vendor.appact: CASB API Scan
+      rule.name: Test Data Protection Policy
+      url.scheme: https
+      Vendor.object_type: File
+      Vendor.dlp_is_unique_count: 'false'
+      Vendor.dlp_incident_id: '3096368280753441919'
+      Vendor.instance_id: test.onmicrosoft.com
+      event.type[0]: info
+      Vendor.instance: test.onmicrosoft.com
+      Vendor.policy: Test Data Protection Policy
+      Vendor.dinsid: '3096368280753441919'
+      Vendor.web_url: https://test-my.sharepoint.com/personal/Test/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt
+      threat.tactic.id[0]: TA0002
+      Vendor.cci: '82'
+      Vendor.owner: test@example.com
+      '#event.outcome': failure
+      Vendor.parent_id: '{"drive_id": "b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALI55tDhn-rSJB-vB4UWs5e",
+        "driveitem_id": "014GLSS7ZOMOI4WDVKCNFJCCMVCEUU2FRL", "site_collection_id":
+        "a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8"}'
+      Vendor.mime_type: text/plain
+      url.original: https://test-my.sharepoint.com/personal/narendra_nandaniya_cdslabs_in/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt
+      Vendor.request_id: '8716937978704578344'
+      Vendor._id: 57dc55f181f953fd9f9e73d9
+      Vendor.act_user: test@example.com
+      Vendor.timestamp: '1747940349'
+      Vendor.type: nspolicy
+      Vendor.object: sensitive_data_onedrive_share.txt
+      Vendor.record_type: application
+      threat.technique.reference[0]: https://attack.mitre.org/techniques/T1204/002
+      file.size: '509'
+      file.hash.sha256: e29540729dd531c69cc50cc61d20b0877df2bd6e7fdbc64eb906cbe1e91bd367
+      '#event.kind': event
+      Vendor.user: test@example.com
+      url.domain: test-my.sharepoint.com
+      Vendor.user_id: a2c47e7b-1bbc-4200-8e8a-f168a56f4fe3
+      Vendor.userkey: test@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: network
+      Vendor.action: quarantine
+      Vendor.url: https://test-my.sharepoint.com/personal/narendra_nandaniya_cdslabs_in/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt
+      threat.tactic.name[0]: Execution
+      Vendor.site: Microsoft Office 365 OneDrive for Business
+      Vendor.alert_type: DLP
+      network.application: test onedrive for business
+      threat.technique.name[0]: 'User Execution: Malicious File'
+      Vendor.sha256: e29540729dd531c69cc50cc61d20b0877df2bd6e7fdbc64eb906cbe1e91bd367
+      event.action: casb api scan
+      Vendor.ccl: high
+      Vendor.app: Test OneDrive for Business
+      threat.framework: MITRE ATT&CK
+      user.name: test@example.com
+      Vendor.dlp_rule_severity: Low
+      client.user.id: a2c47e7b-1bbc-4200-8e8a-f168a56f4fe3
+      Vendor.file_size: '509'
+    outputEventIndex: 0
+  event:
+    rawString: '57dc55f181f953fd9f9e73d9,CASB API,-,-,-,quarantine,CASB API Scan,test@example.com,yes,-,-,-,DLP,Cloud
+      Storage,-,Test OneDrive for Business,-,-,-,-,-,-,-,-,82,high,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,sensitive_data_onedrive_share.txt,-,-,-,-,-,3096368280753441919,3096368280753441919,-,US
+      Financial Data,2,US-Bank-CC,Low,-,-,false,-,-,-,-,-,-,-,-,-,-,-,-,-,-,"{""drive_id"":
+      ""b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALI55tDhn-rSJB-vB4UWs5e"", ""driveitem_id"":
+      ""014GLSS7ZTFWR3Z4XW3ZFZ3HC4RRF55G3E"", ""site_collection_id"": ""a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8""}",-,-,-,-,-,-,/personal/narendra_nandaniya_cdslabs_in/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt,-,e29540729dd531c69cc50cc61d20b0877df2bd6e7fdbc64eb906cbe1e91bd367,509,text/plain,-,test@example.com,-,-,-,-,3096368280753441919,-,-,test.onmicrosoft.com,test.onmicrosoft.com,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,0bcafac7ce40ad3ebad1664307a046f1,-,text/plain,-,-,-,-,-,test@example.com,-,sensitive_data_onedrive_share.txt,"{""drive_id"":
+      ""b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALI55tDhn-rSJB-vB4UWs5e"", ""driveitem_id"":
+      ""014GLSS7ZTFWR3Z4XW3ZFZ3HC4RRF55G3E"", ""site_collection_id"": ""a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8""}",test@example.com,File,-,-,-,-,-,-,-,-,"{""drive_id"":
+      ""b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALI55tDhn-rSJB-vB4UWs5e"", ""driveitem_id"":
+      ""014GLSS7ZOMOI4WDVKCNFJCCMVCEUU2FRL"", ""site_collection_id"": ""a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8""}",-,-,Test
+      Data Protection Policy,-,-,US-SJC2,-,https://test-my.sharepoint.com/personal/Test/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,8716937978704578344,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1747940349,-,-,-,CloudApp,-,-,-,nspolicy,-,-,https://test-my.sharepoint.com/personal/narendra_nandaniya_cdslabs_in/Documents/onedrive_upload_files/sensitive_data_onedrive_share.txt,test@example.com,-,-,-,a2c47e7b-1bbc-4200-8e8a-f168a56f4fe3,-,test@example.com,-,Microsoft
+      Office 365 OneDrive for Business,-,-,-,CASB API Scan,-,-,-,-,-,-,-,ENGLISH,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,application'
+- assertions:
+  - fieldsHaveValues:
+      Vendor.traffic_type: cloudapp
+      file.hash.md5: 88d330e3c5436c7423c026dce243fa76
+      Vendor.connection_id: '7537950164874907331'
+      event.category[1]: file
+      Vendor.from_user: Test@xyz.com
+      threat.technique.subtechnique.id[0]: T1204.002
+      Vendor.acked: 'false'
+      Vendor.object_id: '{"drive_id": "b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALLuCz4ggeoT4pjRaXOdBjj",
+        "driveitem_id": "014GLSS72NCUN4ECGHZFBYD6WNK3QZCSH5", "site_collection_id":
+        "a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8"}'
+      event.action: casb api scan
+      threat.technique.id[0]: T1204
+      Vendor.file_id: '{"drive_id": "b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALLuCz4ggeoT4pjRaXOdBjj",
+        "driveitem_id": "014GLSS72NCUN4ECGHZFBYD6WNK3QZCSH5", "site_collection_id":
+        "a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8"}'
+      Vendor.file_path: /personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt
+      Vendor.activity: CASB API Scan
+      Vendor.md5: 88d330e3c5436c7423c026dce243fa76
+      url.path: /personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt
+      Vendor.access_method: CASB API
+      Vendor.dlp_file: Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt
+      Vendor.alert_name: Test Data Protection Policy
+      Vendor.ur_normalized: Test@xyz.com
+      Vendor.dlp_profile: Payment Card Industry Data Security Standard. PCI-DSS,EU
+        General Data Protection Regulation (GDPR),EU General Data Protection Regulation
+        (GDPR) (narrow),Gramm-Leach-Bliley Act (GLB Act or GLBA), 1999,US Federal
+        Trade commission rules (FTC),US Financial Data,USA Patriot Act, 2001,UK Financial
+        Data,UK Personally Identifiable Information,Canada Financial Data,Canada Personally
+        Identifiable Information,Personal Information Protection and Electronic Documents
+        Act (PIPEDA),Australia Finance data,DLP-PCI,DLP-PHI,DLP-PII,Colombia Finance
+        data,US, CA - CCPA (California Consumer Privacy Act, 2018),Best Practice PCI
+        DLP Profile,Best Practice PII DLP Profile
+      Vendor.appcategory: Cloud Storage
+      Vendor.appact: CASB API Scan
+      Vendor.app_session_id: '7537950164874907331'
+      rule.name: Test Data Protection Policy
+      url.scheme: https
+      Vendor.object_type: File
+      Vendor.instance_id: Test.xyz.com
+      event.type[0]: info
+      Vendor.instance: Test.xyz.com
+      Vendor.policy: Test Data Protection Policy
+      device.model.name: unknown
+      Vendor.web_url: https://Testlabsin-my.sharepoint.com/personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt
+      threat.tactic.id[0]: TA0002
+      Vendor.cci: '82'
+      Vendor.owner: Test@xyz.com
+      Vendor.os: unknown
+      '#event.outcome': failure
+      Vendor.parent_id: '{"drive_id": "b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALLuCz4ggeoT4pjRaXOdBjj",
+        "driveitem_id": "014GLSS73PGKZFU6UT5BFJVE4RPHZYGJDE", "site_collection_id":
+        "a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8"}'
+      Vendor.mime_type: text/plain
+      url.original: https://Testlabsin-my.sharepoint.com/personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt
+      Vendor.request_id: '7537950164874907331'
+      Vendor._id: 7befadad8a2bbed97305a07a
+      Vendor.act_user: Test@xyz.com
+      Vendor.timestamp: '1747818296'
+      Vendor.type: nspolicy
+      Vendor.shared_with: Test@xyz.com
+      Vendor.object: Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt
+      Vendor.record_type: alert
+      threat.technique.reference[0]: https://attack.mitre.org/techniques/T1204/002
+      file.size: '2624'
+      '#event.kind': event
+      Vendor.user: Test@xyz.com
+      url.domain: testlabsin-my.sharepoint.com
+      Vendor.user_id: a2c47e7b-1bbc-4200-8e8a-f168a56f4fe3
+      Vendor.userkey: Test@xyz.com
+      Vendor.alert: 'yes'
+      event.category[0]: network
+      Vendor.action: quarantine
+      Vendor.url: https://Testlabsin-my.sharepoint.com/personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt
+      threat.tactic.name[0]: Execution
+      Vendor.site: Test Drive for Business
+      Vendor.alert_type: Tombstone Failed
+      network.application: microsoft office 365 onedrive for business
+      threat.technique.name[0]: 'User Execution: Malicious File'
+      Vendor.transaction_id: '7537950164874907331'
+      Vendor.device: unknown
+      Vendor.file_type: text/plain
+      Vendor.ccl: high
+      Vendor.app: Microsoft Office 365 OneDrive for Business
+      threat.framework: MITRE ATT&CK
+      user.name: Test@xyz.com
+      client.user.id: a2c47e7b-1bbc-4200-8e8a-f168a56f4fe3
+      Vendor.file_size: '2624'
+    outputEventIndex: 0
+  event:
+    rawString: '7befadad8a2bbed97305a07a,CASB API,-,false,-,quarantine,CASB API Scan,Test@xyz.com,yes,Test
+      Data Protection Policy,-,-,Tombstone Failed,Cloud Storage,-,Microsoft Office
+      365 OneDrive for Business,7537950164874907331,-,-,-,-,-,-,-,82,high,-,-,-,-,7537950164874907331,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,unknown,-,-,Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt,-,-,-,-,-,-,-,-,"Payment
+      Card Industry Data Security Standard. PCI-DSS,EU General Data Protection Regulation
+      (GDPR),EU General Data Protection Regulation (GDPR) (narrow),Gramm-Leach-Bliley
+      Act (GLB Act or GLBA), 1999,US Federal Trade commission rules (FTC),US Financial
+      Data,USA Patriot Act, 2001,UK Financial Data,UK Personally Identifiable Information,Canada
+      Financial Data,Canada Personally Identifiable Information,Personal Information
+      Protection and Electronic Documents Act (PIPEDA),Australia Finance data,DLP-PCI,DLP-PHI,DLP-PII,Colombia
+      Finance data,US, CA - CCPA (California Consumer Privacy Act, 2018),Best Practice
+      PCI DLP Profile,Best Practice PII DLP Profile",-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,"{""drive_id"":
+      ""b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALLuCz4ggeoT4pjRaXOdBjj"", ""driveitem_id"":
+      ""014GLSS72NCUN4ECGHZFBYD6WNK3QZCSH5"", ""site_collection_id"": ""a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8""}",-,-,-,-,-,-,/personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt,-,-,2624,text/plain,-,Test@xyz.com,-,-,-,-,-,-,-,Test.xyz.com,Test.xyz.com,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,88d330e3c5436c7423c026dce243fa76,-,text/plain,-,-,-,-,-,Test@xyz.com,-,Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt,"{""drive_id"":
+      ""b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALLuCz4ggeoT4pjRaXOdBjj"", ""driveitem_id"":
+      ""014GLSS72NCUN4ECGHZFBYD6WNK3QZCSH5"", ""site_collection_id"": ""a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8""}",Test@xyz.com,File,-,-,unknown,-,-,-,-,-,"{""drive_id"":
+      ""b!PM0toX-2uEqSwuqUx0SzyDAe0n7GMw1Eok5wsoIE5ALLuCz4ggeoT4pjRaXOdBjj"", ""driveitem_id"":
+      ""014GLSS73PGKZFU6UT5BFJVE4RPHZYGJDE"", ""site_collection_id"": ""a12dcd3c-b67f-4ab8-92c2-ea94c744b3c8""}",-,-,Test
+      Data Protection Policy,-,-,-,-,https://Testlabsin-my.sharepoint.com/personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,7537950164874907331,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,Test@xyz.com,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1747818296,-,-,-,cloudapp,7537950164874907331,-,-,nspolicy,-,-,https://Testlabsin-my.sharepoint.com/personal/Test/PreservationHoldLibrary/Protected/Test-005A-4B4E-B2FD-E68ABD4D3BE72025-05-21T02-01-39.txt,Test@xyz.com,-,-,-,a2c47e7b-1bbc-4200-8e8a-f168a56f4fe3,-,Test@xyz.com,-,Test
+      Drive for Business,-,-,-,CASB API Scan,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,alert'
+- assertions:
+  - fieldsHaveValues:
+      Vendor.app_session_id: '3483912176895852176'
+      threat.tactic.id[0]: TA0002
+      file.hash.md5: 2f6df9969215d9eb4d266dd636337da7
+      url.original: example.com
+      event.category[1]: network
+      event.category[0]: threat
+      Vendor.status: new
+      Vendor.title: info@example.com_2f6df9969215d9eb4d266dd636337da7_1629a7e222524c487c6d8b1dba7f4f98b3d1557d
+      threat.technique.id[0]: T1204
+      Vendor.activity: Download
+      Vendor.md5: 2f6df9969215d9eb4d266dd636337da7
+      Vendor.assignee: None
+      Vendor.dlp_parent_id: '837324741664663834'
+      url.path: ''
+      Vendor.access_method: Client
+      Vendor.object_type: File
+      Vendor.dlp_incident_id: '837324741664663834'
+      Vendor.true_obj_type: Plain Text file
+      event.type[0]: indicator
+      Vendor.CustomerId: b173143deed54c3da9230f7ca6ac5a25
+      Vendor.severity: Critical
+      Vendor.connection_id: '2762431970988418783'
+      Vendor._id: 1657c5566973139b27357a8e23cf3a8703c4bca68ce210595e62a5dbdce7631c
+      destination.geo.city_name: Redmond
+      Vendor.timestamp: '1703111543'
+      Vendor.file_lang: ENGLISH
+      threat.technique.reference[0]: https://attack.mitre.org/techniques/T1204/002
+      file.size: '10256549'
+      '#event.kind': alert
+      Vendor.user: info@example.com
+      url.domain: example.com
+      Vendor.dst_location: Redmond
+      Vendor.kind: incident
+      Vendor.acting_user: info@example.com
+      Vendor.url: example.com
+      threat.tactic.name[0]: Execution
+      Vendor.true_obj_category: Text
+      event.severity: '90'
+      threat.technique.subtechnique.id[0]: T1204.002
+      Vendor.__meta.res_id: netskope.semantic.NetskopeIncidentEvent
+      Vendor.src_location: San Diego
+      event.type[1]: info
+      Vendor.site: Microsoft OneDrive
+      network.application: microsoft onedrive
+      threat.technique.name[0]: 'User Execution: Malicious File'
+      Vendor.latest_incident_id: '0'
+      event.action: download
+      source.geo.city_name: San Diego
+      Vendor.file_type: text/plain
+      Vendor.app: Microsoft OneDrive
+      threat.framework: MITRE ATT&CK
+      user.name: info@example.com
+      event.category[2]: file
+      Vendor.__meta.version: '1.0'
+      Vendor.file_size: '10256549'
+    outputEventIndex: 0
+  event:
+    rawString: |
+      {"CustomerId": "b173143deed54c3da9230f7ca6ac5a25", "kind": "incident", "_id": "1657c5566973139b27357a8e23cf3a8703c4bca68ce210595e62a5dbdce7631c", "title": "info@example.com_2f6df9969215d9eb4d266dd636337da7_1629a7e222524c487c6d8b1dba7f4f98b3d1557d", "object": "", "app": "Microsoft OneDrive", "site": "Microsoft OneDrive", "status": "new", "assignee": "None", "severity": "Critical", "instance_id": "", "timestamp": 1703111543, "exposure": "", "acting_user": "info@example.com", "user": "info@example.com", "file_path": "", "file_size": 10256549, "file_type": "text/plain", "access_method": "Client", "activity": "Download", "instance": "", "url": "example.com", "object_type": "File", "owner": "", "owner_pdl": "", "file_lang": "ENGLISH", "true_obj_category": "Text", "true_obj_type": "Plain Text file", "dlp_incident_id": 837324741664663834, "latest_incident_id": 0, "dlp_parent_id": 837324741664663834, "from_user": "", "md5": "2f6df9969215d9eb4d266dd636337da7", "connection_id": 2762431970988418783, "app_session_id": 3483912176895852176, "referer": "", "dst_location": "Redmond", "src_location": "San Diego", "channel": "", "to_user": "", "cc": "", "bcc": "", "classification": "", "user_id": "", "destination_app": "", "destination_instance_id": "", "zip_file_id": "", "original_file_snapshot_id": "", "dlp_file": "", "__meta": {"res_id": "netskope.semantic.NetskopeIncidentEvent", "version": "1.0"}}
+- assertions:
+  - fieldsHaveValues:
+      Vendor.src_zipcode: '97818'
+      destination.port: '443'
+      source.geo.city_name: Boardman
+      Vendor.__meta.version: '1.0'
+      Vendor.traffic_type: Web
+      source.geo.region_name: Oregon
+      url.path: ''
+      Vendor.netskope_pop: US-SEA1
+      Vendor.access_method: Client
+      Vendor.ur_normalized: info@example.com
+      Vendor.conn_starttime: '0'
+      Vendor.user_generated: 'yes'
+      Vendor.appcategory: Technology
+      Vendor.app_session_id: '0'
+      server.bytes: '0'
+      Vendor.src_time: Sat Oct 28 23:10:00 2023
+      Vendor.dstport: '443'
+      source.geo.location.lat: '45.8234'
+      Vendor.resp_cnt: '0'
+      Vendor.conn_duration: '0'
+      Vendor.category: Technology
+      event.type[0]: connection
+      Vendor.CustomerId: b173143deed54c3da9230f7ca6ac5a25
+      Vendor.src_country: US
+      Vendor.suppression_end_time: '0'
+      Vendor.count: '1'
+      destination.geo.location.lon: '4.8975'
+      Vendor.http_transaction_count: '0'
+      Vendor.src_latitude: '45.8234'
+      Vendor.bypass_traffic: 'yes'
+      Vendor.cci: '0'
+      Vendor.userip: 0.0.0.0
+      Vendor.page: example.com
+      Vendor.src_region: Oregon
+      destination.geo.country_iso_code: NL
+      url.original: example.com
+      Vendor.ssl_decrypt_policy: 'no'
+      Vendor.request_id: '2697335749166405121'
+      Vendor.dst_longitude: '4.8975'
+      destination.geo.timezone: Europe/Amsterdam
+      Vendor.dst_timezone: Europe/Amsterdam
+      Vendor.connection_id: '0'
+      Vendor._id: f50ef525c4015a093aa3aa49
+      destination.geo.city_name: Amsterdam
+      destination.geo.postal_code: '1012'
+      Vendor.timestamp: '1698559825'
+      Vendor.type: connection
+      Vendor.dst_country: NL
+      Vendor.resp_content_len: '0'
+      '#event.kind': event
+      Vendor.user: info@example.com
+      Vendor.req_cnt: '0'
+      url.domain: example.com
+      Vendor.src_timezone: America/Los_Angeles
+      source.geo.country_iso_code: US
+      Vendor.userkey: info@example.com
+      event.category[0]: network
+      Vendor.dst_location: Amsterdam
+      Vendor.kind: page
+      Vendor.url: example.com
+      Vendor.src_longitude: '-119.7257'
+      Vendor.server_bytes: '0'
+      destination.geo.location.lat: '52.3759'
+      Vendor.dst_latitude: '52.3759'
+      Vendor.__meta.res_id: netskope.semantic.NetskopePageEvent
+      Vendor.numbytes: '0'
+      Vendor.client_bytes: '0'
+      Vendor.src_location: Boardman
+      source.ip: 10.0.0.2
+      Vendor.src_geoip_src: '0'
+      Vendor.conn_endtime: '0'
+      Vendor.domain: example.com
+      Vendor.suppression_start_time: '0'
+      Vendor.site: microsoft
+      Vendor.dst_zipcode: '1012'
+      Vendor.transaction_id: '0'
+      destination.geo.region_name: North Holland
+      Vendor.browser_session_id: '0'
+      source.geo.postal_code: '97818'
+      client.domain: example.com
+      Vendor.dst_geoip_src: '0'
+      Vendor.dst_region: North Holland
+      source.geo.location.lon: '-119.7257'
+      user.name: info@example.com
+      source.geo.timezone: America/Los_Angeles
+      Vendor.ccl: unknown
+      destination.ip: 1.1.1.1
+      client.ip: 0.0.0.0
+      Vendor.bypass_reason: SSL Error - Incomplete Certificate Trust Chain
+    outputEventIndex: 0
+  event:
+    rawString: |
+      {"CustomerId": "b173143deed54c3da9230f7ca6ac5a25", "CononicalName": "", "_id": "f50ef525c4015a093aa3aa49", "kind": "page", "access_method": "Client", "app": "", "app_session_id": 0, "appcategory": "Technology", "browser": "", "browser_session_id": 0, "browser_version": "", "bypass_reason": "SSL Error - Incomplete Certificate Trust Chain", "bypass_traffic": "yes", "category": "Technology", "cci": 0, "ccl": "unknown", "client_bytes": 0, "conn_duration": 0, "conn_endtime": 0, "conn_starttime": 0, "connection_id": 0, "count": 1, "device": "", "domain": "example.com", "dst_country": "NL", "dst_geoip_src": 0, "dst_latitude": 52.3759, "dst_location": "Amsterdam", "dst_longitude": 4.8975, "dst_region": "North Holland", "dst_timezone": "Europe/Amsterdam", "dst_zipcode": "1012", "dsthost": "", "dstip": "1.1.1.1", "dstport": 443, "dynamic_classification": "", "forward_to_proxy_profile": "", "fromlogs": "", "hostname": "", "http_transaction_count": 0, "log_file_name": "", "netskope_pop": "US-SEA1", "network": "", "numbytes": 0, "org": "", "organization_unit": "", "os": "", "os_version": "", "page": "example.com", "policy": "", "protocol": "", "req_cnt": 0, "request_id": 2697335749166405121, "resp_cnt": 0, "resp_content_len": 0, "resp_content_type": "", "sAMAccountName": "", "serial": "", "server_bytes": 0, "sessionid": "", "severity": "", "sfwder": "", "site": "microsoft", "src_country": "US", "src_geoip_src": 0, "src_latitude": 45.8234, "src_location": "Boardman", "src_longitude": -119.7257, "src_region": "Oregon", "src_time": "Sat Oct 28 23:10:00 2023", "src_timezone": "America/Los_Angeles", "src_zipcode": "97818", "srcip": "10.0.0.2", "ssl_decrypt_policy": "no", "suppression_end_time": 0, "suppression_start_time": 0, "timestamp": 1698559825, "traffic_type": "Web", "transaction_id": 0, "type": "connection", "ur_normalized": "info@example.com", "url": "example.com", "user": "info@example.com", "userPrincipalName": "", "user_generated": "yes", "useragent": "", "userip": "0.0.0.0", "userkey": "info@example.com", "__meta": {"res_id": "netskope.semantic.NetskopePageEvent", "version": "1.0"}}
+- assertions:
+  - fieldsHaveValues:
+      Vendor.access_method: Client
+      Vendor.num_sessions: '1'
+      server.packets: '27'
+      Vendor._id: 1552ef38b62237583b19eec0
+      Vendor.os_version: 11.0.22621
+      Vendor.start_time: '2023-11-30T03:02:25+00:00'
+      Vendor.dsthost: TestHost
+      Vendor.traffic_type: PrivateApp
+      Vendor.protocol: Ssh
+      Vendor.srcport: '0'
+      Vendor.total_packets: '48'
+      Vendor.ur_normalized: postmaster@example.com
+      Vendor.dstport: '22'
+      Vendor.appcategory: n/a
+      Vendor.hostname: R913KBZM
+      server.bytes: '7757'
+      rule.name: gjenkins-private-app
+      Vendor.publisher_name: gjenkins-npa
+      source.geo.location.lat: '0.0'
+      Vendor.server_packets: '27'
+      Vendor.policy: gjenkins-private-app
+      Vendor.category: n/a
+      event.type[0]: connection
+      Vendor.CustomerId: b173143deed54c3da9230f7ca6ac5a25
+      client.packets: '21'
+      device.model.name: Windows
+      Vendor.tunnel_id: '37269'
+      Vendor.count: '1'
+      destination.geo.location.lon: '0.0'
+      Vendor.src_latitude: '0.0'
+      Vendor.cci: '0'
+      Vendor.userip: 10.0.0.0
+      Vendor.os: Windows
+      Vendor.protocol_port: TCP:22
+      '#event.outcome': success
+      Vendor.dst_longitude: '0.0'
+      network.protocol: ssh
+      Vendor.timestamp: '1701313589'
+      Vendor.type: network
+      Vendor.dstip: 8.8.8.8
+      source.port: '0'
+      '#event.kind': event
+      Vendor.user: postmaster@example.com
+      Vendor.end_time: '2023-11-30T03:04:29+00:00'
+      network.transport: tcp
+      Vendor.publisher_cn: b4aa45da2ea6f3cd
+      Vendor.ip_protocol: TCP
+      Vendor.userkey: postmaster@example.com
+      event.category[0]: network
+      Vendor.kind: network
+      Vendor.action: allow
+      Vendor.src_longitude: '0.0'
+      Vendor.server_bytes: '7757'
+      destination.geo.location.lat: '0.0'
+      Vendor.dst_latitude: '0.0'
+      Vendor.__meta.res_id: netskope.semantic.NetskopeNetworkEvent
+      Vendor.numbytes: '11810'
+      Vendor.client_bytes: '4053'
+      host.os.type: windows
+      Vendor.session_duration: '123962'
+      destination.port: '22'
+      source.ip: 10.0.0.0
+      Vendor.src_geoip_src: '0'
+      Vendor.site: 172.31.34.5
+      network.application: '[cloudexchange]'
+      Vendor.client_packets: '21'
+      Vendor.dst_geoip_src: '0'
+      host.hostname: r913kbzm
+      Vendor.device: Windows
+      Vendor.srcip: 10.0.0.0
+      Vendor.tunnel_type: NPA
+      Vendor.ccl: unknown
+      Vendor.network_session_id: '1483757802749318264'
+      source.geo.location.lon: '0.0'
+      Vendor.app: '[cloudexchange]'
+      user.name: postmaster@example.com
+      Vendor.tunnel_up_time: '123962'
+      Vendor.__meta.version: '1.0'
+      client.bytes: '4053'
+      client.ip: 10.0.0.0
+      destination.ip: 8.8.8.8
+    outputEventIndex: 0
+  event:
+    rawString: |
+      {"CustomerId": "b173143deed54c3da9230f7ca6ac5a25", "kind": "network", "_id": "1552ef38b62237583b19eec0", "access_method": "Client", "action": "allow", "app": "[cloudexchange]", "appcategory": "n/a", "category": "n/a", "cci": 0, "ccl": "unknown", "client_bytes": 4053, "client_packets": 21, "count": 1, "device": "Windows", "domain": "", "dst_country": "", "dst_geoip_src": 0, "dst_latitude": 0.0, "dst_location": "", "dst_longitude": 0.0, "dst_region": "", "dst_zipcode": "", "dsthost": "TestHost", "dstip": "8.8.8.8", "dstport": 22, "end_time": "2023-11-30T03:04:29+00:00", "flow_status": "", "hostname": "R913KBZM", "ip_protocol": "TCP", "netskope_pop": "", "network_session_id": "1483757802749318264", "num_sessions": 1, "numbytes": 11810, "organization_unit": "", "os": "Windows", "os_version": "11.0.22621", "policy": "gjenkins-private-app", "policy_id": "", "protocol": "Ssh", "protocol_port": "TCP:22", "publisher_cn": "b4aa45da2ea6f3cd", "publisher_name": "gjenkins-npa", "sAMAccountName": "", "server_bytes": 7757, "server_packets": 27, "session_duration": 123962, "site": "172.31.34.5", "src_country": "", "src_geoip_src": 0, "src_latitude": 0.0, "src_location": "", "src_longitude": 0.0, "src_region": "", "src_zipcode": "", "srcip": "10.0.0.0", "srcport": 0, "start_time": "2023-11-30T03:02:25+00:00", "timestamp": 1701313589, "total_packets": 48, "traffic_type": "PrivateApp", "tunnel_id": "37269", "tunnel_type": "NPA", "tunnel_up_time": 123962, "type": "network", "ur_normalized": "postmaster@example.com", "user": "postmaster@example.com", "userip": "10.0.0.0", "userkey": "postmaster@example.com", "userPrincipalName": "", "__meta": {"res_id": "netskope.semantic.NetskopeNetworkEvent", "version": "1.0"}}
+- assertions:
+  - fieldsHaveValues:
+      Vendor.ur_normalized: postmaster@example.com
+      Vendor.count: '1'
+      Vendor.severity_level: '2'
+      Vendor._id: f6fb7caa95bd89f9a3982a02
+      Vendor.supporting_data.data_type: reason
+      event.category[0]: configuration
+      Vendor.kind: audit
+      Vendor.audit_log_event: Logout Successful
+      Vendor.__meta.res_id: netskope.semantic.NetskopeAuditEvent
+      event.reason: Logged out due to inactivity
+      event.type[0]: admin
+      Vendor.CustomerId: b173143deed54c3da9230f7ca6ac5a25
+      Vendor.timestamp: '1703233897'
+      Vendor.type: admin_audit_logs
+      '#event.kind': event
+      Vendor.user: postmaster@example.com
+      Vendor.supporting_data.data_values[0]: Logged out due to inactivity
+      Vendor.__meta.version: '1.0'
+    outputEventIndex: 0
+  event:
+    rawString: '{"CustomerId": "b173143deed54c3da9230f7ca6ac5a25", "user": "postmaster@example.com",
+      "kind": "audit", "timestamp": 1703233897, "audit_log_event": "Logout Successful",
+      "severity_level": 2, "organization_unit": "", "ur_normalized": "postmaster@example.com",
+      "_id": "f6fb7caa95bd89f9a3982a02", "type": "admin_audit_logs", "supporting_data":
+      {"data_type": "reason", "data_values": ["Logged out due to inactivity"]}, "count":
+      1, "userPrincipalName": "", "sAMAccountName": "", "ccl": "", "__meta": {"res_id":
+      "netskope.semantic.NetskopeAuditEvent", "version": "1.0"}}'
+- assertions:
+  - fieldsHaveValues:
+      Vendor.process_cert_subject: GXKXBKxMhZRGQzbr
+      Vendor.policy_version: v2
+      Vendor.dlp_incident_id: '0'
+      device.model.name: wpkMMArHKBRbDRMP
+      Vendor.os: windows
+      Vendor.process_path: /Application/TestApp/Content/
+      Vendor.vendor_id: sGzXtoLIwhpJZkLM
+      Vendor.policy_action: block
+      Vendor.os_user_name: OicEfNSgVyJmzBuF
+      Vendor.dlp_rule: KstPTusMMQbZTSRP
+      Vendor.process_name: wNQGguDLhtMxrNbJ
+      Vendor.md5: jOZvieelUaPDwoepjOZvieelUaPDwoep
+      Vendor.destination_file_name: BctEagRVoStJcJWE
+      device.id: ZJXFupIEcTLFttAQ
+      Vendor.access_method: Endpoint
+      Vendor.sub_type: SUBTYPE_DEVICE_CONTROL
+      Vendor.alert_name: tDfFZVxOzDKFuPdZ
+      Vendor.destination_file_path: /User/Local/Content/
+      event.type[0]: connection
+      Vendor.CustomerId: b173143deed54c3da9230f7ca6ac5a25
+      file.hash.md5: jozvieeluapdwoepjozvieeluapdwoep
+      Vendor.product_id: DlzknIOMNSEuWyFX
+      file.path: /User/Local/Content/
+      Vendor.computer_name: DvmPFWHKjkkjRepS
+      Vendor.event_recovered: 'false'
+      Vendor._id: 001c25ac3cc6e2df50df9010
+      Vendor.device_type: SanDisk
+      Vendor.executable_signed: 'false'
+      Vendor.timestamp: '1703627017'
+      Vendor.device_id: ZJXFupIEcTLFttAQ
+      Vendor.type: endpoint
+      Vendor.incident_id: '0'
+      Vendor.executable_hash: kqOyOWAPYGDCJEac
+      file.size: '265'
+      '#event.kind': event
+      Vendor.user: liDWLQXJlFckLQwz
+      Vendor.destination_file_directory: /User/Lib/ABC
+      Vendor.policy_action_enforced: 'Yes'
+      Vendor.alert: 'no'
+      event.category[0]: network
+      Vendor.alert_generated: 'false'
+      Vendor.kind: endpoint
+      Vendor.dlp_profile_name: MaKMJfhbsDZreUNl
+      Vendor.os_details: windows 10
+      Vendor.__meta.res_id: netskope.semantic.NetskopeEndpointEvent
+      Vendor.device_sn: epeVdHNgXplDnxEB
+      host.os.type: windows
+      Vendor.policy_name: gHlhPTRNeiQMzZfB
+      Vendor.alert_type: endpoint
+      Vendor.policy_name_enforced: 'Yes'
+      device.manufacturer: SanDisk
+      Vendor.device: wpkMMArHKBRbDRMP
+      Vendor.file_type: doc
+      user.name: liDWLQXJlFckLQwz
+      Vendor.activity_type: Unmount
+      Vendor.pid: '24765'
+      Vendor.__meta.version: '1.0'
+      Vendor.file_size: '265'
+    outputEventIndex: 0
+  event:
+    rawString: '{"CustomerId": "b173143deed54c3da9230f7ca6ac5a25", "kind": "endpoint",
+      "_id": "001c25ac3cc6e2df50df9010", "access_method": "Endpoint", "action": "",
+      "activity": "", "activity_type": "Unmount", "alert": "no", "alert_generated":
+      false, "alert_name": "tDfFZVxOzDKFuPdZ", "alert_type": "endpoint", "app": "",
+      "computer_name": "DvmPFWHKjkkjRepS", "connection_type": "", "destination_file_directory":
+      "/User/Lib/ABC", "destination_file_name": "BctEagRVoStJcJWE", "destination_file_path":
+      "/User/Local/Content/", "device": "wpkMMArHKBRbDRMP", "device_id": "ZJXFupIEcTLFttAQ",
+      "device_name": "", "device_sn": "epeVdHNgXplDnxEB", "device_type": "SanDisk",
+      "dlp_incident_id": 0, "dlp_profile": "", "dlp_profile_name": "MaKMJfhbsDZreUNl",
+      "dlp_rule": "KstPTusMMQbZTSRP", "driver": "", "event_recovered": false, "executable_hash":
+      "kqOyOWAPYGDCJEac", "executable_signed": false, "file_origin": "", "file_size":
+      265, "file_type": "doc", "incident_id": 0, "justification": "", "location":
+      "", "md5": "jOZvieelUaPDwoepjOZvieelUaPDwoep", "os": "windows", "os_details":
+      "windows 10", "os_user_name": "OicEfNSgVyJmzBuF", "pid": "24765", "policy_action":
+      "block", "policy_action_enforced": "Yes", "policy_name": "gHlhPTRNeiQMzZfB",
+      "policy_name_enforced": "Yes", "policy_version": "v2", "port": "", "printer_identifier":
+      "", "process_cert_subject": "GXKXBKxMhZRGQzbr", "process_name": "wNQGguDLhtMxrNbJ",
+      "process_path": "/Application/TestApp/Content/", "product_id": "DlzknIOMNSEuWyFX",
+      "sha256": "", "source_file_directory": "", "source_file_name": "", "sub_type":
+      "SUBTYPE_DEVICE_CONTROL", "timestamp": 1703627017, "type": "endpoint", "unc_path":
+      "", "user": "liDWLQXJlFckLQwz", "vendor_id": "sGzXtoLIwhpJZkLM", "__meta": {"res_id":
+      "netskope.semantic.NetskopeEndpointEvent", "version": "1.0"}}'
+- assertions:
+  - fieldsHaveValues:
+      destination.port: '0'
+      Vendor.traffic_type: Web
+      source.geo.region_name: California
+      Vendor.dlp_rule_count: '0'
+      threat.indicator.ip: 10.0.0.0
+      Vendor.protocol: HTTPS/1.1
+      Vendor.activity: Download
+      Vendor.total_collaborator_count: '0'
+      Vendor.md5: e2622645934fbf51dae24695743d8ca1
+      Vendor.dlp_parent_id: '0'
+      url.path: /public/content/kgl/Version/2294/kgl.2294.compressed
+      Vendor.netskope_pop: US-SEA2
+      Vendor.alert_name: meng-test
+      Vendor.ur_normalized: mailer-demon@example.com
+      Vendor.conn_starttime: '0'
+      Vendor.appcategory: Technology
+      Vendor.hostname: MLU-WIN10-RED
+      Vendor.app_session_id: '5870262294066407291'
+      server.bytes: '0'
+      rule.name: meng-test
+      Vendor.src_time: Wed Nov 1 22:13:00 2023
+      Vendor.dstport: '0'
+      source.geo.location.lat: '37.3417'
+      Vendor.object_type: File
+      Vendor.dlp_incident_id: '0'
+      Vendor.resp_cnt: '0'
+      Vendor.policy: meng-test
+      Vendor.conn_duration: '0'
+      Vendor.external_collaborator_count: '0'
+      Vendor.category: Technology
+      event.type[0]: indicator
+      Vendor.CustomerId: b173143deed54c3da9230f7ca6ac5a25
+      Vendor.src_country: US
+      Vendor.suppression_end_time: '0'
+      device.model.name: Windows Device
+      Vendor.count: '1'
+      destination.geo.location.lon: '-84.6469'
+      Vendor.http_transaction_count: '0'
+      Vendor.src_latitude: '37.3417'
+      threat.tactic.id[0]: TA0002
+      Vendor.cci: '0'
+      Vendor.userip: 10.0.0.0
+      Vendor.os: Windows 10
+      Vendor.outer_doc_type: '0'
+      Vendor.device_classification: not configured
+      Vendor.web_universal_connector: 'yes'
+      Vendor.page: dlassets-ssl.xboxlive.com/public/content/kgl/Version/2294/kgl.2294.compressed
+      Vendor.page_site: xboxlive
+      Vendor.src_region: California
+      file.hash.md5: e2622645934fbf51dae24695743d8ca1
+      destination.geo.country_iso_code: US
+      url.original: dlassets-ssl.xboxlive.com/public/content/kgl/Version/2294/kgl.2294.compressed
+      Vendor.modified: '0'
+      Vendor.request_id: '2700206013600137984'
+      Vendor.dst_longitude: '-84.6469'
+      destination.geo.timezone: America/New_York
+      network.protocol: https
+      Vendor.malsite_latitude: '0.0'
+      Vendor.dst_timezone: America/New_York
+      Vendor.connection_id: '0'
+      Vendor.managed_app: 'no'
+      Vendor.severity: unknown
+      destination.geo.city_name: Lithia Springs
+      destination.geo.postal_code: '30122'
+      Vendor.timestamp: '1698901986'
+      Vendor.type: nspolicy
+      Vendor.dst_country: US
+      Vendor.object: kgl.2294.compressed
+      Vendor.malsite_longitude: '0.0'
+      threat.technique.reference[0]: https://attack.mitre.org/techniques/T1204/002
+      Vendor.dstip: 10.255.255.255
+      file.size: '381176'
+      Vendor.src_zipcode: '95051'
+      event.category[1]: network
+      '#event.kind': alert
+      Vendor.user: mailer-demon@example.com
+      Vendor.severity_level_id: '0'
+      Vendor.req_cnt: '0'
+      url.domain: dlassets-ssl.xboxlive.com
+      Vendor.src_timezone: America/Los_Angeles
+      Vendor.threshold: '0'
+      source.geo.country_iso_code: US
+      Vendor.threshold_time: '0'
+      Vendor.userkey: mailer-demon@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: threat
+      Vendor.breach_date: '0'
+      Vendor.dst_location: Lithia Springs
+      Vendor.kind: alert
+      Vendor.dlp_unique_count: '0'
+      Vendor.url: dlassets-ssl.xboxlive.com/public/content/kgl/Version/2294/kgl.2294.compressed
+      threat.tactic.name[0]: Execution
+      Vendor.last_timestamp: '0'
+      Vendor.src_longitude: '-121.9753'
+      Vendor.server_bytes: '0'
+      threat.technique.subtechnique.id[0]: T1204.002
+      destination.geo.location.lat: '33.7655'
+      Vendor.dst_latitude: '33.7655'
+      Vendor.__meta.res_id: netskope.semantic.NetskopeAlertEvent
+      Vendor.numbytes: '0'
+      host.os.type: windows
+      Vendor.external_email: '0'
+      Vendor.sa_profile_id: '0'
+      event.type[1]: info
+      Vendor.client_bytes: '0'
+      Vendor.src_location: Santa Clara
+      source.ip: 172.16.0.0
+      Vendor.internal_collaborator_count: '0'
+      Vendor.src_geoip_src: '0'
+      Vendor.conn_endtime: '0'
+      Vendor.suppression_start_time: '0'
+      Vendor.domain: example.com
+      Vendor.os_version: Windows 10
+      Vendor.title: kgl.2294.compressed
+      Vendor.site: xboxlive
+      Vendor.threat_source_id: '0'
+      Vendor.dst_zipcode: '30122'
+      user_agent.original: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19044
+      Vendor.alert_type: policy
+      threat.technique.name[0]: 'User Execution: Malicious File'
+      Vendor.transaction_id: '5500707609015207424'
+      Vendor.browser: Edge
+      Vendor.browser_session_id: '2256704650350859518'
+      source.geo.postal_code: '95051'
+      destination.geo.region_name: Georgia
+      Vendor.policy_id: 96DE24DA5F0A4BF042FD34FE7FB39542 2023-07-21 20:21:02.177314
+      client.domain: example.com
+      Vendor.dst_geoip_src: '0'
+      host.hostname: mlu-win10-red
+      Vendor.dst_region: Georgia
+      event.action: download
+      Vendor.device: Windows Device
+      Vendor.file_type: File Type Not Detected
+      Vendor.srcip: 172.16.0.0
+      source.geo.city_name: Santa Clara
+      source.geo.location.lon: '-121.9753'
+      threat.framework: MITRE ATT&CK
+      user.name: mailer-demon@example.com
+      source.geo.timezone: America/Los_Angeles
+      Vendor.ccl: unknown
+      event.category[2]: file
+      Vendor.file_size: '381176'
+      Vendor.browser_version: '18.19044'
+      Vendor.useragent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19044
+      client.ip: 10.0.0.0
+      destination.ip: 10.255.255.255
+      threat.technique.id[0]: T1204
+      Vendor.file_cls_encrypted: 'false'
+    outputEventIndex: 0
+  event:
+    rawString: '{"CustomerId": "b173143deed54c3da9230f7ca6ac5a25", "_id": "774d9cc51d7b71e90eb3bde8",
+      "kind": "alert", "access_method": "Client", "account_id": "", "account_name":
+      "", "acked": "false", "action": "alert", "activity": "Download", "alert": "yes",
+      "alert_id": "", "alert_name": "meng-test", "alert_type": "policy", "app": "",
+      "app_activity": "", "app_session_id": 5870262294066407291, "appcategory": "Technology",
+      "appsuite": "", "asset_id": "", "asset_object_id": "", "breach_date": 0, "breach_description":
+      "", "breach_id": "", "breach_media_references": "", "breach_score": "", "breach_target_references":
+      "", "browser": "Edge", "browser_session_id": 2256704650350859518, "browser_version":
+      "18.19044", "bypass_traffic": "", "category": "Technology", "cci": 0, "ccl":
+      "unknown", "client_bytes": 0, "conn_duration": 0, "conn_endtime": 0, "conn_starttime":
+      0, "connection_id": 0, "CononicalName": "", "count": 1, "data_type": "", "device":
+      "Windows Device", "device_classification": "not configured", "dlp_file": "",
+      "dlp_incident_id": 0, "dlp_is_unique_count": "", "dlp_mail_parent_id": "", "dlp_parent_id":
+      0, "dlp_profile": "", "dlp_rule": "", "dlp_rule_count": 0, "dlp_rule_severity":
+      "", "dlp_unique_count": 0, "domain": "example.com", "dst_country": "US", "dst_geoip_src":
+      0, "dst_latitude": 33.7655, "dst_location": "Lithia Springs", "dst_longitude":
+      -84.6469, "dst_region": "Georgia", "dst_timezone": "America/New_York", "dst_zipcode":
+      "30122", "dstip": "10.255.255.255", "dsthost": "", "dstport": 0, "email_source":
+      "", "event_type": "", "evt_src_chnl": "", "exposure": "", "external_collaborator_count":
+      0, "external_email": 0, "file_cls_encrypted": false, "file_lang": "", "file_path":
+      "", "file_size": 381176, "file_type": "File Type Not Detected", "from_user":
+      "", "fromlogs": "", "hostname": "MLU-WIN10-RED", "http_transaction_count": 0,
+      "iaas_remediated": "", "instance": "", "instance_id": "", "internal_collaborator_count":
+      0, "justification_reason": "", "justification_type": "", "last_app": "", "last_country":
+      "", "last_device": "", "last_location": "", "last_region": "", "last_timestamp":
+      0, "log_file_name": "", "malicious": "", "malsite_country": "", "malsite_id":
+      "", "malsite_ip_host": "", "malsite_latitude": 0.0, "malsite_longitude": 0.0,
+      "malsite_region": "", "malware_type": "", "malware_name": "", "managed_app":
+      "no", "managementID": "", "matched_username": "", "md5": "e2622645934fbf51dae24695743d8ca1",
+      "mime_type": "", "modified": 0, "netskope_activity": "", "netskope_pop": "US-SEA2",
+      "notify_template": "", "nsdeviceuid": "", "numbytes": 0, "object": "kgl.2294.compressed",
+      "object_id": "", "object_type": "File", "org": "", "organization_unit": "",
+      "orig_ty": "", "orignal_file_path": "", "os": "Windows 10", "os_version": "Windows
+      10", "outer_doc_type": 0, "owner": "", "page": "dlassets-ssl.xboxlive.com/public/content/kgl/Version/2294/kgl.2294.compressed",
+      "page_site": "xboxlive", "parent_id": "", "password_type": "", "policy": "meng-test",
+      "policy_id": "96DE24DA5F0A4BF042FD34FE7FB39542 2023-07-21 20:21:02.177314",
+      "profile_id": "", "protocol": "HTTPS/1.1", "referer": "", "region_id": "", "region_name":
+      "", "req_cnt": 0, "request_id": 2700206013600137984, "resource_category": "",
+      "resource_group": "", "resp_cnt": 0, "sa_profile_id": 0, "sa_profile_name":
+      "", "sa_rule_id": "", "sa_rule_name": "", "sa_rule_severity": "", "sAMAccountName":
+      "", "sanctioned_instance": "", "scan_type": "", "serial": "", "server_bytes":
+      0, "sessionid": "", "severity": "unknown", "severity_level": "", "severity_level_id":
+      0, "sfwder": "", "sha256": "", "shared_domains": "", "shared_with": "", "site":
+      "xboxlive", "src_country": "US", "src_geoip_src": 0, "src_latitude": 37.3417,
+      "src_location": "Santa Clara", "src_longitude": -121.9753, "src_region": "California",
+      "src_time": "Wed Nov 1 22:13:00 2023", "src_timezone": "America/Los_Angeles",
+      "src_zipcode": "95051", "srcip": "172.16.0.0", "suppression_end_time": 0, "suppression_key":
+      "", "suppression_start_time": 0, "telemetry_app": "", "threat_match_field":
+      "", "threat_match_value": "", "threat_source_id": 0, "threshold": 0, "threshold_time":
+      0, "timestamp": 1698901986, "title": "kgl.2294.compressed", "to_object": "",
+      "total_collaborator_count": 0, "traffic_type": "Web", "transaction_id": 5500707609015207424,
+      "true_obj_category": "", "true_obj_type": "", "tss_mode": "", "two_factor_auth":
+      "", "type": "nspolicy", "universal_connector": "", "ur_normalized": "mailer-demon@example.com",
+      "url": "dlassets-ssl.xboxlive.com/public/content/kgl/Version/2294/kgl.2294.compressed",
+      "user": "mailer-demon@example.com", "user_generated": "", "user_id": "", "useragent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
+      Chrome/70.0.3538.102 Safari/537.36 Edge/18.19044", "userip": "10.0.0.0", "userkey":
+      "mailer-demon@example.com", "userPrincipalName": "", "web_universal_connector":
+      "yes", "__meta": {"res_id": "netskope.semantic.NetskopeAlertEvent", "version":
+      "1.0"}}'
+- assertions:
+  - fieldsHaveValues:
+      Vendor.src_zipcode: '97818'
+      destination.port: '0'
+      Vendor.traffic_type: CloudApp
+      source.geo.region_name: Oregon
+      Vendor.dlp_rule_count: '0'
+      Vendor.protocol: HTTPS/1.1
+      Vendor.activity: Download
+      Vendor.total_collaborator_count: '0'
+      Vendor.md5: 77b51aca839176f708679d65a2cc5e9e
+      Vendor.dlp_parent_id: '0'
+      url.path: /prelude/6fcb1413-4992-4f4a-a0b4-3765194489f9/6fcb1413-4992-4f4a-a0b4-3765194489f9_windows-x86_64
+      Vendor.netskope_pop: US-SEA1
+      Vendor.access_method: Client
+      Vendor.ur_normalized: mailer-demon@example.com
+      Vendor.appcategory: Cloud Storage
+      Vendor.hostname: XDR-STH-WIN10-6
+      Vendor.app_session_id: '3892297871295673434'
+      server.bytes: '0'
+      Vendor.src_time: Sun Oct 29 13:56:08 2023
+      Vendor.dstport: '0'
+      source.geo.location.lat: '45.8234'
+      Vendor.object_type: File
+      Vendor.dlp_incident_id: '0'
+      Vendor.resp_cnt: '0'
+      Vendor.conn_duration: '0'
+      Vendor.category: Cloud Storage
+      event.type[0]: info
+      Vendor.CustomerId: b173143deed54c3da9230f7ca6ac5a25
+      Vendor.src_country: US
+      Vendor.suppression_end_time: '0'
+      device.model.name: Windows Device
+      Vendor.count: '1'
+      destination.geo.location.lon: '-82.9987'
+      Vendor.src_latitude: '45.8234'
+      Vendor.cci: '89'
+      Vendor.userip: 10.255.255.255
+      Vendor.os: Windows 10
+      Vendor.device_classification: not configured
+      Vendor.page: prelude-account-us1-us-east-2.s3.amazonaws.com
+      Vendor.page_site: Amazon S3
+      Vendor.src_region: Oregon
+      file.hash.md5: 77b51aca839176f708679d65a2cc5e9e
+      destination.geo.country_iso_code: US
+      url.original: prelude-account-us1-us-east-2.s3.amazonaws.com/prelude/6fcb1413-4992-4f4a-a0b4-3765194489f9/6fcb1413-4992-4f4a-a0b4-3765194489f9_windows-x86_64
+      Vendor.modified: '0'
+      Vendor.request_id: '2697781510022796544'
+      Vendor.dst_longitude: '-82.9987'
+      destination.geo.timezone: America/New_York
+      network.protocol: https
+      Vendor.dst_timezone: America/New_York
+      Vendor.connection_id: '4886395353432352542'
+      Vendor.managed_app: 'no'
+      Vendor.severity: unknown
+      Vendor._id: 77d828d44d9c008e0682b84a
+      destination.geo.city_name: Columbus
+      destination.geo.postal_code: '43215'
+      Vendor.timestamp: '1698612964'
+      Vendor.type: nspolicy
+      Vendor.dst_country: US
+      Vendor.object: 6fcb1413-4992-4f4a-a0b4-3765194489f9_windows-x86_64
+      Vendor.dstip: 192.0.2.0
+      file.size: '1814016'
+      '#event.kind': event
+      Vendor.user: mailer-demon@example.com
+      Vendor.req_cnt: '0'
+      url.domain: prelude-account-us1-us-east-2.s3.amazonaws.com
+      Vendor.src_timezone: America/Los_Angeles
+      source.geo.country_iso_code: US
+      Vendor.userkey: mailer-demon@example.com
+      Vendor.alert: 'no'
+      event.category[0]: file
+      Vendor.dst_location: Columbus
+      Vendor.kind: application
+      Vendor.dlp_unique_count: '0'
+      Vendor.url: prelude-account-us1-us-east-2.s3.amazonaws.com/prelude/6fcb1413-4992-4f4a-a0b4-3765194489f9/6fcb1413-4992-4f4a-a0b4-3765194489f9_windows-x86_64
+      Vendor.src_longitude: '-119.7257'
+      Vendor.server_bytes: '0'
+      destination.geo.location.lat: '39.9587'
+      Vendor.dst_latitude: '39.9587'
+      Vendor.__meta.res_id: netskope.semantic.NetskopeApplicationEvent
+      Vendor.numbytes: '0'
+      host.os.type: windows
+      Vendor.client_bytes: '0'
+      Vendor.src_location: Boardman
+      source.ip: 192.168.0.0
+      Vendor.internal_collaborator_count: '0'
+      Vendor.src_geoip_src: '0'
+      Vendor.os_version: Windows 10
+      Vendor.suppression_start_time: '0'
+      Vendor.site: Amazon S3
+      Vendor.dst_zipcode: '43215'
+      user_agent.original: Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.1
+      network.application: amazon s3
+      Vendor.transaction_id: '3002396853741893464'
+      Vendor.browser: Native
+      Vendor.browser_session_id: '5621857215066950133'
+      source.geo.postal_code: '97818'
+      destination.geo.region_name: Ohio
+      Vendor.policy_id: 96DE24DA5F0A4BF042FD34FE7FB39542 2023-07-21 20:21:02.177314
+      Vendor.tss_mode: inline
+      Vendor.dst_geoip_src: '0'
+      host.hostname: xdr-sth-win10-6
+      Vendor.dst_region: Ohio
+      event.action: download
+      Vendor.device: Windows Device
+      Vendor.appsuite: Amazon
+      Vendor.file_type: application/x-dosexec
+      Vendor.srcip: 192.168.0.0
+      source.geo.city_name: Boardman
+      source.geo.location.lon: '-119.7257'
+      Vendor.app: Amazon S3
+      user.name: mailer-demon@example.com
+      source.geo.timezone: America/Los_Angeles
+      Vendor.ccl: high
+      Vendor.__meta.version: '1.0'
+      Vendor.file_size: '1814016'
+      Vendor.useragent: Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.1
+      client.ip: 10.255.255.255
+      destination.ip: 192.0.2.0
+    outputEventIndex: 0
+  event:
+    rawString: '{"CustomerId": "b173143deed54c3da9230f7ca6ac5a25", "kind": "application",
+      "_id": "77d828d44d9c008e0682b84a", "access_method": "Client", "action": "",
+      "activity": "Download", "alert": "no", "alert_type": "", "app": "Amazon S3",
+      "app_activity": "", "app_session_id": 3892297871295673434, "appcategory": "Cloud
+      Storage", "appsuite": "Amazon", "audit_category": "", "audit_type": "", "browser":
+      "Native", "browser_session_id": 5621857215066950133, "browser_version": "",
+      "category": "Cloud Storage", "cci": 89, "ccl": "high", "channel_id": "", "client_bytes":
+      0, "conn_duration": 0, "connection_id": 4886395353432352542, "CononicalName":
+      "", "count": 1, "custom_connector": "", "data_center": "", "data_type": "",
+      "device": "Windows Device", "device_classification": "not configured", "dlp_file":
+      "", "dlp_incident_id": 0, "dlp_is_unique_count": "", "dlp_mail_parent_id": "",
+      "dlp_parent_id": 0, "dlp_profile": "", "dlp_rule": "", "dlp_rule_count": 0,
+      "dlp_rule_severity": "", "dlp_unique_count": 0, "dst_country": "US", "dst_geoip_src":
+      0, "dst_latitude": 39.9587, "dst_location": "Columbus", "dst_longitude": -82.9987,
+      "dst_region": "Ohio", "dst_timezone": "America/New_York", "dst_zipcode": "43215",
+      "dsthost": "", "dstip": "192.0.2.0", "dstport": 0, "exposure": "", "file_lang":
+      "", "file_path": "", "file_size": 1814016, "file_type": "application/x-dosexec",
+      "from_user": "", "from_user_category": "", "fromlogs": "", "hostname": "XDR-STH-WIN10-6",
+      "instance": "", "instance_id": "", "internal_collaborator_count": 0, "log_file_name":
+      "", "logintype": "", "loginurl": "", "managed_app": "no", "managementID": "",
+      "md5": "77b51aca839176f708679d65a2cc5e9e", "mime_type": "", "modified": 0, "netskope_activity":
+      "", "netskope_pop": "US-SEA1", "notify_template": "", "nsdeviceuid": "", "numbytes":
+      0, "object": "6fcb1413-4992-4f4a-a0b4-3765194489f9_windows-x86_64", "object_id":
+      "", "object_type": "File", "org": "", "organization_unit": "", "orignal_file_path":
+      "", "os": "Windows 10", "os_version": "Windows 10", "owner": "", "page": "prelude-account-us1-us-east-2.s3.amazonaws.com",
+      "page_site": "Amazon S3", "parent_id": "", "policy": "", "policy_id": "96DE24DA5F0A4BF042FD34FE7FB39542
+      2023-07-21 20:21:02.177314", "protocol": "HTTPS/1.1", "referer": "", "req_cnt":
+      0, "request_id": 2697781510022796544, "resp_cnt": 0, "sAMAccountName": "", "sanctioned_instance":
+      "", "scan_type": "", "serial": "", "server_bytes": 0, "sessionid": "", "severity":
+      "unknown", "sha256": "", "shared_with": "", "site": "Amazon S3", "src_country":
+      "US", "src_geoip_src": 0, "src_latitude": 45.8234, "src_location": "Boardman",
+      "src_longitude": -119.7257, "src_region": "Oregon", "src_time": "Sun Oct 29
+      13:56:08 2023", "src_timezone": "America/Los_Angeles", "src_zipcode": "97818",
+      "srcip": "192.168.0.0", "suppression_end_time": 0, "suppression_key": "", "suppression_start_time":
+      0, "telemetry_app": "", "timestamp": 1698612964, "title": "", "to_user": "",
+      "total_collaborator_count": 0, "traffic_type": "CloudApp", "transaction_id":
+      3002396853741893464, "true_obj_category": "", "true_obj_type": "", "tss_mode":
+      "inline", "type": "nspolicy", "universal_connector": "", "ur_normalized": "mailer-demon@example.com",
+      "url": "prelude-account-us1-us-east-2.s3.amazonaws.com/prelude/6fcb1413-4992-4f4a-a0b4-3765194489f9/6fcb1413-4992-4f4a-a0b4-3765194489f9_windows-x86_64",
+      "user": "mailer-demon@example.com", "user_category": "", "user_id": "", "useragent":
+      "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.1",
+      "userip": "10.255.255.255", "userkey": "mailer-demon@example.com", "userPrincipalName":
+      "", "web_universal_connector": "", "workspace": "", "workspace_id": "", "__meta":
+      {"res_id": "netskope.semantic.NetskopeApplicationEvent", "version": "1.0"}}'
+- assertions:
+  - fieldsHaveValues:
+      event.type[0]: info
+      Vendor.src_zipcode: '97058'
+      Vendor.src_longitude: -34.1871|47.599899999999998
+      destination.port: '443'
+      source.ip: 1.2.3.4
+      Vendor.traffic_type: CloudApp
+      source.geo.region_name: Oregon
+      Vendor.activity: Download
+      Vendor.md5: 36801615c4d269b4d2b9360b20c87c2b
+      url.path: /test/repos/test/index.gz
+      Vendor.netskope_pop: US-SEA2
+      Vendor.access_method: Client
+      Vendor.ur_normalized: test@example.com
+      Vendor.dstport: '443'
+      Vendor.appcategory: IaaS/PaaS
+      Vendor.hostname: instance-ngcc1
+      Vendor.app_session_id: '3810907871576714468'
+      source.geo.location.lat: '45.599899999999998'
+      Vendor.object_type: File
+      Vendor.src_country: US
+      destination.geo.location.lon: '-34.34'
+      device.model.name: Windows Device
+      Vendor.src_latitude: -121.1871|45.599899999999998
+      Vendor.cci: '89'
+      Vendor.userip: 10.70.0.19
+      Vendor.os: Windows Server 2016
+      Vendor.device_classification: unmanaged
+      Vendor.page: packages.cloud.test.com/yuck/repos/test/index.gz
+      Vendor.src_region: Oregon
+      file.hash.md5: 36801615c4d269b4d2b9360b20c87c2b
+      destination.geo.country_iso_code: US
+      url.original: test.com/test/repos/test/index.gz
+      Vendor.request_id: '3069705966682744320'
+      Vendor.dst_longitude: -34.34|47.456
+      destination.geo.timezone: America/Los_Angeles
+      Vendor.managed_app: 'no'
+      Vendor.dst_timezone: America/Los_Angeles
+      Vendor.connection_id: '0'
+      Vendor._id: ef2ff81ac5d950d8f0da2dcb
+      destination.geo.city_name: Seattle
+      destination.geo.postal_code: N/A
+      Vendor.timestamp: '1742949813'
+      Vendor.type: nspolicy
+      Vendor.dst_country: US
+      Vendor.object: index.gz
+      Vendor.dstip: 1.2.3.4
+      file.size: '8399'
+      Vendor.record_type: application
+      Vendor.incident_id: '41258182026724520023'
+      '#event.kind': event
+      Vendor.user: test@example.com
+      url.domain: test.com
+      Vendor.src_timezone: America/Los_Angeles
+      source.geo.country_iso_code: US
+      Vendor.userkey: test@example.com
+      Vendor.alert: 'no'
+      event.category[0]: file
+      Vendor.dst_location: Seattle
+      Vendor.url: test.com/test/repos/test/index.gz
+      destination.geo.location.lat: '47.60430908203125'
+      Vendor.dst_latitude: -122.32984161376953|47.60430908203125
+      Vendor.src_location: The Dalles
+      host.os.type: windows
+      Vendor.file_category: Archive and Compressed
+      Vendor.domain: packages.cloud.google.com
+      Vendor.os_version: Windows Server 10.0
+      Vendor.site: Google Cloud Platform
+      Vendor.dst_zipcode: N/A
+      user_agent.original: Go-http-client/1.1
+      network.application: test cloud platform
+      Vendor.transaction_id: '4125818202675820023'
+      Vendor.browser: Go
+      destination.geo.region_name: Washington
+      Vendor.browser_session_id: '5858554483810292719'
+      source.geo.postal_code: '97058'
+      client.domain: packages.cloud.google.com
+      host.hostname: instance-ngcc1
+      Vendor.dst_region: Washington
+      event.action: download
+      Vendor.device: Windows Device
+      Vendor.os_family: Windows Server
+      Vendor.file_type: GZ Compress
+      Vendor.srcip: 1.2.3.4
+      source.geo.city_name: The Dalles
+      source.geo.location.lon: '-34.1871'
+      Vendor.app: Test Cloud Platform
+      user.name: test@example.com
+      source.geo.timezone: America/Los_Angeles
+      Vendor.ccl: high
+      Vendor.port: '443'
+      Vendor.file_size: '8399'
+      Vendor.useragent: Go-http-client/1.1
+      client.ip: 10.70.0.19
+      destination.ip: 1.2.3.4
+    outputEventIndex: 0
+  event:
+    rawString: ef2ff81ac5d950d8f0da2dcb,Client,-,-,-,-,Download,-,no,-,-,-,-,IaaS/PaaS,-,Test
+      Cloud Platform,3810907871576714468,-,-,Go,5858554483810292719,-,-,-,89,high,-,-,-,-,0,US,-,-,-,-,US,-,-,1.2.3.4,Seattle,443,Washington,America/Los_Angeles,N/A,-,Windows
+      Device,unmanaged,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,packages.cloud.google.com,-,-,-,-,-,-,-,-,-,Archive
+      and Compressed,-,-,-,-,-,-,-,-,-,-,-,-,8399,GZ Compress,-,-,-,-,-,instance-ngcc1,-,41258182026724520023,-,-,-,-,-,-,-122.32984161376953|47.60430908203125,-121.1871|45.599899999999998,-,-,-,-,-,The
+      Dalles,-34.34|47.456,-34.1871|47.599899999999998,-,-,-,-,-,-,no,-,-,36801615c4d269b4d2b9360b20c87c2b,-,-,-,-,-,-,-,test@example.com,-,index.gz,-,-,File,-,-,Windows
+      Server 2016,-,Windows Server,-,Windows Server 10.0,packages.cloud.test.com/yuck/repos/test/index.gz,-,-,-,-,-,-,US-SEA2,443,-,-,-,-,-,-,-,-,-,-,-,Oregon,-,-,-,-,-,-,-,3069705966682744320,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1.2.3.4,-,-,-,-,-,-,-,-,1742949813,America/Los_Angeles,-,-,CloudApp,4125818202675820023,-,-,nspolicy,-,-,test.com/test/repos/test/index.gz,test@example.com,Go-http-client/1.1,-,-,-,10.70.0.19,test@example.com,-,Google
+      Cloud Platform,97058,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,application
+- assertions:
+  - fieldsHaveValues:
+      Vendor.srcport: '57402'
+      source.geo.location.lat: '23.01'
+      Vendor.src_region: Gujarat
+      Vendor.src_zipcode: '380058'
+      Vendor.src_longitude: 72.44|23.01
+      destination.port: '53'
+      source.ip: 1.2.3.4
+      Vendor.traffic_type: non-web
+      source.geo.region_name: Gujarat
+      Vendor.pop_id: 0X0B09
+      Vendor.netskope_pop: IN-BOM2
+      Vendor.access_method: Client
+      Vendor.ur_normalized: test@example.com
+      Vendor.dstport: '53'
+      Vendor.appcategory: N/A
+      rule.name: default
+      event.type[0]: connection
+      Vendor.policy: default
+      Vendor.src_country: IN
+      Vendor.tunnel_id: '1138033358287542'
+      Vendor.src_latitude: 72.44|23.01
+      Vendor.cci: '15'
+      Vendor.userip: 10.50.1.27
+      Vendor.os: Windows NT 11.0
+      '#event.outcome': success
+      Vendor._id: 747d3c7317dbd13fc17375f5
+      destination.geo.city_name: Private
+      Vendor.timestamp: '1742498666'
+      Vendor.type: network
+      Vendor.record_type: network
+      Vendor.dstip: 10.0.1.94
+      source.port: '57402'
+      '#event.kind': event
+      Vendor.user: test@example.com
+      source.geo.country_iso_code: IN
+      network.transport: udp
+      Vendor.ip_protocol: UDP
+      Vendor.userkey: test@example.com
+      event.category[0]: network
+      Vendor.dst_location: Private
+      Vendor.action: allow
+      Vendor.src_location: Shela
+      host.os.type: windows
+      Vendor.site: dns
+      network.application: dns
+      Vendor.start_time: '2025-03-20T19:24:26+00:00'
+      source.geo.postal_code: '380058'
+      Vendor.srcip: 1.2.3.4
+      source.geo.city_name: Shela
+      Vendor.ccl: poor
+      source.geo.location.lon: '72.44'
+      Vendor.app: dns
+      user.name: test@example.com
+      client.ip: 10.50.1.27
+      destination.ip: 10.0.1.94
+    outputEventIndex: 0
+  event:
+    rawString: 747d3c7317dbd13fc17375f5 Client - - - allow - - - - - - - N/A - dns
+      - - - - - - - - 15 poor - - - - - IN - - - - - - - 10.0.1.94 Private 53 - -
+      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      - - - - - - - - - - - - - - - - - - - - - - UDP - 72.44|23.01 - - - - - Shela
+      - 72.44|23.01 - - - - - - - - - - - - - - - - - test@example.com - - - - - -
+      - "Windows NT 11.0" - - - - - - - - default - 0X0B09 IN-BOM2 - - - - - - - -
+      - - - - Gujarat - - - - - - - - - - - - - - - - - - - - - - - - - 1138033358287542
+      - - - 1.2.3.4 57402 - 2025-03-20T19:24:26+00:00 - - - - - 1742498666 - - - non-web
+      - - - network - - - test@example.com - - - - 10.50.1.27 test@example.com - dns
+      380058 - - - - - - - - - - - - - - - - - - - - - - - - - - - network
+- assertions:
+  - fieldsHaveValues:
+      source.geo.location.lat: '59.328699999999998'
+      Vendor.src_zipcode: 100 04
+      Vendor.src_longitude: 18.0717|59.328699999999998
+      destination.port: '443'
+      Vendor.port: '443'
+      Vendor.traffic_type: Web
+      source.geo.region_name: Test County
+      url.path: /favicon.ico
+      Vendor.netskope_pop: SE-STO1
+      Vendor.access_method: Client
+      Vendor.alert_name: pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev
+      Vendor.ur_normalized: test@example.com
+      Vendor.dstport: '443'
+      Vendor.appcategory: Security Risk
+      Vendor.hostname: Test-IDMHT6TII
+      Vendor.app_session_id: '3498739865127733176'
+      rule.name: Web Access Block
+      event.type[0]: info
+      Vendor.policy: Web Access Block
+      Vendor.src_country: SE
+      destination.geo.location.lon: '-122.41941833496094'
+      device.model.name: Windows Device
+      Vendor.src_latitude: 18.0717|59.328699999999998
+      threat.tactic.id[0]: TA0002
+      Vendor.userip: 172.31.24.246
+      Vendor.os: Windows 11
+      '#event.outcome': failure
+      Vendor.device_classification: unmanaged
+      Vendor.page: pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev/favicon.ico
+      Vendor.src_region: Test County
+      destination.geo.country_iso_code: US
+      Vendor.severity_level: med
+      url.original: pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev/favicon.ico
+      Vendor.request_id: '1571679566860492940'
+      Vendor.dst_longitude: -122.41941833496094|37.774929046630859
+      destination.geo.timezone: America/Los_Angeles
+      Vendor.managed_app: 'no'
+      Vendor.dst_timezone: America/Los_Angeles
+      Vendor.connection_id: '0'
+      Vendor._id: 4c95ab3cfe08e2ddd6f10ba3
+      destination.geo.city_name: San Francisco
+      destination.geo.postal_code: N/A
+      Vendor.timestamp: '1747167075'
+      Vendor.type: malsite
+      Vendor.dst_country: US
+      threat.technique.reference[0]: https://attack.mitre.org/techniques/T1204/001
+      Vendor.dstip: 172.66.0.235
+      Vendor.record_type: alert
+      Vendor.incident_id: '1571679566860492940'
+      '#event.kind': event
+      Vendor.user: test@example.com
+      url.domain: pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev
+      Vendor.src_timezone: Europe/Test
+      source.geo.country_iso_code: SE
+      Vendor.userkey: test@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: network
+      Vendor.dst_location: San Francisco
+      Vendor.action: block
+      Vendor.url: pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev/favicon.ico
+      threat.tactic.name[0]: Execution
+      threat.technique.subtechnique.id[0]: T1204.001
+      destination.geo.location.lat: '37.774929046630859'
+      Vendor.dst_latitude: -122.41941833496094|37.774929046630859
+      Vendor.src_location: Stockholm
+      host.os.type: windows
+      source.ip: 1.2.3.4
+      Vendor.acked: 'false'
+      Vendor.domain: pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev
+      Vendor.os_version: Windows NT 11.0
+      Vendor.site: r2
+      Vendor.dst_zipcode: N/A
+      user_agent.original: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
+      Vendor.alert_type: malsite
+      threat.technique.name[0]: 'User Execution: Malicious Link'
+      Vendor.transaction_id: '1571679566860492940'
+      Vendor.browser: Edge
+      destination.geo.region_name: California
+      Vendor.browser_session_id: '371998695062091908'
+      source.geo.postal_code: 100 04
+      client.domain: pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev
+      host.hostname: test-idmht6tii
+      Vendor.dst_region: California
+      Vendor.device: Windows Device
+      Vendor.os_family: Windows
+      Vendor.srcip: 1.2.3.4
+      source.geo.city_name: Stockholm
+      source.geo.timezone: Europe/Test
+      source.geo.location.lon: '18.0717'
+      threat.framework: MITRE ATT&CK
+      user.name: test@example.com
+      threat.technique.id[0]: T1204
+      Vendor.useragent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
+      client.ip: 172.31.24.246
+      destination.ip: 172.66.0.235
+    outputEventIndex: 0
+  event:
+    rawString: 4c95ab3cfe08e2ddd6f10ba3,Client,-,false,-,block,-,-,yes,pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev,-,-,malsite,Security
+      Risk,-,-,3498739865127733176,-,-,Edge,371998695062091908,-,-,-,-,-,-,-,-,-,0,SE,-,-,-,-,US,-,-,172.66.0.235,San
+      Francisco,443,California,America/Los_Angeles,N/A,-,Windows Device,unmanaged,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,Test-IDMHT6TII,-,1571679566860492940,-,-,-,-,-,-,-122.41941833496094|37.774929046630859,18.0717|59.328699999999998,-,-,-,-,-,Stockholm,-122.41941833496094|37.774929046630859,18.0717|59.328699999999998,-,-,-,-,-,-,no,-,-,-,-,-,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,Windows
+      11,-,Windows,-,Windows NT 11.0,pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev/favicon.ico,-,-,-,Web
+      Access Block,-,-,SE-STO1,443,-,-,-,-,-,-,-,-,-,-,-,Test County,-,-,-,-,-,-,-,1571679566860492940,-,-,-,-,-,-,-,-,-,-,-,-,-,med,-,-,-,-,-,-,-,1.2.3.4,-,-,-,-,-,-,-,-,1747167075,Europe/Test,-,-,Web,1571679566860492940,-,-,malsite,-,-,pub-4fcafdabd48b45cd8efb6cdc77f798a5.r2.dev/favicon.ico,test@example.com,"Mozilla/5.0
+      (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0
+      Safari/537.36 Edg/136.0.0.0",-,-,-,172.31.24.246,test@example.com,-,r2,100 04,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,alert
+- assertions:
+  - fieldsHaveValues:
+      Vendor.src_longitude: 18.0717|59.328699999999998
+      destination.port: '443'
+      source.ip: 1.2.3.4
+      Vendor.port: '443'
+      Vendor.traffic_type: CloudApp
+      source.geo.region_name: Stockholm County
+      threat.indicator.ip: 172.31.24.246
+      Vendor.activity: View
+      url.path: /
+      Vendor.netskope_pop: SE-STO1
+      Vendor.access_method: Client
+      Vendor.ur_normalized: test@example.com
+      Vendor.dstport: '443'
+      Vendor.appcategory: IT Service/Application Management
+      Vendor.hostname: Test-IDMHT6TII
+      Vendor.app_session_id: '2241753685910532990'
+      rule.name: Web Access Allow
+      source.geo.location.lat: '59.328699999999998'
+      Vendor.instance_id: '202533540828'
+      event.type[0]: indicator
+      Vendor.policy: Web Access Allow
+      Vendor.src_country: SE
+      destination.geo.location.lon: '18.0717'
+      device.model.name: Windows Device
+      Vendor.src_latitude: 18.0717|59.328699999999998
+      Vendor.cci: '92'
+      Vendor.userip: 172.31.24.246
+      Vendor.os: Windows 11
+      Vendor.device_classification: unmanaged
+      Vendor.page: ssm.eu-north-1.amazonaws.com
+      Vendor.src_region: Stockholm County
+      destination.geo.country_iso_code: SE
+      url.original: ssm.eu-north-1.amazonaws.com/
+      Vendor.request_id: '2217134308746813612'
+      Vendor.dst_longitude: 18.0717|59.328699999999998
+      destination.geo.timezone: Europe/Stockholm
+      Vendor.managed_app: 'no'
+      Vendor.dst_timezone: Europe/Stockholm
+      Vendor.connection_id: '3995835640042578814'
+      Vendor._id: 07fed192e790d66a34514e8c
+      destination.geo.city_name: Stockholm
+      destination.geo.postal_code: 100 04
+      Vendor.timestamp: '1747112062'
+      Vendor.type: nspolicy
+      Vendor.dst_country: SE
+      Vendor.dstip: 16.171.81.152
+      Vendor.record_type: alert
+      Vendor.incident_id: '2217134308746813612'
+      Vendor.src_zipcode: 100 04
+      event.category[1]: network
+      '#event.kind': alert
+      '#event.outcome': success
+      Vendor.user: test@example.com
+      url.domain: ssm.eu-north-1.amazonaws.com
+      Vendor.src_timezone: Europe/Stockholm
+      source.geo.country_iso_code: SE
+      Vendor.userkey: test@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: threat
+      Vendor.dst_location: Stockholm
+      Vendor.action: alert
+      Vendor.url: ssm.eu-north-1.amazonaws.com/
+      destination.geo.location.lat: '59.328699999999998'
+      Vendor.dst_latitude: 18.0717|59.328699999999998
+      Vendor.src_location: Stockholm
+      host.os.type: windows
+      event.type[1]: info
+      Vendor.domain: ssm.eu-north-1.amazonaws.com
+      Vendor.os_version: Windows NT 11.0
+      Vendor.site: Amazon Systems Manager
+      Vendor.dst_zipcode: 100 04
+      user_agent.original: aws-sdk-go/1.55.5 (go1.23.7; windows; amd64) amazon-ssm-agent/3.3.2299.0
+      network.application: amazon systems manager
+      Vendor.transaction_id: '2217134308746813612'
+      Vendor.browser: Native
+      destination.geo.region_name: Stockholm County
+      Vendor.browser_session_id: '4940241048203471891'
+      source.geo.postal_code: 100 04
+      client.domain: ssm.eu-north-1.amazonaws.com
+      host.hostname: test-idmht6tii
+      Vendor.dst_region: Stockholm County
+      event.action: view
+      Vendor.device: Windows Device
+      Vendor.appsuite: Amazon
+      Vendor.os_family: Windows
+      Vendor.srcip: 1.2.3.4
+      source.geo.city_name: Stockholm
+      source.geo.location.lon: '18.0717'
+      Vendor.app: Amazon Systems Manager
+      user.name: test@example.com
+      source.geo.timezone: Europe/Stockholm
+      Vendor.ccl: excellent
+      Vendor.useragent: aws-sdk-go/1.55.5 (go1.23.7; windows; amd64) amazon-ssm-agent/3.3.2299.0
+      client.ip: 172.31.24.246
+      destination.ip: 16.171.81.152
+    outputEventIndex: 0
+  event:
+    rawString: 07fed192e790d66a34514e8c,Client,-,-,-,alert,View,-,yes,-,-,-,-,IT Service/Application
+      Management,Amazon,Amazon Systems Manager,2241753685910532990,-,-,Native,4940241048203471891,-,-,-,92,excellent,-,-,-,-,3995835640042578814,SE,-,-,-,-,SE,-,-,16.171.81.152,Stockholm,443,Stockholm
+      County,Europe/Stockholm,100 04,-,Windows Device,unmanaged,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,ssm.eu-north-1.amazonaws.com,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,Test-IDMHT6TII,-,2217134308746813612,-,202533540828,-,-,-,-,18.0717|59.328699999999998,18.0717|59.328699999999998,-,-,-,-,-,Stockholm,18.0717|59.328699999999998,18.0717|59.328699999999998,-,-,-,-,-,-,no,-,-,-,-,-,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,Windows
+      11,-,Windows,-,Windows NT 11.0,ssm.eu-north-1.amazonaws.com,-,-,-,Web Access
+      Allow,-,-,SE-STO1,443,-,-,-,-,-,-,-,-,-,-,-,Stockholm County,-,-,-,-,-,-,-,2217134308746813612,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1.2.3.4,-,-,-,-,-,-,-,-,1747112062,Europe/Stockholm,-,-,CloudApp,2217134308746813612,-,-,nspolicy,-,-,ssm.eu-north-1.amazonaws.com/,test@example.com,aws-sdk-go/1.55.5
+      (go1.23.7; windows; amd64) amazon-ssm-agent/3.3.2299.0,-,-,-,172.31.24.246,test@example.com,-,Amazon
+      Systems Manager,100 04,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,alert
+- assertions:
+  - fieldsHaveValues:
+      Vendor.src_longitude: 18.0717|59.328699999999998
+      destination.port: '443'
+      Vendor.port: '443'
+      Vendor.traffic_type: CloudApp
+      source.geo.region_name: test County
+      threat.indicator.ip: 172.31.24.246
+      Vendor.activity: Edit
+      url.path: /
+      Vendor.netskope_pop: SE-STO1
+      Vendor.access_method: Client
+      Vendor.alert_name: Web Access Allow
+      Vendor.ur_normalized: test@example.com
+      Vendor.dstport: '443'
+      Vendor.appcategory: IT Service/Application Management
+      Vendor.hostname: Test-IDMHT6TII
+      Vendor.app_session_id: '2241753685910532990'
+      rule.name: Web Access Allow
+      source.geo.location.lat: '59.328699999999998'
+      Vendor.instance_id: '202533540828'
+      event.type[0]: indicator
+      Vendor.policy: Web Access Allow
+      Vendor.src_country: SE
+      destination.geo.location.lon: '18.0717'
+      device.model.name: Windows Device
+      Vendor.src_latitude: 18.0717|59.328699999999998
+      Vendor.cci: '92'
+      Vendor.userip: 172.31.24.246
+      Vendor.os: Windows 11
+      Vendor.device_classification: unmanaged
+      Vendor.page: ssm.eu-north-1.amazonaws.com
+      Vendor.src_region: test County
+      destination.geo.country_iso_code: SE
+      url.original: ssm.eu-north-1.amazonaws.com/
+      Vendor.request_id: '5254981775376249392'
+      Vendor.dst_longitude: 18.0717|59.328699999999998
+      destination.geo.timezone: Europe/TestCity
+      Vendor.managed_app: 'no'
+      Vendor.dst_timezone: Europe/TestCity
+      Vendor.connection_id: '2631086121425559188'
+      Vendor._id: eb8fc9903c2fbb6aa05537ff
+      destination.geo.city_name: Stockholm
+      destination.geo.postal_code: 100 04
+      Vendor.timestamp: '1747134122'
+      Vendor.type: nspolicy
+      Vendor.dst_country: SE
+      Vendor.dstip: 16.171.81.152
+      Vendor.record_type: alert
+      Vendor.incident_id: '5254981775376249392'
+      Vendor.src_zipcode: 100 04
+      event.category[1]: network
+      '#event.kind': alert
+      '#event.outcome': success
+      Vendor.user: test@example.com
+      url.domain: ssm.eu-north-1.amazonaws.com
+      Vendor.src_timezone: Europe/Test
+      source.geo.country_iso_code: SE
+      Vendor.userkey: test@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: threat
+      Vendor.dst_location: Stockholm
+      Vendor.action: alert
+      Vendor.url: ssm.eu-north-1.amazonaws.com/
+      destination.geo.location.lat: '59.328699999999998'
+      Vendor.dst_latitude: 18.0717|59.328699999999998
+      Vendor.src_location: Test
+      host.os.type: windows
+      event.type[1]: info
+      source.ip: 1.2.3.4
+      Vendor.acked: 'false'
+      Vendor.domain: ssm.eu-north-1.amazonaws.com
+      Vendor.os_version: Windows NT 11.0
+      Vendor.site: Amazon Systems Manager
+      Vendor.dst_zipcode: 100 04
+      user_agent.original: aws-sdk-go/1.55.5 (go1.23.7; windows; amd64) amazon-ssm-agent/3.3.2299.0
+      Vendor.alert_type: policy
+      network.application: amazon systems manager
+      Vendor.transaction_id: '5254981775376249392'
+      Vendor.browser: Native
+      destination.geo.region_name: Stockholm County
+      Vendor.browser_session_id: '4940241048203471891'
+      source.geo.postal_code: 100 04
+      client.domain: ssm.eu-north-1.amazonaws.com
+      host.hostname: test-idmht6tii
+      Vendor.dst_region: Stockholm County
+      event.action: edit
+      Vendor.device: Windows Device
+      Vendor.appsuite: Amazon
+      Vendor.os_family: Windows
+      Vendor.srcip: 1.2.3.4
+      source.geo.city_name: Test
+      source.geo.location.lon: '18.0717'
+      Vendor.app: Amazon Systems Manager
+      user.name: test@example.com
+      source.geo.timezone: Europe/Test
+      Vendor.ccl: excellent
+      Vendor.useragent: aws-sdk-go/1.55.5 (go1.23.7; windows; amd64) amazon-ssm-agent/3.3.2299.0
+      client.ip: 172.31.24.246
+      destination.ip: 16.171.81.152
+    outputEventIndex: 0
+  event:
+    rawString: eb8fc9903c2fbb6aa05537ff,Client,-,false,-,alert,Edit,-,yes,Web Access
+      Allow,-,-,policy,IT Service/Application Management,Amazon,Amazon Systems Manager,2241753685910532990,-,-,Native,4940241048203471891,-,-,-,92,excellent,-,-,-,-,2631086121425559188,SE,-,-,-,-,SE,-,-,16.171.81.152,Stockholm,443,Stockholm
+      County,Europe/TestCity,100 04,-,Windows Device,unmanaged,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,ssm.eu-north-1.amazonaws.com,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,Test-IDMHT6TII,-,5254981775376249392,-,202533540828,-,-,-,-,18.0717|59.328699999999998,18.0717|59.328699999999998,-,-,-,-,-,Test,18.0717|59.328699999999998,18.0717|59.328699999999998,-,-,-,-,-,-,no,-,-,-,-,-,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,Windows
+      11,-,Windows,-,Windows NT 11.0,ssm.eu-north-1.amazonaws.com,-,-,-,Web Access
+      Allow,-,-,SE-STO1,443,-,-,-,-,-,-,-,-,-,-,-,test County,-,-,-,-,-,-,-,5254981775376249392,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1.2.3.4,-,-,-,-,-,-,-,-,1747134122,Europe/Test,-,-,CloudApp,5254981775376249392,-,-,nspolicy,-,-,ssm.eu-north-1.amazonaws.com/,test@example.com,aws-sdk-go/1.55.5
+      (go1.23.7; windows; amd64) amazon-ssm-agent/3.3.2299.0,-,-,-,172.31.24.246,test@example.com,-,Amazon
+      Systems Manager,100 04,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,alert
+- assertions:
+  - fieldsHaveValues:
+      Vendor.src_region: Karnataka
+      server.packets: '0'
+      Vendor.src_zipcode: '560077'
+      Vendor.numbytes: '768'
+      source.ip: 1.2.3.4
+      Vendor.traffic_type: non-web
+      source.geo.region_name: Karnataka
+      Vendor.pop_id: 0X0B0A
+      Vendor.srcport: '27036'
+      Vendor.total_packets: '6'
+      Vendor.netskope_pop: IN-MAA2
+      Vendor.access_method: Client
+      Vendor.ur_normalized: test@example.com
+      Vendor.dstport: '27036'
+      Vendor.appcategory: Telecom and Call Center
+      server.bytes: '0'
+      rule.name: default
+      source.geo.location.lat: '13.07'
+      Vendor.server_packets: '0'
+      event.type[0]: connection
+      Vendor.policy: default
+      Vendor.src_country: IN
+      client.packets: '6'
+      Vendor.tunnel_id: '1138037653789027'
+      Vendor.src_latitude: 77.63|13.07
+      Vendor.cci: '22'
+      Vendor.userip: 192.168.1.11
+      Vendor.os: Windows NT 11.0
+      '#event.outcome': success
+      Vendor._id: f86ab63c5a4ec2c193098048
+      destination.geo.city_name: Private
+      Vendor.timestamp: '1747133906'
+      Vendor.type: network
+      Vendor.record_type: network
+      Vendor.dstip: 192.168.1.255
+      source.port: '27036'
+      '#event.kind': event
+      Vendor.user: test@example.com
+      Vendor.end_time: '2025-05-13T10:57:55+00:00'
+      source.geo.country_iso_code: IN
+      network.transport: udp
+      Vendor.ip_protocol: UDP
+      Vendor.userkey: test@example.com
+      event.category[0]: network
+      Vendor.dst_location: Private
+      Vendor.action: allow
+      Vendor.src_longitude: 77.63|13.07
+      Vendor.server_bytes: '0'
+      host.os.type: windows
+      Vendor.client_bytes: '768'
+      Vendor.src_location: Bangalore
+      Vendor.session_duration: '21011'
+      destination.port: '27036'
+      Vendor.site: steam
+      network.application: steam
+      Vendor.client_packets: '6'
+      Vendor.start_time: '2025-05-13T10:57:34+00:00'
+      source.geo.postal_code: '560077'
+      Vendor.srcip: 1.2.3.4
+      source.geo.city_name: Bangalore
+      Vendor.ccl: poor
+      source.geo.location.lon: '77.63'
+      Vendor.app: steam
+      user.name: test@example.com
+      client.bytes: '768'
+      client.ip: 192.168.1.11
+      destination.ip: 192.168.1.255
+    outputEventIndex: 0
+  event:
+    rawString: f86ab63c5a4ec2c193098048,Client,-,-,-,allow,-,-,-,-,-,-,-,Telecom and
+      Call Center,-,steam,-,-,-,-,-,0,768,-,22,poor,-,-,-,-,-,IN,-,-,-,-,-,-,-,192.168.1.255,Private,27036,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,2025-05-13T10:57:55+00:00,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,UDP,-,77.63|13.07,-,-,-,-,-,Bangalore,-,77.63|13.07,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,Windows
+      NT 11.0,-,-,-,-,-,-,-,-,default,-,0X0B0A,IN-MAA2,-,-,-,-,-,-,-,-,-,-,-,-,Karnataka,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,21011,-,-,-,-,-,-,1138037653789027,-,-,-,1.2.3.4,27036,-,2025-05-13T10:57:34+00:00,-,-,-,-,-,1747133906,-,-,768,non-web,-,-,-,network,-,-,-,test@example.com,-,-,-,-,192.168.1.11,test@example.com,-,steam,560077,-,-,-,-,-,-,-,-,-,-,-,-,-,0,6,-,-,-,-,-,-,-,-,6,-,-,-,network
+- assertions:
+  - fieldsHaveValues:
+      Vendor.activity: Insert
+      Vendor.ur_normalized: test@example.com
+      event.type[0]: info
+      Vendor.computer_name: testdevice
+      Vendor._id: 772202b2ea0d6057f886f053
+      Vendor.record_type: alert
+      Vendor.action: block
+      Vendor.policy_action: block
+      Vendor.os_details: Mac OS X Sonoma 14.7.5 arm64
+      Vendor.acked: 'false'
+      event.action: insert
+      user.name: Test@example.com
+      Vendor.event_uuid: 5a5574fd-0083-41c3-996a-81c67e6c45d6
+      Vendor.access_method: Endpoint
+      Vendor.alert_name: BlockEndpoint
+      Vendor.os: macOS
+      '#event.outcome': failure
+      Vendor.device_classification: MacOs check
+      Vendor.timestamp: '1747134127'
+      Vendor.type: endpoint
+      '#event.kind': event
+      Vendor.user: Test@example.com
+      Vendor.userkey: Test@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: network
+      host.os.type: macos
+      Vendor.policy_name: BlockEndpoint
+      Vendor.alert_type: Device
+      Vendor.policy_name_enforced: BlockEndpoint
+    outputEventIndex: 0
+  event:
+    rawString: 772202b2ea0d6057f886f053,Endpoint,-,false,-,block,Insert,-,yes,BlockEndpoint,-,-,Device,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,BlockEndpoint,block,-,-,-,-,-,-,-,-,-,-,-,MacOs
+      check,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,testdevice,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,macOS,Mac
+      OS X Sonoma 14.7.5 arm64,-,-,-,-,-,-,BlockEndpoint,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1747134127,-,-,-,-,-,-,-,endpoint,-,-,-,Test@example.com,-,-,-,-,-,Test@example.com,-,-,-,-,-,-,-,-,-,-,-,5a5574fd-0083-41c3-996a-81c67e6c45d6,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,alert
+- assertions:
+  - fieldsHaveValues:
+      Vendor.src_zipcode: '562130'
+      destination.port: '443'
+      Vendor.traffic_type: CloudApp
+      source.geo.region_name: Karnataka
+      url.path: ''
+      Vendor.netskope_pop: IN-MAA2
+      Vendor.access_method: Client
+      Vendor.ur_normalized: test@example.com
+      Vendor.dstport: '443'
+      Vendor.conn_starttime: '1747133030'
+      Vendor.appcategory: Webmail
+      Vendor.hostname: KeshavTest
+      Vendor.app_session_id: '438388819325815355'
+      server.bytes: '387197'
+      source.geo.location.lat: '12.975300000000001'
+      Vendor.resp_cnt: '173'
+      event.type[0]: connection
+      Vendor.conn_duration: '986'
+      Vendor.src_country: IN
+      destination.geo.location.lon: '80.278480529785156'
+      device.model.name: Windows Device
+      Vendor.src_latitude: 77.590999999999994|12.975300000000001
+      Vendor.cci: '86'
+      Vendor.userip: 192.168.1.11
+      Vendor.os: Windows 11
+      Vendor.page: mail.google.com
+      Vendor.src_region: Karnataka
+      destination.geo.country_iso_code: IN
+      url.original: mail.google.com
+      Vendor.dst_longitude: 80.278480529785156|13.087898254394531
+      destination.geo.timezone: Asia/Kolkata
+      Vendor.dst_timezone: Asia/Kolkata
+      Vendor.connection_id: '8335488044687090606'
+      Vendor._id: c96659f7292a31d76576becd
+      destination.geo.city_name: chentest
+      destination.geo.postal_code: N/A
+      Vendor.timestamp: '1747133030'
+      Vendor.type: connection
+      Vendor.dst_country: IN
+      Vendor.record_type: page
+      Vendor.dstip: 1.2.3.4
+      '#event.kind': event
+      Vendor.user: test@example.com
+      Vendor.req_cnt: '173'
+      url.domain: mail.google.com
+      Vendor.src_timezone: Asia/Kolkata
+      source.geo.country_iso_code: IN
+      Vendor.userkey: test@example.com
+      event.category[0]: network
+      Vendor.dst_location: chentest
+      Vendor.url: mail.google.com
+      Vendor.src_longitude: 77.590999999999994|12.975300000000001
+      Vendor.server_bytes: '387197'
+      destination.geo.location.lat: '13.087898254394531'
+      Vendor.dst_latitude: 80.278480529785156|13.087898254394531
+      Vendor.numbytes: '1348230'
+      host.os.type: windows
+      Vendor.client_bytes: '961033'
+      Vendor.src_location: Bengaluru
+      source.ip: 1.2.3.4
+      Vendor.conn_endtime: '1747134016'
+      Vendor.domain: mail.google.com
+      Vendor.os_version: Windows NT 11.0
+      Vendor.site: Google Gmail
+      Vendor.dst_zipcode: N/A
+      user_agent.original: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+      network.application: google gmail
+      Vendor.browser: Chrome
+      destination.geo.region_name: Tamil Nadu
+      Vendor.browser_session_id: '5006467906912901882'
+      source.geo.postal_code: '562130'
+      client.domain: mail.google.com
+      host.hostname: keshavtest
+      Vendor.dst_region: Tamil Nadu
+      Vendor.device: Windows Device
+      Vendor.os_family: Windows
+      Vendor.srcip: 1.2.3.4
+      source.geo.city_name: Bengaluru
+      source.geo.location.lon: '77.590999999999994'
+      Vendor.app: Google Gmail
+      user.name: test@example.com
+      source.geo.timezone: Asia/Kolkata
+      Vendor.ccl: high
+      client.bytes: '961033'
+      Vendor.useragent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+      client.ip: 192.168.1.11
+      destination.ip: 1.2.3.4
+    outputEventIndex: 0
+  event:
+    rawString: c96659f7292a31d76576becd,Client,-,-,-,-,-,-,-,-,-,-,-,Webmail,-,Google
+      Gmail,438388819325815355,-,-,Chrome,5006467906912901882,387197,961033,-,86,high,-,-,-,-,8335488044687090606,IN,-,-,-,-,IN,-,-,1.2.3.4,chentest,443,Tamil
+      Nadu,Asia/Kolkata,N/A,-,Windows Device,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,mail.google.com,-,986,-,1747134016,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,KeshavTest,-,-,-,-,-,-,-,-,80.278480529785156|13.087898254394531,77.590999999999994|12.975300000000001,-,-,-,-,-,Bengaluru,80.278480529785156|13.087898254394531,77.590999999999994|12.975300000000001,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,Windows
+      11,-,Windows,-,Windows NT 11.0,mail.google.com,-,-,-,-,-,-,IN-MAA2,-,-,-,-,-,-,-,-,-,-,-,-,Karnataka,-,-,-,-,-,-,173,-,-,-,-,173,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1.2.3.4,-,1747133030,-,-,-,-,-,-,1747133030,Asia/Kolkata,-,1348230,CloudApp,-,-,-,connection,-,-,mail.google.com,test@example.com,"Mozilla/5.0
+      (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0
+      Safari/537.36",-,-,-,192.168.1.11,test@example.com,-,Google Gmail,562130,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,page
+- assertions:
+  - fieldsHaveValues:
+      Vendor.activity: File Share Access
+      Vendor.ur_normalized: test@example.com
+      event.type[0]: info
+      Vendor.computer_name: Win11-50-1-105
+      Vendor._id: 2bebaadf4ac868577ea32140
+      Vendor.record_type: alert
+      Vendor.action: block
+      Vendor.policy_action: block
+      Vendor.os_details: Microsoft Windows 11 Pro 10.0.22621 64-bit
+      Vendor.acked: 'false'
+      user.name: test@example.com
+      Vendor.event_uuid: 64907a4d-66d6-4a3b-8693-069b206a4479
+      Vendor.access_method: Endpoint
+      Vendor.alert_name: CDS TEST
+      Vendor.os: Windows
+      '#event.outcome': failure
+      Vendor.timestamp: '1747209128'
+      Vendor.type: endpoint
+      '#event.kind': event
+      Vendor.user: test@example.com
+      Vendor.userkey: test@example.com
+      Vendor.alert: 'yes'
+      event.category[0]: network
+      host.os.type: windows
+      Vendor.policy_name: CDS TEST
+      Vendor.alert_type: Device
+      Vendor.policy_name_enforced: CDS TEST
+      Vendor.unc_path: \Device\Mup\;test\
+      event.action: file share access
+    outputEventIndex: 0
+  event:
+    rawString: 2bebaadf4ac868577ea32140,Endpoint,-,false,-,block,File Share Access,-,yes,CDS
+      TEST,-,-,Device,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,CDS TEST,block,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,Win11-50-1-105,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,Windows,Microsoft
+      Windows 11 Pro 10.0.22621 64-bit,-,-,-,-,-,-,CDS TEST,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,1747209128,-,-,-,-,-,-,-,endpoint,\Device\Mup\;test\,-,-,test@example.com,-,-,-,-,-,test@example.com,-,-,-,-,-,-,-,-,-,-,-,64907a4d-66d6-4a3b-8693-069b206a4479,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,alert
+$schema: https://schemas.humio.com/parser/v0.3.0
+script: |-
+  // #region PREPARSE
+  /************************************************************
+  ****** Parse timestamp and log headers
+  ****** Extract message field for parsing
+  ****** Parse structured data
+  ****** Parse CSV data from either rest API or Netskope Log Streaming
+  ************************************************************/
+  case {
+      // dropping headers since they are not actual events
+      @rawstring=/(^_id,)|(^_id\s+)/
+          | dropEvent();
+      // json
+      @rawstring = /^\{/
+          | parseJson(prefix="Vendor.", excludeEmpty="true", handleNull="discard")
+      ;
+      // comma delimited csv data
+      @rawstring = /^\w+,/
+          // hyphens are considered as nulls, we replace them with blank spaces to allow parseCSV exclude them
+          | __str := replace("-(?=,)|-$", field=@rawstring, with="\"\"")
+          | parseCsv(field=__str, columns=["Vendor._id","Vendor.access_method","Vendor.account_name","Vendor.acked","Vendor.acting_user","Vendor.action","Vendor.activity","Vendor.act_user","Vendor.alert","Vendor.alert_name","Vendor.severity","Vendor.alert_source","Vendor.alert_type","Vendor.appcategory","Vendor.appsuite","Vendor.app","Vendor.app_session_id","Vendor.assignee","Vendor.bcc","Vendor.browser","Vendor.browser_session_id","Vendor.server_bytes","Vendor.client_bytes","Vendor.cc","Vendor.cci","Vendor.ccl","Vendor.cloud_provider","Vendor.breach_id","Vendor.eeml","Vendor.breach_score","Vendor.connection_id","Vendor.src_country","Vendor.shared_credential_user","Vendor.breach_date","Vendor.policy_name","Vendor.policy_action","Vendor.dst_country","Vendor.dst_geoip_src","Vendor.dsthost","Vendor.dstip","Vendor.dst_location","Vendor.dstport","Vendor.dst_region","Vendor.dst_timezone","Vendor.dst_zipcode","Vendor.detection_engine","Vendor.device","Vendor.device_classification","Vendor.device_sn","Vendor.dlp_file","Vendor.dlp_fingerprint_classification","Vendor.dlp_fingerprint_match","Vendor.dlp_fingerprint_score","Vendor.dlp_match_info","Vendor.inline_dlp_match_info","Vendor.dlp_incident_id","Vendor.dlp_parent_id","Vendor.dlp_profile_name","Vendor.dlp_profile","Vendor.dlp_rule_count","Vendor.dlp_rule","Vendor.dlp_rule_severity","Vendor.dlp_rule_score","Vendor.dlp_unique_count","Vendor.dlp_is_unique_count","Vendor.dns_profile","Vendor.domain","Vendor.driver","Vendor.conn_duration","Vendor.encryption_status","Vendor.conn_endtime","Vendor.end_time","Vendor.computer_name","Vendor.executable_hash","Vendor.executable_signed","Vendor.sharedType","Vendor.file_category","Vendor.destination_file_directory","Vendor.file_exposure","Vendor.file_id","Vendor.file_md5","Vendor.destination_file_name","Vendor.filename","Vendor.file_origin","Vendor.file_owner","Vendor.destination_file_path","Vendor.file_path","Vendor.filepath","Vendor.sha256","Vendor.file_size","Vendor.file_type","Vendor.email_from_user","Vendor.from_user","Vendor.app-gdpr-level","Vendor.usergroup","Vendor.device_type","Vendor.hostname","Vendor.dinsid","Vendor.incident_id","Vendor.latest_incident_id","Vendor.instance_id","Vendor.instance","Vendor.instance_name","Vendor.sanctioned_instance","Vendor.ip_protocol","Vendor.dst_latitude","Vendor.src_latitude","Vendor.local_md5","Vendor.local_sha1","Vendor.local_sha256","Vendor.loc","Vendor.location","Vendor.src_location","Vendor.dst_longitude","Vendor.src_longitude","Vendor.mal_id","Vendor.malware_id","Vendor.mal_sev","Vendor.malware_severity","Vendor.mal_type","Vendor.malware_type","Vendor.managed_app","Vendor.managementID","Vendor.vendor_id","Vendor.md5","Vendor.message_id","Vendor.mime_type","Vendor.tss_mode","Vendor.product_id","Vendor.modified_date","Vendor.src_network","Vendor.network_session_id","Vendor.ur_normalized","Vendor.oauth","Vendor.object","Vendor.object_id","Vendor.owner","Vendor.object_type","Vendor.org","Vendor.organization_unit","Vendor.os","Vendor.os_details","Vendor.os_family","Vendor.os_user_name","Vendor.os_version","Vendor.page","Vendor.parent_id","Vendor.owner_pdl","Vendor.policy_name_enforced","Vendor.policy","Vendor.policy_version","Vendor.pop_id","Vendor.netskope_pop","Vendor.port","Vendor.web_url","Vendor.connection_type","Vendor.process_name","Vendor.process_cert_subject","Vendor.pid","Vendor.process_path","Vendor.publisher_cn","Vendor.domain_ip","Vendor.redirect_url","Vendor.referer","Vendor.region_name","Vendor.src_region","Vendor.region_id","Vendor.iaas_remediated","Vendor.iaas_remediation_action","Vendor.iaas_remediated_by","Vendor.iaas_remediated_on","Vendor.req","Vendor.req_cnt","Vendor.request_id","Vendor.resource_category","Vendor.resource_group","Vendor.resp","Vendor.resp_cnt","Vendor.risk_level_id","Vendor.sa_profile_name","Vendor.sa_rule_compliance","Vendor.sa_rule_name","Vendor.sa_rule_severity","Vendor.sender","Vendor.session_duration","Vendor.session_number_unique","Vendor.serverity","Vendor.severity_level","Vendor.severity_id","Vendor.shared_with","Vendor.shared_domains","Vendor.tunnel_id","Vendor.smtp_status","Vendor.smtp_to","Vendor.src_geoip_src","Vendor.srcip","Vendor.srcport","Vendor.conn_starttime","Vendor.start_time","Vendor.status","Vendor.subject","Vendor.tags","Vendor.telemetry_app","Vendor.threat_type","Vendor.timestamp","Vendor.src_timezone","Vendor.to_user","Vendor.numbytes","Vendor.traffic_type","Vendor.transaction_id","Vendor.tss_license","Vendor.two_factor_auth","Vendor.type","Vendor.unc_path","Vendor.nsdeviceuid","Vendor.url","Vendor.user","Vendor.useragent","Vendor.user_confidence_index","Vendor.user_confidence_level","Vendor.user_id","Vendor.userip","Vendor.userkey","Vendor.violation","Vendor.site","Vendor.src_zipcode","Vendor.account_id","Vendor.alert_id","Vendor.appact","Vendor.audit_type","Vendor.response_time","Vendor.email_modified","Vendor.email_title","Vendor.subtype","Vendor.event_uuid","Vendor.file_cls_encrypted","Vendor.fllg","Vendor.file_pdl","Vendor.local_source_time","Vendor.server_packets","Vendor.client_packets","Vendor.flpp","Vendor.risk_score","Vendor.suppression_count","Vendor.spet","Vendor.spst","Vendor.thr","Vendor.email_user","Vendor.tur","Vendor.total_packets","Vendor.num_users","Vendor.watchlist_name","Vendor.custom_attr","Vendor.record_type"], delimiter=",", excludeEmpty=true)
+      ;
+      // space delimited csv data
+      *
+          // hyphens are considered as nulls, we replace them with blank spaces to allow parseCSV exclude them
+          | __str := replace("-(?= )|-$", field=@rawstring, with="\"\"")
+          | parseCsv(field=__str, columns=["Vendor._id","Vendor.access_method","Vendor.account_name","Vendor.acked","Vendor.acting_user","Vendor.action","Vendor.activity","Vendor.act_user","Vendor.alert","Vendor.alert_name","Vendor.severity","Vendor.alert_source","Vendor.alert_type","Vendor.appcategory","Vendor.appsuite","Vendor.app","Vendor.app_session_id","Vendor.assignee","Vendor.bcc","Vendor.browser","Vendor.browser_session_id","Vendor.server_bytes","Vendor.client_bytes","Vendor.cc","Vendor.cci","Vendor.ccl","Vendor.cloud_provider","Vendor.breach_id","Vendor.eeml","Vendor.breach_score","Vendor.connection_id","Vendor.src_country","Vendor.shared_credential_user","Vendor.breach_date","Vendor.policy_name","Vendor.policy_action","Vendor.dst_country","Vendor.dst_geoip_src","Vendor.dsthost","Vendor.dstip","Vendor.dst_location","Vendor.dstport","Vendor.dst_region","Vendor.dst_timezone","Vendor.dst_zipcode","Vendor.detection_engine","Vendor.device","Vendor.device_classification","Vendor.device_sn","Vendor.dlp_file","Vendor.dlp_fingerprint_classification","Vendor.dlp_fingerprint_match","Vendor.dlp_fingerprint_score","Vendor.dlp_match_info","Vendor.inline_dlp_match_info","Vendor.dlp_incident_id","Vendor.dlp_parent_id","Vendor.dlp_profile_name","Vendor.dlp_profile","Vendor.dlp_rule_count","Vendor.dlp_rule","Vendor.dlp_rule_severity","Vendor.dlp_rule_score","Vendor.dlp_unique_count","Vendor.dlp_is_unique_count","Vendor.dns_profile","Vendor.domain","Vendor.driver","Vendor.conn_duration","Vendor.encryption_status","Vendor.conn_endtime","Vendor.end_time","Vendor.computer_name","Vendor.executable_hash","Vendor.executable_signed","Vendor.sharedType","Vendor.file_category","Vendor.destination_file_directory","Vendor.file_exposure","Vendor.file_id","Vendor.file_md5","Vendor.destination_file_name","Vendor.filename","Vendor.file_origin","Vendor.file_owner","Vendor.destination_file_path","Vendor.file_path","Vendor.filepath","Vendor.sha256","Vendor.file_size","Vendor.file_type","Vendor.email_from_user","Vendor.from_user","Vendor.app-gdpr-level","Vendor.usergroup","Vendor.device_type","Vendor.hostname","Vendor.dinsid","Vendor.incident_id","Vendor.latest_incident_id","Vendor.instance_id","Vendor.instance","Vendor.instance_name","Vendor.sanctioned_instance","Vendor.ip_protocol","Vendor.dst_latitude","Vendor.src_latitude","Vendor.local_md5","Vendor.local_sha1","Vendor.local_sha256","Vendor.loc","Vendor.location","Vendor.src_location","Vendor.dst_longitude","Vendor.src_longitude","Vendor.mal_id","Vendor.malware_id","Vendor.mal_sev","Vendor.malware_severity","Vendor.mal_type","Vendor.malware_type","Vendor.managed_app","Vendor.managementID","Vendor.vendor_id","Vendor.md5","Vendor.message_id","Vendor.mime_type","Vendor.tss_mode","Vendor.product_id","Vendor.modified_date","Vendor.src_network","Vendor.network_session_id","Vendor.ur_normalized","Vendor.oauth","Vendor.object","Vendor.object_id","Vendor.owner","Vendor.object_type","Vendor.org","Vendor.organization_unit","Vendor.os","Vendor.os_details","Vendor.os_family","Vendor.os_user_name","Vendor.os_version","Vendor.page","Vendor.parent_id","Vendor.owner_pdl","Vendor.policy_name_enforced","Vendor.policy","Vendor.policy_version","Vendor.pop_id","Vendor.netskope_pop","Vendor.port","Vendor.web_url","Vendor.connection_type","Vendor.process_name","Vendor.process_cert_subject","Vendor.pid","Vendor.process_path","Vendor.publisher_cn","Vendor.domain_ip","Vendor.redirect_url","Vendor.referer","Vendor.region_name","Vendor.src_region","Vendor.region_id","Vendor.iaas_remediated","Vendor.iaas_remediation_action","Vendor.iaas_remediated_by","Vendor.iaas_remediated_on","Vendor.req","Vendor.req_cnt","Vendor.request_id","Vendor.resource_category","Vendor.resource_group","Vendor.resp","Vendor.resp_cnt","Vendor.risk_level_id","Vendor.sa_profile_name","Vendor.sa_rule_compliance","Vendor.sa_rule_name","Vendor.sa_rule_severity","Vendor.sender","Vendor.session_duration","Vendor.session_number_unique","Vendor.serverity","Vendor.severity_level","Vendor.severity_id","Vendor.shared_with","Vendor.shared_domains","Vendor.tunnel_id","Vendor.smtp_status","Vendor.smtp_to","Vendor.src_geoip_src","Vendor.srcip","Vendor.srcport","Vendor.conn_starttime","Vendor.start_time","Vendor.status","Vendor.subject","Vendor.tags","Vendor.telemetry_app","Vendor.threat_type","Vendor.timestamp","Vendor.src_timezone","Vendor.to_user","Vendor.numbytes","Vendor.traffic_type","Vendor.transaction_id","Vendor.tss_license","Vendor.two_factor_auth","Vendor.type","Vendor.unc_path","Vendor.nsdeviceuid","Vendor.url","Vendor.user","Vendor.useragent","Vendor.user_confidence_index","Vendor.user_confidence_level","Vendor.user_id","Vendor.userip","Vendor.userkey","Vendor.violation","Vendor.site","Vendor.src_zipcode","Vendor.account_id","Vendor.alert_id","Vendor.appact","Vendor.audit_type","Vendor.response_time","Vendor.email_modified","Vendor.email_title","Vendor.subtype","Vendor.event_uuid","Vendor.file_cls_encrypted","Vendor.fllg","Vendor.file_pdl","Vendor.local_source_time","Vendor.server_packets","Vendor.client_packets","Vendor.flpp","Vendor.risk_score","Vendor.suppression_count","Vendor.spet","Vendor.spst","Vendor.thr","Vendor.email_user","Vendor.tur","Vendor.total_packets","Vendor.num_users","Vendor.watchlist_name","Vendor.custom_attr","Vendor.record_type"], delimiter=" ", excludeEmpty=true)
+  }
+  | drop([__str])
+  // API-SecOps webhooks (case.*, risk.*) wrap the whole envelope in an extra
+  // top-level "data" key: {"data": {id, type, timestamp, tenant_id, region,
+  // api_version, data: {...case/risk fields...}}}. __type resolves the type
+  // regardless of whether it shows up unwrapped (Vendor.type) or wrapped one
+  // level deep (Vendor.data.type, the confirmed real webhook shape).
+  | __type := coalesce([Vendor.type, Vendor.data.type])
+  | case {
+      // Already have an explicit type - nothing to infer.
+      __type = *
+          | *;
+      // No explicit type anywhere (e.g. a bare "data" object with no
+      // wrapper at all) - infer it from the field combination that's
+      // unique to each case/risk event so it can still be routed below.
+      Vendor.case_id = * OR Vendor.data.data.case_id = *
+          | case {
+              Vendor.old_status = * OR Vendor.data.data.old_status = *
+                  | __type := "case.status.changed";
+              Vendor.assignee = * OR Vendor.data.data.assignee = *
+                  | __type := "case.assigned";
+              Vendor.error = * OR Vendor.data.data.error = *
+                  | __type := "case.investigation.failed";
+              Vendor.verdict = * OR Vendor.data.data.verdict = *
+                  | __type := "case.investigation.completed";
+              *
+                  | __type := "case.created";
+          };
+      Vendor.risk_indicators.total = * OR Vendor.previous_uci = * OR Vendor.data.data.risk_indicators.total = * OR Vendor.data.data.previous_uci = *
+          | case {
+              Vendor.previous_band = * OR Vendor.data.data.previous_band = *
+                  | __type := "risk.user.threshold_exceeded";
+              *
+                  | __type := "risk.user.investigation.completed";
+          };
+      Vendor.scored_at = * OR Vendor.data.data.scored_at = *
+          | case {
+              Vendor.mcp_server_id = * OR Vendor.data.data.mcp_server_id = *
+                  | case {
+                      Vendor.previous_band = * OR Vendor.data.data.previous_band = *
+                          | __type := "risk.ai_mcp.threshold_exceeded";
+                      Vendor.primary_driver = * OR Vendor.data.data.primary_driver = *
+                          | __type := "risk.ai_mcp.investigation.completed";
+                      *
+                          | __type := "risk.ai_mcp.scored";
+                  };
+              Vendor.app_id = * OR Vendor.data.data.app_id = *
+                  | case {
+                      Vendor.previous_band = * OR Vendor.data.data.previous_band = *
+                          | __type := "risk.ai_app.threshold_exceeded";
+                      Vendor.primary_driver = * OR Vendor.data.data.primary_driver = *
+                          | __type := "risk.ai_app.investigation.completed";
+                      *
+                          | __type := "risk.ai_app.scored";
+                  };
+              Vendor.user_id = * OR Vendor.data.data.user_id = *
+                  | case {
+                      Vendor.previous_band = * OR Vendor.data.data.previous_band = *
+                          | __type := "risk.ai_user.threshold_exceeded";
+                      Vendor.primary_driver = * OR Vendor.data.data.primary_driver = *
+                          | __type := "risk.ai_user.investigation.completed";
+                      *
+                          | __type := "risk.ai_user.scored";
+                  };
+              *;
+          };
+      *;
+  }
+  | Vendor.timestamp := coalesce([Vendor.timestamp, Vendor.data.timestamp, Vendor.data.created_at, Vendor.created_at, Vendor.data.data.created_at, Vendor.data.scored_at, Vendor.scored_at, Vendor.data.data.scored_at])
+  | case {
+      // epoch seconds (existing WebTx CSV/JSON formats)
+      Vendor.timestamp = /^[0-9.]+$/
+          | parseTimestamp(field="Vendor.timestamp", format="seconds");
+      // ISO8601 string (API-SecOps case.*/risk.* events)
+      Vendor.timestamp = *
+          | parseTimestamp(field="Vendor.timestamp");
+      // no Vendor.timestamp to parse (e.g. empty/unrecognized rawstring) - skip and keep ingest time
+      *;
+  }
+  // #endregion
+
+  // #region METADATA
+  /************************************************************
+  ****** Static Metadata Definitions
+  ************************************************************/
+  | Parser.version := "4.0.1"
+  | Vendor := "netskope"
+  | event.module := "sse"
+  | ecs.version := "9.2.0"
+  | Cps.version := "1.1.0"
+  | event.kind := "event"
+  // #endregion
+
+  // #region NORMALIZATION
+  /************************************************************
+  ****** Parse unstructured data (i.e. message field)
+  ****** Normalize fields to data model
+  ************************************************************/
+
+  // Event Categorization
+  | case {
+      Vendor.alert = "yes" OR Vendor.kind = "incident" OR Vendor.kind = "alert" OR Vendor.record_type = "alert" OR Vendor.record_type = "incident"
+          | case {
+              Vendor.action =~ !in(values=["block", "bypass", "quarantine"])
+                  | threat.indicator.ip := Vendor.userip
+                  | event.kind := "alert"
+                  | array:append("event.category[]", values=["threat", "network"])
+                  | array:append("event.type[]", values=["indicator", "info"]);
+              *
+                  | array:append("event.category[]", values=["network"])
+                  | array:append("event.type[]", values=["info"]);
+
+          }
+          | case {
+              Vendor.object_type = "File"
+                  | array:append("event.category[]", values=["file"])
+                  | array:append("threat.technique.subtechnique.id[]", values="T1204.002");
+              Vendor.alert_type = "malsite" OR Vendor.alert_name = "*Malsites*"
+                  | array:append("threat.technique.subtechnique.id[]", values="T1204.001");
+              *;
+          };
+      Vendor.object_type = /network/
+          | array:append(array="event.category[]", values=["network","configuration"])
+          | case {
+              event.action = "create"
+                  | array:append(array="event.type[]", values=["creation"]);
+
+              event.action = "delete"
+                  | array:append(array="event.type[]", values=["deletion"]);
+
+              event.action = "edit"
+                  | array:append(array="event.type[]", values=["change"]);
+
+              *;
+
+          };
+      event.action = /^login (attempt|failed)/
+          | array:append("event.category[]", values=["authentication"])
+          | array:append("event.type[]", values=["start"])
+          | event.outcome := "failure";
+      event.action = /^login successful/
+          | array:append("event.category[]", values=["authentication"])
+          | array:append("event.type[]", values=["start"])
+          | event.outcome := "success";
+      Vendor.kind=/(page)|(network)|(endpoint)/ OR Vendor.record_type=/(page)|(network)|(endpoint)/
+          | array:append("event.category[]", values=["network"])
+          | array:append("event.type[]", values=["connection"])
+          | case {
+              Vendor.action = /allow/
+                  | array:append("event.type[]", values=["allowed"]);
+              *
+                  | array:append("event.type[]", values=["denied"]);
+          };
+      Vendor.kind = "audit" OR Vendor.record_type = "audit"
+          | array:append("event.category[]", values=["configuration"])
+          | array:append("event.type[]", values=["admin"]);
+      Vendor.kind = "application" OR Vendor.record_type = "application"
+          | array:append("event.category[]", values=["file"])
+          | array:append("event.type[]", values=["info"]);
+      *;
+
+  }
+
+  // API-SecOps Case & Risk Events
+  | case {
+      __type = "case.created"
+          | event.kind := "alert"
+          | array:append("event.category[]", values=["intrusion_detection"])
+          | array:append("event.type[]", values=["creation"]);
+      __type = "case.status.changed" OR __type = "case.assigned"
+          | event.kind := "event"
+          | array:append("event.category[]", values=["intrusion_detection"])
+          | array:append("event.type[]", values=["change"]);
+      __type = "case.investigation.completed"
+          | event.kind := "alert"
+          | array:append("event.category[]", values=["intrusion_detection"])
+          | array:append("event.type[]", values=["info"])
+          | event.outcome := "success";
+      __type = "case.investigation.failed"
+          | event.kind := "alert"
+          | array:append("event.category[]", values=["intrusion_detection"])
+          | array:append("event.type[]", values=["error"])
+          | event.outcome := "failure";
+      __type = /^risk\.(user|ai_user|ai_app|ai_mcp)\.threshold_exceeded$/
+          | event.kind := "alert"
+          | array:append("event.category[]", values=["threat"])
+          | array:append("event.type[]", values=["indicator"]);
+      __type = /^risk\.(user|ai_user|ai_app|ai_mcp)\.investigation\.completed$/
+          | event.kind := "alert"
+          | array:append("event.category[]", values=["threat"])
+          | array:append("event.type[]", values=["info"]);
+      __type = /^risk\.ai_(user|app|mcp)\.scored$/
+          | event.kind := "event"
+          | array:append("event.category[]", values=["threat"])
+          | array:append("event.type[]", values=["info"]);
+      *;
+  }
+
+  | case {
+      // Fallback so event.category/event.type are never left empty (e.g. unrecognized/empty rawstring)
+      event.category[0] = *
+          | *;
+      *
+          | array:append("event.category[]", values=["network"])
+          | array:append("event.type[]", values=["info"]);
+  }
+
+  // Client Fields
+  | client.address := Vendor.userip
+  | client.domain := lower(Vendor.domain)
+  | client.packets := Vendor.client_packets
+  | client.user.id := coalesce([Vendor.user_id, Vendor.data.user_id, Vendor.data.data.user_id])
+
+  | case {
+      // client.address and client.ip - validate whether value is an IP before normalizing
+      cidr(field="client.address", subnet=["0.0.0.0/0", "::/0"])
+          | client.ip := client.address;
+      *;
+  }
+
+  | case {
+      // client.bytes
+      Vendor.client_bytes > 0
+          | client.bytes := Vendor.client_bytes;
+      *;
+  }
+
+  // Destination Fields
+  | destination.address := coalesce([Vendor.dstip,Vendor.dsthost])
+  | destination.port := Vendor.dstport
+  | destination.geo.postal_code := Vendor.dst_zipcode
+  | destination.geo.region_name := Vendor.dst_region
+  | destination.geo.country_iso_code := Vendor.dst_country
+  | destination.geo.city_name := Vendor.dst_location
+  | destination.geo.timezone := Vendor.dst_timezone
+  | splitString(by="\\|", field=Vendor.dst_longitude, as="destination.geo.location.lon", index=0)
+
+  | case {
+      // destination.geo.location.lat
+      Vendor.dst_latitude = /\|/
+          | splitString(by="\\|", field=Vendor.dst_latitude, as="destination.geo.location.lat", index=1);
+      *
+          | destination.geo.location.lat := Vendor.dst_latitude
+  }
+
+  | case {
+      // destination.address and destination.ip - validate whether value is an IP before normalizing
+      cidr(field="destination.address", subnet=["0.0.0.0/0", "::/0"])
+          | destination.ip := destination.address;
+
+      *;
+  }
+
+  // Device Fields
+  | device.id := Vendor.device_id
+  | device.manufacturer := Vendor.device_type
+
+  | case {
+      // device.model.name
+      Vendor.device = *
+          | device.model.name := Vendor.device;
+      Vendor.device_name = *
+          | device.model.name := Vendor.device_name;
+      *;
+  }
+
+  // Event Fields
+  | event.id := coalesce([Vendor.id, Vendor.data.id])
+  | event.action := coalesce([Vendor.activity,Vendor.action,__type])
+  | event.action := lower(event.action)
+  | event.reason := concatArray(Vendor.supporting_data.data_values, separator=",")
+  | event.reason := coalesce([event.reason, Vendor.data.data.summary, Vendor.data.summary, Vendor.summary, Vendor.data.data.error, Vendor.data.error, Vendor.error, Vendor.data.data.risk_note, Vendor.data.risk_note, Vendor.risk_note])
+  | event.end := Vendor.end_time
+  | event.start := Vendor.start_time
+  | event.risk_score := coalesce([Vendor.data.data.risk_score, Vendor.data.risk_score, Vendor.risk_score, Vendor.data.data.score, Vendor.data.score, Vendor.score])
+
+  | Vendor.action match {
+      // event.outcome
+      in(values=["allow", "accept", "permit", "bypass", "alert"], ignoreCase=true) =>
+          event.outcome := "success";
+      in(values=["block", "deny", "drop", "quarantine"], ignoreCase=true) =>
+          event.outcome := "failure";
+      * => *;
+  }
+
+  | __severity := coalesce([Vendor.severity, Vendor.data.data.severity, Vendor.data.severity, Vendor.data.data.band, Vendor.data.band, Vendor.band])
+
+  | __severity match {
+      // event.severity
+      /^critical$/i =>
+          event.severity := "90";
+      /^high$/i =>
+          event.severity := "70";
+      /^medium$/i =>
+          event.severity := "50";
+      /^low$/i =>
+          event.severity := "30";
+      /^informational$/i =>
+          event.severity := "10";
+      * => *;
+  }
+  | drop([__severity])
+
+  // File Fields
+  | file.hash.sha256 := lower(Vendor.sha256)
+  | file.hash.md5 := coalesce([Vendor.md5, Vendor.data.data.file_lineage.files[0].md5, Vendor.data.file_lineage.files[0].md5, Vendor.file_lineage.files[0].md5])
+  | file.hash.md5 := lower(file.hash.md5)
+  | file.path := Vendor.destination_file_path
+  | file.size := Vendor.file_size
+  | file.mime_type := Vendor.file_type
+
+  | case {
+      Vendor.object_type = "File"
+          | Vendor.object = /("|!)?(?<file.name>.*)(")?/;
+
+      *;
+
+  }
+
+  // Host Fields
+  | host.hostname := lower(Vendor.hostname)
+
+  | Vendor.os match {
+      // host.os.type
+      /win/i => host.os.type := "windows";
+      /lin/i => host.os.type := "linux";
+      /mac/i => host.os.type := "macos";
+      /ios/i => host.os.type := "ios";
+      /android/i => host.os.type := "android";
+      * => *;
+  }
+
+  // HTTP Fields
+  | http.request.referrer := Vendor.referer
+
+  // Network Fields
+  | network.application := lower(Vendor.app)
+  | network.bytes := Vendor.numbytes
+  | network.protocol := lower(Vendor.protocol)
+  | regex("(?<network.protocol>[a-z]+)", field=network.protocol, strict=false)
+  | network.transport := lower(Vendor.ip_protocol)
+
+  // Organization Fields
+  | organization.id := coalesce([Vendor.CustomerId, Vendor.tenant_id, Vendor.data.tenant_id])
+
+  // Rule Fields
+  | rule.name := Vendor.policy
+  | rule.id := coalesce([Vendor.data.data.rule_ids[0], Vendor.data.rule_ids[0], Vendor.rule_ids[0]])
+
+  // Service Fields
+  | service.name := coalesce([Vendor.data.data.app_name, Vendor.data.app_name, Vendor.app_name, Vendor.data.data.mcp_server_name, Vendor.data.mcp_server_name, Vendor.mcp_server_name])
+  | service.id := coalesce([Vendor.data.data.app_id, Vendor.data.app_id, Vendor.app_id, Vendor.data.data.mcp_server_id, Vendor.data.mcp_server_id, Vendor.mcp_server_id])
+
+  // Server Fields
+  | server.bytes := Vendor.server_bytes
+  | server.packets := Vendor.server_packets
+
+  // Source Fields
+  | source.address := Vendor.srcip
+  | source.port := Vendor.srcport
+  | source.geo.postal_code := Vendor.src_zipcode
+  | source.geo.region_name := Vendor.src_region
+  | source.geo.country_iso_code := Vendor.src_country
+  | source.geo.city_name := Vendor.src_location
+  | source.geo.timezone := Vendor.src_timezone
+  | splitString(by="\\|", field=Vendor.src_longitude, as="source.geo.location.lon", index=0)
+
+  | case {
+      // source.geo.location.lat
+      Vendor.src_latitude = /\|/
+          | splitString(by="\\|", field=Vendor.src_latitude, as="source.geo.location.lat", index=1);
+      *
+          | source.geo.location.lat := Vendor.src_latitude
+  }
+
+  | case {
+      // source.address and source.ip - validate whether value is an IP before normalizing
+      cidr(field="source.address", subnet=["0.0.0.0/0", "::/0"])
+          | source.ip := source.address;
+      *;
+  }
+
+  // URL Fields
+  | url.original := coalesce([Vendor.url, Vendor.data.data.url, Vendor.data.url])
+  | parseUri(field=url.original, defaultBase="//", prefix="url")
+  | url.domain := rename(url.host)
+  | url.domain := lower(url.domain)
+
+  // User Fields
+  | user.name := coalesce([Vendor.user, Vendor.ur_normalized, Vendor.data.data.user, Vendor.data.user, Vendor.data.data.user_name, Vendor.data.user_name, Vendor.user_name])
+
+  // User Agent Fields
+  | user_agent.original := Vendor.useragent
+
+  // Threat Fields
+  | case {
+      threat.technique.subtechnique.id[0] = /[0-9T]+\.[0-9]+/i
+          | match(file="epp/lookups/MitreMappings-ecs.csv", field=threat.technique.subtechnique.id[0], column=threat.technique.id[0], mode=glob, ignoreCase=true, include= ["threat.framework","threat.tactic.id[0]","threat.tactic.name[0]","threat.technique.id[0]","threat.technique.name[0]","threat.technique.reference[0]"]);
+      threat.technique.id[0] = /[0-9T]+(\.[0-9]+)?/i
+          | match(file="epp/lookups/MitreMappings-ecs.csv", field=threat.technique.id[0], column=threat.technique.id[0], mode=glob, ignoreCase=true, include= ["threat.framework","threat.tactic.id[0]","threat.tactic.name[0]","threat.technique.id[0]","threat.technique.name[0]","threat.technique.reference[0]"]);
+      *;
+  }
+
+  | replace("\\.[0-9]{3}", with="", field=threat.technique.id[0])
+
+  // #endregion
+
+  // #region POST-NORMALIZATION
+  /************************************************************
+  ****** Post Normalization
+  ****** Custom parser logic needed after normalization
+  ************************************************************/
+
+  | drop([__type])
+
+  // #endregion
+tagFields:
+- Vendor
+- Cps.version
+- ecs.version
+- event.kind
+- event.module
+- event.outcome
+- event.dataset
+- observer.type
