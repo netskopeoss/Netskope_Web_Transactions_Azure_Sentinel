@@ -125,7 +125,7 @@ $packagedColumns = @(
     @{ name = "dlp_file";                  type = "string"   }
 )
 
-# --- CUSTOM FIELDS (same set as DCRChangesEXL.ps1) ---
+# --- CUSTOM FIELDS (same set as DCRChanges.ps1) ---
 # Added to BOTH table and DCR stream in Phase 3:
 $customRawFields = @(
     @{ name = "shared_with";           type = "string"  }
