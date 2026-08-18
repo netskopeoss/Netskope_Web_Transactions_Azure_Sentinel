@@ -28,7 +28,7 @@
         3b. Re-adds the 12 custom columns to the table.
         3c. Re-adds the 11 raw fields to the DCR's Custom-NetskopeEventsDLP
             stream declaration.
-        3d. FIX over DCRChangesEXL.ps1: also patches transformKql to derive
+        3d. FIX over DCRChanges.ps1: also patches transformKql to derive
             endpoint_policy_match_desired_action =
             tostring(endpoint_policy_match.desired_action), which the original
             script documented but never implemented.
@@ -156,10 +156,21 @@ $dcrListUrl= "$mgmt/subscriptions/$subscriptionId/resourceGroups/$resourceGroupN
 $wsResId   = "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.OperationalInsights/workspaces/$workspaceName"
 
 function Get-NetskopeDcrsForWorkspace {
-    $all = (az rest --method get --url $dcrListUrl | ConvertFrom-Json).value
-    @($all | Where-Object {
-        ($_.name -like "Microsoft-Sentinel-Netskope_DCR-*") -and
-        ($_.properties.destinations.logAnalytics.workspaceResourceId -ieq $wsResId)
+    # List with a server-side JMESPath projection so we never JSON-parse other
+    # DCRs' full bodies in PowerShell. (ConvertFrom-Json is case-insensitive on
+    # keys and crashes if any unrelated DCR has stream names differing only by
+    # case - seen in the field with 'Custom-FP_DLP_DCR_Test_CL' vs '..._test_CL'.)
+    $listJson = az rest --method get --url $dcrListUrl --query "value[].{name:name, id:id, ws:properties.destinations.logAnalytics[].workspaceResourceId}"
+    if (-not $listJson) { return @() }
+    $list = $listJson | ConvertFrom-Json
+    $matched = @($list | Where-Object {
+        ($_.name -like "Microsoft-Sentinel-Netskope*") -and
+        ($_.name -notlike "*WebTx*") -and
+        (@($_.ws) -contains $wsResId)
+    })
+    # Fetch only the matched Netskope DCR(s) in full (their own stream keys are known-safe).
+    @($matched | ForEach-Object {
+        az rest --method get --url "$mgmt$($_.id)?api-version=2022-06-01" | ConvertFrom-Json
     })
 }
 
